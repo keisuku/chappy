@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useReducer, ReactNode, useCallback } from "react";
-import type { GameState, PlayerBot, BattleRecord, Character, BotRank } from "@/types";
+import type { GameState, PlayerBot, BattleRecord, Character, BotRank, Arena } from "@/types";
 import { CHARACTERS } from "./characters";
 
 // ---- helpers ----
@@ -28,6 +28,19 @@ function baseStats(style: Character["tradingStyle"]): PlayerBot["stats"] {
       return { aggression: 50, precision: 70, resilience: 60, speed: 35 };
     case "hybrid_ai":
       return { aggression: 55, precision: 60, resilience: 55, speed: 60 };
+      return { aggression: 40, precision: 70, resilience: 65, speed: 45 };
+    case "high_frequency":
+      return { aggression: 60, precision: 55, resilience: 40, speed: 80 };
+    case "event_driven":
+      return { aggression: 50, precision: 75, resilience: 60, speed: 35 };
+    case "arbitrage":
+      return { aggression: 45, precision: 80, resilience: 55, speed: 65 };
+    case "contrarian":
+      return { aggression: 65, precision: 60, resilience: 70, speed: 45 };
+    case "scalper":
+      return { aggression: 55, precision: 65, resilience: 45, speed: 75 };
+    case "volatility_breaker":
+      return { aggression: 60, precision: 70, resilience: 50, speed: 50 };
   }
 }
 
@@ -73,6 +86,11 @@ type Action =
   | { type: "ADD_GOLD"; amount: number }
   | { type: "SPEND_GOLD"; amount: number }
   | { type: "EVOLVE_BOT"; botId: string; statChanges: Partial<PlayerBot["stats"]>; mutationName: string }
+  | { type: "SET_BOT_IMAGE"; id: string; dataUrl: string }
+  | { type: "ADD_ARENA"; arena: Arena }
+  | { type: "UPDATE_ARENA"; arena: Arena }
+  | { type: "DELETE_ARENA"; arenaId: string }
+  | { type: "UPDATE_BOT"; bot: PlayerBot }
   | { type: "RESET" };
 
 function reducer(state: GameState, action: Action): GameState {
@@ -136,12 +154,64 @@ function reducer(state: GameState, action: Action): GameState {
       });
       return { ...state, playerBots: bots };
     }
+    case "SET_BOT_IMAGE":
+      return { ...state, botImages: { ...state.botImages, [action.id]: action.dataUrl } };
+    case "ADD_ARENA":
+      return { ...state, arenas: [...state.arenas, action.arena] };
+    case "UPDATE_ARENA":
+      return { ...state, arenas: state.arenas.map((a) => (a.id === action.arena.id ? action.arena : a)) };
+    case "DELETE_ARENA":
+      return { ...state, arenas: state.arenas.filter((a) => a.id !== action.arenaId) };
+    case "UPDATE_BOT":
+      return { ...state, playerBots: state.playerBots.map((b) => (b.id === action.bot.id ? action.bot : b)) };
     case "RESET":
       return initialState();
     default:
       return state;
   }
 }
+
+const DEFAULT_ARENAS: Arena[] = [
+  {
+    id: "arena-tokyo",
+    name: "Tokyo Exchange",
+    nameJa: "東京取引所",
+    description: "Standard volatility arena for beginners",
+    volatilityMultiplier: 1.0,
+    eventFrequency: 0.3,
+    maxStages: 8,
+    tickCount: 30,
+    color: "#00d4ff",
+    background: "tokyo",
+    enabled: true,
+  },
+  {
+    id: "arena-newyork",
+    name: "Wall Street Pit",
+    nameJa: "ウォール街",
+    description: "High-volume arena with frequent market events",
+    volatilityMultiplier: 1.5,
+    eventFrequency: 0.6,
+    maxStages: 8,
+    tickCount: 30,
+    color: "#ffd700",
+    background: "newyork",
+    enabled: true,
+  },
+  {
+    id: "arena-void",
+    name: "The Void",
+    nameJa: "虚無",
+    description: "Extreme volatility — only the strongest survive",
+    volatilityMultiplier: 2.5,
+    eventFrequency: 0.9,
+    maxStages: 12,
+    tickCount: 50,
+    color: "#ff2d55",
+    background: "void",
+    enabled: false,
+  },
+];
 
 function initialState(): GameState {
   // Start with one default bot
@@ -153,6 +223,8 @@ function initialState(): GameState {
     battleHistory: [],
     currentBattle: null,
     currentBattleRecord: null,
+    arenas: DEFAULT_ARENAS,
+    botImages: {},
   };
 }
 

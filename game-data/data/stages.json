@@ -1,0 +1,362 @@
+[
+  {
+    "id": "neo-kabutocho",
+    "name": "Neo-Kabutocho Digital Exchange",
+    "name_ja": "ネオ兜町電子取引所",
+    "region": "Tokyo",
+    "tier": "B",
+    "visual": {
+      "theme": "Holographic cherry blossoms floating through a neon-lit trading floor. Giant kanji scrolls across transparent screens.",
+      "bg_color": "#050d1a",
+      "accent_color": "#00d4ff",
+      "particle_type": "data"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.0,
+      "speed_bonus": 0,
+      "home_advantage_bot": "saki"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.0,
+      "spike_frequency": 0.1,
+      "mean_reversion_strength": 1.2
+    },
+    "hazard": {
+      "name": "Precision Bonus",
+      "description": "Mean reversion strategies gain +10% accuracy",
+      "trigger_stage": 4,
+      "effect": "buff_mean_reversion"
+    },
+    "description": "The birthplace of Cryptarena. A calm, precise arena that rewards calculated strategies."
+  },
+  {
+    "id": "wall-street-quantum",
+    "name": "Wall Street Quantum Pit",
+    "name_ja": "ウォール街量子取引所",
+    "region": "New York",
+    "tier": "A",
+    "visual": {
+      "theme": "Massive digital trading pit with holographic order books towering overhead. Matrix-style data rain.",
+      "bg_color": "#0a0a1a",
+      "accent_color": "#8844ff",
+      "particle_type": "data"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.3,
+      "speed_bonus": 5,
+      "home_advantage_bot": "vector"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.1,
+      "spike_frequency": 0.3,
+      "mean_reversion_strength": 0.8
+    },
+    "hazard": {
+      "name": "Flash Crash",
+      "description": "Sudden 5% price drop. Momentum bots take extra damage.",
+      "trigger_stage": 6,
+      "effect": "flash_crash"
+    },
+    "description": "The most competitive arena. Alpha signals everywhere but so is toxic flow."
+  },
+  {
+    "id": "city-clockwork",
+    "name": "City Clockwork Exchange",
+    "name_ja": "シティ時計仕掛け取引所",
+    "region": "London",
+    "tier": "B",
+    "visual": {
+      "theme": "Victorian clockwork machinery with copper pipes and steam. Giant clock face counts down battle time.",
+      "bg_color": "#1a120a",
+      "accent_color": "#cc8844",
+      "particle_type": "spark"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 0.9,
+      "speed_bonus": 0,
+      "home_advantage_bot": "sterling"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.0,
+      "spike_frequency": 0.4,
+      "mean_reversion_strength": 1.0
+    },
+    "hazard": {
+      "name": "Central Bank Surprise",
+      "description": "Sudden policy announcement causes massive volatility spike",
+      "trigger_stage": 5,
+      "effect": "volatility_spike"
+    },
+    "description": "Precision timing arena. Event-driven strategies thrive here."
+  },
+  {
+    "id": "pudong-neural",
+    "name": "Pudong Neural Market",
+    "name_ja": "浦東神経市場",
+    "region": "Shanghai",
+    "tier": "A",
+    "visual": {
+      "theme": "Futuristic neural network visualization with jade-green energy flowing through fiber optic pathways.",
+      "bg_color": "#0a1a0a",
+      "accent_color": "#44cc88",
+      "particle_type": "nature"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.1,
+      "speed_bonus": 0,
+      "home_advantage_bot": "long"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.05,
+      "spike_frequency": 0.2,
+      "mean_reversion_strength": 1.1
+    },
+    "hazard": {
+      "name": "Regulatory Shift",
+      "description": "Sudden rule change forces strategy adaptation",
+      "trigger_stage": 5,
+      "effect": "force_adapt"
+    },
+    "description": "An adaptive arena that constantly shifts. AI Hybrid types excel here."
+  },
+  {
+    "id": "crypto-dome-burj",
+    "name": "Crypto Dome Al-Burj",
+    "name_ja": "暗号ドーム・アルブルジュ",
+    "region": "Dubai",
+    "tier": "A",
+    "visual": {
+      "theme": "Massive golden dome with flowing digital coins. Opulent arena with holographic fountains.",
+      "bg_color": "#1a1508",
+      "accent_color": "#ffa500",
+      "particle_type": "gold"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.2,
+      "speed_bonus": 0,
+      "home_advantage_bot": "malik"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.15,
+      "spike_frequency": 0.15,
+      "mean_reversion_strength": 0.7
+    },
+    "hazard": {
+      "name": "Capital Flood",
+      "description": "Massive liquidity injection amplifies all moves",
+      "trigger_stage": 4,
+      "effect": "amplify_all"
+    },
+    "description": "Capital-heavy arena. Momentum and titan strategies dominate."
+  },
+  {
+    "id": "marina-quantum-hub",
+    "name": "Marina Quantum Hub",
+    "name_ja": "マリーナ量子ハブ",
+    "region": "Singapore",
+    "tier": "B",
+    "visual": {
+      "theme": "Floating quantum computing hub over Marina Bay. Crystalline structures pulse with data.",
+      "bg_color": "#0a0a2a",
+      "accent_color": "#44aaff",
+      "particle_type": "data"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.0,
+      "speed_bonus": 3,
+      "home_advantage_bot": "nexus"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.0,
+      "spike_frequency": 0.1,
+      "mean_reversion_strength": 1.0
+    },
+    "hazard": {
+      "name": "Correlation Break",
+      "description": "All asset correlations break down simultaneously",
+      "trigger_stage": 6,
+      "effect": "correlation_break"
+    },
+    "description": "Cross-asset arbitrage arena. Market makers and correlation bots thrive."
+  },
+  {
+    "id": "gangnam-hyper",
+    "name": "Gangnam Hyper Trading District",
+    "name_ja": "江南ハイパー取引地区",
+    "region": "Seoul",
+    "tier": "B",
+    "visual": {
+      "theme": "K-pop neon aesthetic with lightning-fast ticker displays. Electric purple and pink everywhere.",
+      "bg_color": "#1a0a2a",
+      "accent_color": "#ff44ff",
+      "particle_type": "electric"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.1,
+      "speed_bonus": 10,
+      "home_advantage_bot": null
+    },
+    "market_modifiers": {
+      "trend_bias": 0.0,
+      "spike_frequency": 0.2,
+      "mean_reversion_strength": 0.9
+    },
+    "hazard": {
+      "name": "Speed Overdrive",
+      "description": "All execution speeds doubled. Scalpers gain massive advantage.",
+      "trigger_stage": 4,
+      "effect": "speed_boost"
+    },
+    "description": "Fastest arena in the world. Speed is everything here."
+  },
+  {
+    "id": "faria-lima-carnival",
+    "name": "Faria Lima Carnival Arena",
+    "name_ja": "ファリア・リマ祭典闘技場",
+    "region": "São Paulo",
+    "tier": "A",
+    "visual": {
+      "theme": "Carnival energy with fire particles and samba rhythms. Trading data flows like confetti.",
+      "bg_color": "#1a0808",
+      "accent_color": "#ff4422",
+      "particle_type": "flame"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.4,
+      "speed_bonus": 0,
+      "home_advantage_bot": "fuego"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.2,
+      "spike_frequency": 0.35,
+      "mean_reversion_strength": 0.6
+    },
+    "hazard": {
+      "name": "Sentiment Storm",
+      "description": "Social media frenzy amplifies momentum moves",
+      "trigger_stage": 5,
+      "effect": "sentiment_boost"
+    },
+    "description": "High passion, high volatility. Momentum berserkers feel at home."
+  },
+  {
+    "id": "dalal-cosmic",
+    "name": "Dalal Cosmic Exchange",
+    "name_ja": "ダラル宇宙取引所",
+    "region": "Mumbai",
+    "tier": "A",
+    "visual": {
+      "theme": "Cosmic mandala patterns with multi-armed trading deity hologram. Deep space backdrop.",
+      "bg_color": "#1a0a1a",
+      "accent_color": "#ff44aa",
+      "particle_type": "data"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.0,
+      "speed_bonus": 0,
+      "home_advantage_bot": "karma"
+    },
+    "market_modifiers": {
+      "trend_bias": 0.0,
+      "spike_frequency": 0.15,
+      "mean_reversion_strength": 1.3
+    },
+    "hazard": {
+      "name": "Karmic Balance",
+      "description": "The leading bot's stats are reduced, evening the playing field",
+      "trigger_stage": 5,
+      "effect": "equalize"
+    },
+    "description": "Statistical arbitrage arena. Balance and precision are rewarded."
+  },
+  {
+    "id": "victoria-fortress",
+    "name": "Victoria Island Fortress Market",
+    "name_ja": "ヴィクトリア島要塞市場",
+    "region": "Lagos",
+    "tier": "A",
+    "visual": {
+      "theme": "Obsidian fortress walls with green energy shields. Underground bunker aesthetic.",
+      "bg_color": "#0a1a08",
+      "accent_color": "#88aa44",
+      "particle_type": "nature"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 0.8,
+      "speed_bonus": 0,
+      "home_advantage_bot": "ori"
+    },
+    "market_modifiers": {
+      "trend_bias": -0.05,
+      "spike_frequency": 0.1,
+      "mean_reversion_strength": 1.0
+    },
+    "hazard": {
+      "name": "Survival Test",
+      "description": "Both bots take continuous small damage. Defense is key.",
+      "trigger_stage": 3,
+      "effect": "dot_damage"
+    },
+    "description": "Survival arena. Defensive bots with strong risk management dominate."
+  },
+  {
+    "id": "aurora-frost",
+    "name": "Aurora Frost Exchange",
+    "name_ja": "オーロラ凍結取引所",
+    "region": "Reykjavik",
+    "tier": "A",
+    "visual": {
+      "theme": "Northern lights shimmer over frozen trading floor. Ice crystals form and shatter with each trade.",
+      "bg_color": "#0a1020",
+      "accent_color": "#aaddff",
+      "particle_type": "ice"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.5,
+      "speed_bonus": -5,
+      "home_advantage_bot": "frost"
+    },
+    "market_modifiers": {
+      "trend_bias": -0.1,
+      "spike_frequency": 0.4,
+      "mean_reversion_strength": 1.5
+    },
+    "hazard": {
+      "name": "Black Ice",
+      "description": "Sudden extreme volatility spike. Contrarian bots profit, momentum bots suffer.",
+      "trigger_stage": 5,
+      "effect": "extreme_volatility"
+    },
+    "description": "Extreme conditions arena. Contrarian and volatility breaker strategies excel."
+  },
+  {
+    "id": "harbour-surge",
+    "name": "Harbour Surge Terminal",
+    "name_ja": "ハーバー・サージ端末",
+    "region": "Sydney",
+    "tier": "B",
+    "visual": {
+      "theme": "Oceanic data center with wave-like data flows. Coral reef neural networks glow beneath glass floors.",
+      "bg_color": "#081a1a",
+      "accent_color": "#22ccaa",
+      "particle_type": "data"
+    },
+    "arena_effects": {
+      "volatility_multiplier": 1.1,
+      "speed_bonus": 0,
+      "home_advantage_bot": null
+    },
+    "market_modifiers": {
+      "trend_bias": 0.05,
+      "spike_frequency": 0.2,
+      "mean_reversion_strength": 1.0
+    },
+    "hazard": {
+      "name": "Hybrid Surge",
+      "description": "All AI Hybrid moves gain +20% power",
+      "trigger_stage": 5,
+      "effect": "hybrid_boost"
+    },
+    "description": "Balanced arena that favors hybrid and adaptive strategies."
+  }
+]

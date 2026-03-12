@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/event.schema.json",
+  "title": "Cryptarena Visual Battle Event",
+  "description": "Defines a visual event triggered by battle signals",
+  "type": "object",
+  "required": ["id", "name", "name_ja", "signal_source", "strength", "visual", "camera", "animation", "probability"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,47}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "name_ja": {
+      "type": "string"
+    },
+    "signal_source": {
+      "type": "string",
+      "enum": [
+        "price_move", "trade_entry", "trade_exit", "position_flip",
+        "pnl_surge", "drawdown", "comeback", "stage_change",
+        "power_shift", "volatility_spike", "perfect_trade", "combo_chain"
+      ]
+    },
+    "strength": {
+      "type": "string",
+      "enum": ["weak", "medium", "strong", "jackpot"]
+    },
+    "description": {
+      "type": "string"
+    },
+    "visual": {
+      "type": "object",
+      "required": ["type", "intensity", "duration", "radius"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "particle_burst", "screen_flash", "aura_flare", "shockwave",
+            "trail_blaze", "glitch", "gold_rain", "none"
+          ]
+        },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "duration": { "type": "integer", "minimum": 0, "description": "Duration in ticks" },
+        "radius": { "type": "number", "minimum": 0, "description": "Effect radius in world units" }
+      },
+      "additionalProperties": false
+    },
+    "camera": {
+      "type": "object",
+      "required": ["type", "intensity", "duration", "target"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["shake", "zoom_in", "zoom_out", "pan_to", "slam", "orbit_fast", "none"]
+        },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "duration": { "type": "integer", "minimum": 0 },
+        "target": {
+          "type": "string",
+          "enum": ["left", "right", "center"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "animation": {
+      "type": "object",
+      "required": ["type", "intensity", "duration"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "attack_lunge", "power_up", "stagger", "guard",
+            "celebrate", "charge", "dodge", "idle"
+          ]
+        },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "duration": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "probability": {
+      "type": "object",
+      "required": ["win_chance_shift", "momentum", "excitement"],
+      "properties": {
+        "win_chance_shift": { "type": "number", "minimum": -1, "maximum": 1 },
+        "momentum": { "type": "number", "minimum": -1, "maximum": 1 },
+        "excitement": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

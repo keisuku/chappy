@@ -1,0 +1,559 @@
+[
+  {
+    "id": "market-pulse",
+    "name": "Market Pulse",
+    "name_ja": "市場の鼓動",
+    "category": "attack",
+    "ai_type": null,
+    "power": 30,
+    "accuracy": 95,
+    "cooldown": 0,
+    "effects": [{ "type": "damage", "value": 30, "duration": 0, "chance": 1.0 }],
+    "description": "Basic market reading strike. Available to all bots.",
+    "visual_fx": "pulse_ring"
+  },
+  {
+    "id": "thousand-cuts",
+    "name": "Thousand Cuts",
+    "name_ja": "千刃",
+    "category": "ultimate",
+    "ai_type": "scalper",
+    "power": 120,
+    "accuracy": 70,
+    "cooldown": 8,
+    "effects": [
+      { "type": "damage", "value": 12, "duration": 0, "chance": 1.0 },
+      { "type": "pnl_drain", "value": 0.05, "duration": 0, "chance": 0.3 }
+    ],
+    "description": "Executes 100 simultaneous micro-trades. Each cut is small but they add up devastatingly.",
+    "visual_fx": "blade_storm"
+  },
+  {
+    "id": "flash-scalp",
+    "name": "Flash Scalp",
+    "name_ja": "閃光刈り",
+    "category": "attack",
+    "ai_type": "scalper",
+    "power": 45,
+    "accuracy": 90,
+    "cooldown": 1,
+    "effects": [{ "type": "damage", "value": 45, "duration": 0, "chance": 1.0 }],
+    "description": "Lightning-fast position entry and exit for quick profit.",
+    "visual_fx": "flash_green"
+  },
+  {
+    "id": "nano-burst",
+    "name": "Nano Burst",
+    "name_ja": "ナノバースト",
+    "category": "support",
+    "ai_type": "scalper",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 4,
+    "effects": [{ "type": "buff_speed", "value": 20, "duration": 3, "chance": 1.0 }],
+    "description": "Overclock processing speed for ultra-fast execution.",
+    "visual_fx": "speed_lines"
+  },
+  {
+    "id": "trend-slash",
+    "name": "Trend Slash",
+    "name_ja": "趨勢斬",
+    "category": "attack",
+    "ai_type": "momentum",
+    "power": 80,
+    "accuracy": 75,
+    "cooldown": 3,
+    "effects": [
+      { "type": "damage", "value": 80, "duration": 0, "chance": 1.0 },
+      { "type": "pnl_boost", "value": 0.1, "duration": 2, "chance": 0.5 }
+    ],
+    "description": "Massive directional strike that follows the trend. Higher damage in trending markets.",
+    "visual_fx": "golden_slash"
+  },
+  {
+    "id": "double-down",
+    "name": "Double Down",
+    "name_ja": "倍掛け",
+    "category": "attack",
+    "ai_type": "momentum",
+    "power": 100,
+    "accuracy": 60,
+    "cooldown": 5,
+    "effects": [
+      { "type": "damage", "value": 100, "duration": 0, "chance": 1.0 },
+      { "type": "debuff_defense", "value": 10, "duration": 2, "chance": 1.0 }
+    ],
+    "description": "Doubles position size for maximum impact. Leaves defenses open.",
+    "visual_fx": "double_blade"
+  },
+  {
+    "id": "momentum-charge",
+    "name": "Momentum Charge",
+    "name_ja": "勢い蓄積",
+    "category": "support",
+    "ai_type": "momentum",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 4,
+    "effects": [{ "type": "buff_attack", "value": 25, "duration": 3, "chance": 1.0 }],
+    "description": "Builds conviction before the next big trade. Increases attack power.",
+    "visual_fx": "gold_aura"
+  },
+  {
+    "id": "equilibrium-lock",
+    "name": "Equilibrium Lock",
+    "name_ja": "均衡封鎖",
+    "category": "ultimate",
+    "ai_type": "mean_reversion",
+    "power": 90,
+    "accuracy": 85,
+    "cooldown": 6,
+    "effects": [
+      { "type": "damage", "value": 90, "duration": 0, "chance": 1.0 },
+      { "type": "debuff_attack", "value": 15, "duration": 3, "chance": 0.7 }
+    ],
+    "description": "Locks the opponent into a mean-reverting range, suppressing their ability to trend.",
+    "visual_fx": "cyan_cage"
+  },
+  {
+    "id": "probability-shield",
+    "name": "Probability Shield",
+    "name_ja": "確率障壁",
+    "category": "defense",
+    "ai_type": "mean_reversion",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 4,
+    "effects": [{ "type": "shield", "value": 60, "duration": 3, "chance": 1.0 }],
+    "description": "Creates a defensive barrier using statistical probability calculations.",
+    "visual_fx": "hex_shield"
+  },
+  {
+    "id": "mean-strike",
+    "name": "Mean Strike",
+    "name_ja": "回帰打",
+    "category": "attack",
+    "ai_type": "mean_reversion",
+    "power": 55,
+    "accuracy": 85,
+    "cooldown": 2,
+    "effects": [
+      { "type": "damage", "value": 55, "duration": 0, "chance": 1.0 },
+      { "type": "heal", "value": 15, "duration": 0, "chance": 0.4 }
+    ],
+    "description": "Counter-strike that profits from overextension. Chance to heal from opponent's deviation.",
+    "visual_fx": "revert_wave"
+  },
+  {
+    "id": "spread-fortress",
+    "name": "Spread Fortress",
+    "name_ja": "値幅要塞",
+    "category": "ultimate",
+    "ai_type": "market_maker",
+    "power": 70,
+    "accuracy": 90,
+    "cooldown": 7,
+    "effects": [
+      { "type": "damage", "value": 70, "duration": 0, "chance": 1.0 },
+      { "type": "shield", "value": 40, "duration": 4, "chance": 1.0 }
+    ],
+    "description": "Creates a fortress of bid-ask orders that damages attackers and shields the user.",
+    "visual_fx": "purple_fortress"
+  },
+  {
+    "id": "correlation-web",
+    "name": "Correlation Web",
+    "name_ja": "相関網",
+    "category": "support",
+    "ai_type": "market_maker",
+    "power": 0,
+    "accuracy": 95,
+    "cooldown": 3,
+    "effects": [
+      { "type": "buff_intelligence", "value": 20, "duration": 3, "chance": 1.0 },
+      { "type": "buff_defense", "value": 10, "duration": 3, "chance": 1.0 }
+    ],
+    "description": "Maps correlations across all market signals for enhanced awareness.",
+    "visual_fx": "web_glow"
+  },
+  {
+    "id": "liquidity-drain",
+    "name": "Liquidity Drain",
+    "name_ja": "流動吸収",
+    "category": "attack",
+    "ai_type": "market_maker",
+    "power": 50,
+    "accuracy": 85,
+    "cooldown": 2,
+    "effects": [
+      { "type": "damage", "value": 50, "duration": 0, "chance": 1.0 },
+      { "type": "pnl_drain", "value": 0.03, "duration": 0, "chance": 0.5 }
+    ],
+    "description": "Drains opponent's available liquidity, converting it to own P&L.",
+    "visual_fx": "drain_vortex"
+  },
+  {
+    "id": "catalyst-strike",
+    "name": "Catalyst Strike",
+    "name_ja": "触媒撃",
+    "category": "ultimate",
+    "ai_type": "news_hunter",
+    "power": 130,
+    "accuracy": 65,
+    "cooldown": 8,
+    "effects": [
+      { "type": "damage", "value": 130, "duration": 0, "chance": 1.0 },
+      { "type": "stun", "value": 1, "duration": 2, "chance": 0.4 }
+    ],
+    "description": "Devastating strike timed to a market catalyst. Massive damage but requires perfect timing.",
+    "visual_fx": "news_explosion"
+  },
+  {
+    "id": "temporal-wait",
+    "name": "Temporal Wait",
+    "name_ja": "時間待機",
+    "category": "defense",
+    "ai_type": "news_hunter",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 3,
+    "effects": [
+      { "type": "shield", "value": 30, "duration": 2, "chance": 1.0 },
+      { "type": "buff_attack", "value": 15, "duration": 2, "chance": 1.0 }
+    ],
+    "description": "Patient waiting phase that builds power for the next catalyst opportunity.",
+    "visual_fx": "clock_shield"
+  },
+  {
+    "id": "event-surge",
+    "name": "Event Surge",
+    "name_ja": "事象波動",
+    "category": "attack",
+    "ai_type": "news_hunter",
+    "power": 65,
+    "accuracy": 80,
+    "cooldown": 2,
+    "effects": [{ "type": "damage", "value": 65, "duration": 0, "chance": 1.0 }],
+    "description": "Rides the wave of a market event for directional profit.",
+    "visual_fx": "wave_burst"
+  },
+  {
+    "id": "shadow-ride",
+    "name": "Shadow Ride",
+    "name_ja": "影乗り",
+    "category": "ultimate",
+    "ai_type": "whale_tracker",
+    "power": 85,
+    "accuracy": 80,
+    "cooldown": 6,
+    "effects": [
+      { "type": "damage", "value": 85, "duration": 0, "chance": 1.0 },
+      { "type": "heal", "value": 30, "duration": 0, "chance": 0.6 }
+    ],
+    "description": "Follows a whale's massive order for guaranteed profit. Heals from the whale's momentum.",
+    "visual_fx": "shadow_wave"
+  },
+  {
+    "id": "compound-wall",
+    "name": "Compound Wall",
+    "name_ja": "複利壁",
+    "category": "defense",
+    "ai_type": "whale_tracker",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 4,
+    "effects": [
+      { "type": "shield", "value": 80, "duration": 3, "chance": 1.0 },
+      { "type": "heal", "value": 10, "duration": 3, "chance": 1.0 }
+    ],
+    "description": "Layers defensive positions that compound over time. Extreme survivability.",
+    "visual_fx": "green_walls"
+  },
+  {
+    "id": "survival-stance",
+    "name": "Survival Stance",
+    "name_ja": "生存構え",
+    "category": "defense",
+    "ai_type": "whale_tracker",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 5,
+    "effects": [
+      { "type": "buff_defense", "value": 30, "duration": 4, "chance": 1.0 },
+      { "type": "heal", "value": 20, "duration": 0, "chance": 1.0 }
+    ],
+    "description": "Maximum defensive posture. Sacrifice offense for near-invulnerability.",
+    "visual_fx": "fortress_glow"
+  },
+  {
+    "id": "storm-harvest",
+    "name": "Storm Harvest",
+    "name_ja": "嵐狩り",
+    "category": "ultimate",
+    "ai_type": "volatility_breaker",
+    "power": 110,
+    "accuracy": 70,
+    "cooldown": 7,
+    "effects": [
+      { "type": "damage", "value": 110, "duration": 0, "chance": 1.0 },
+      { "type": "pnl_boost", "value": 0.15, "duration": 3, "chance": 0.5 }
+    ],
+    "description": "Harvests profit from extreme volatility. More powerful in chaotic markets.",
+    "visual_fx": "ice_storm"
+  },
+  {
+    "id": "frost-counter",
+    "name": "Frost Counter",
+    "name_ja": "凍結反撃",
+    "category": "attack",
+    "ai_type": "volatility_breaker",
+    "power": 60,
+    "accuracy": 85,
+    "cooldown": 2,
+    "effects": [
+      { "type": "damage", "value": 60, "duration": 0, "chance": 1.0 },
+      { "type": "debuff_speed", "value": 15, "duration": 2, "chance": 0.6 }
+    ],
+    "description": "Counter-attack that freezes opponent's execution speed.",
+    "visual_fx": "frost_spike"
+  },
+  {
+    "id": "fear-buy",
+    "name": "Fear Buy",
+    "name_ja": "恐怖買い",
+    "category": "support",
+    "ai_type": "volatility_breaker",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 3,
+    "effects": [
+      { "type": "heal", "value": 40, "duration": 0, "chance": 1.0 },
+      { "type": "buff_attack", "value": 20, "duration": 2, "chance": 1.0 }
+    ],
+    "description": "Buys when others panic. Converts market fear into strength and recovery.",
+    "visual_fx": "aurora_heal"
+  },
+  {
+    "id": "paradigm-shift",
+    "name": "Paradigm Shift",
+    "name_ja": "戦略転換",
+    "category": "ultimate",
+    "ai_type": "ai_hybrid",
+    "power": 100,
+    "accuracy": 75,
+    "cooldown": 6,
+    "effects": [
+      { "type": "damage", "value": 100, "duration": 0, "chance": 1.0 },
+      { "type": "copy_strategy", "value": 1, "duration": 5, "chance": 0.6 }
+    ],
+    "description": "Switches strategy mid-battle to counter the opponent. May copy their trading style.",
+    "visual_fx": "glitch_shift"
+  },
+  {
+    "id": "qi-flow",
+    "name": "Qi Flow",
+    "name_ja": "気流",
+    "category": "support",
+    "ai_type": "ai_hybrid",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 3,
+    "effects": [
+      { "type": "heal", "value": 25, "duration": 0, "chance": 1.0 },
+      { "type": "buff_intelligence", "value": 15, "duration": 3, "chance": 1.0 }
+    ],
+    "description": "Flows with the market's energy to heal and enhance analysis.",
+    "visual_fx": "jade_flow"
+  },
+  {
+    "id": "adaptive-strike",
+    "name": "Adaptive Strike",
+    "name_ja": "適応撃",
+    "category": "attack",
+    "ai_type": "ai_hybrid",
+    "power": 65,
+    "accuracy": 80,
+    "cooldown": 2,
+    "effects": [{ "type": "damage", "value": 65, "duration": 0, "chance": 1.0 }],
+    "description": "An attack that adapts to the opponent's current weakness.",
+    "visual_fx": "morph_strike"
+  },
+  {
+    "id": "adversarial-mirror",
+    "name": "Adversarial Mirror",
+    "name_ja": "敵対鏡",
+    "category": "attack",
+    "ai_type": "ai_hybrid",
+    "power": 75,
+    "accuracy": 80,
+    "cooldown": 4,
+    "effects": [
+      { "type": "damage", "value": 75, "duration": 0, "chance": 1.0 },
+      { "type": "copy_strategy", "value": 1, "duration": 3, "chance": 0.8 }
+    ],
+    "description": "Mirrors the opponent's last move and turns it against them.",
+    "visual_fx": "mirror_shatter"
+  },
+  {
+    "id": "void-consume",
+    "name": "Void Consume",
+    "name_ja": "虚無消費",
+    "category": "attack",
+    "ai_type": "ai_hybrid",
+    "power": 90,
+    "accuracy": 70,
+    "cooldown": 5,
+    "effects": [
+      { "type": "damage", "value": 90, "duration": 0, "chance": 1.0 },
+      { "type": "pnl_drain", "value": 0.1, "duration": 0, "chance": 0.5 },
+      { "type": "heal", "value": 20, "duration": 0, "chance": 0.5 }
+    ],
+    "description": "Consumes opponent's P&L to heal. The void takes everything.",
+    "visual_fx": "void_vortex"
+  },
+  {
+    "id": "daemon-absorb",
+    "name": "DAEMON Absorb",
+    "name_ja": "デーモン吸収",
+    "category": "ultimate",
+    "ai_type": "ai_hybrid",
+    "power": 150,
+    "accuracy": 90,
+    "cooldown": 10,
+    "effects": [
+      { "type": "damage", "value": 150, "duration": 0, "chance": 1.0 },
+      { "type": "copy_strategy", "value": 1, "duration": 99, "chance": 1.0 },
+      { "type": "buff_attack", "value": 30, "duration": 5, "chance": 1.0 }
+    ],
+    "description": "DAEMON-exclusive. Permanently absorbs opponent's strategy and grows stronger.",
+    "visual_fx": "daemon_consume"
+  },
+  {
+    "id": "capital-crush",
+    "name": "Capital Crush",
+    "name_ja": "資本圧砕",
+    "category": "attack",
+    "ai_type": "momentum",
+    "power": 95,
+    "accuracy": 70,
+    "cooldown": 4,
+    "effects": [
+      { "type": "damage", "value": 95, "duration": 0, "chance": 1.0 },
+      { "type": "debuff_defense", "value": 15, "duration": 2, "chance": 0.5 }
+    ],
+    "description": "Overwhelms opponent with massive capital deployment. Titan-class strike.",
+    "visual_fx": "gold_crush"
+  },
+  {
+    "id": "titan-guard",
+    "name": "Titan Guard",
+    "name_ja": "巨人の盾",
+    "category": "defense",
+    "ai_type": "momentum",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 4,
+    "effects": [
+      { "type": "shield", "value": 70, "duration": 3, "chance": 1.0 },
+      { "type": "buff_attack", "value": 10, "duration": 3, "chance": 1.0 }
+    ],
+    "description": "Massive defensive wall backed by capital reserves. Builds attack while defending.",
+    "visual_fx": "gold_barrier"
+  },
+  {
+    "id": "flame-rush",
+    "name": "Flame Rush",
+    "name_ja": "炎突進",
+    "category": "attack",
+    "ai_type": "momentum",
+    "power": 75,
+    "accuracy": 80,
+    "cooldown": 2,
+    "effects": [
+      { "type": "damage", "value": 75, "duration": 0, "chance": 1.0 },
+      { "type": "buff_speed", "value": 10, "duration": 1, "chance": 0.7 }
+    ],
+    "description": "Explosive momentum entry with burning conviction. Gains speed on hit.",
+    "visual_fx": "flame_dash"
+  },
+  {
+    "id": "passion-burst",
+    "name": "Passion Burst",
+    "name_ja": "情熱爆発",
+    "category": "support",
+    "ai_type": "momentum",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 5,
+    "effects": [
+      { "type": "buff_attack", "value": 35, "duration": 2, "chance": 1.0 },
+      { "type": "debuff_defense", "value": 20, "duration": 2, "chance": 1.0 }
+    ],
+    "description": "Trades all defense for maximum offensive power. High risk, high reward.",
+    "visual_fx": "fire_aura"
+  },
+  {
+    "id": "cosmic-balance",
+    "name": "Cosmic Balance",
+    "name_ja": "宇宙均衡",
+    "category": "attack",
+    "ai_type": "mean_reversion",
+    "power": 70,
+    "accuracy": 85,
+    "cooldown": 3,
+    "effects": [
+      { "type": "damage", "value": 70, "duration": 0, "chance": 1.0 },
+      { "type": "heal", "value": 20, "duration": 0, "chance": 0.5 }
+    ],
+    "description": "Enforces market equilibrium. What goes up must come down.",
+    "visual_fx": "mandala_pulse"
+  },
+  {
+    "id": "karma-return",
+    "name": "Karma Return",
+    "name_ja": "因果応報",
+    "category": "attack",
+    "ai_type": "mean_reversion",
+    "power": 60,
+    "accuracy": 90,
+    "cooldown": 2,
+    "effects": [
+      { "type": "damage", "value": 60, "duration": 0, "chance": 1.0 },
+      { "type": "debuff_attack", "value": 10, "duration": 2, "chance": 0.6 }
+    ],
+    "description": "Returns opponent's aggression back at them. Stronger against overextended foes.",
+    "visual_fx": "karma_wave"
+  },
+  {
+    "id": "alpha-scan",
+    "name": "Alpha Scan",
+    "name_ja": "アルファ走査",
+    "category": "support",
+    "ai_type": "mean_reversion",
+    "power": 0,
+    "accuracy": 100,
+    "cooldown": 3,
+    "effects": [
+      { "type": "buff_intelligence", "value": 25, "duration": 3, "chance": 1.0 },
+      { "type": "buff_attack", "value": 10, "duration": 3, "chance": 1.0 }
+    ],
+    "description": "Deep multi-factor scan reveals hidden alpha signals.",
+    "visual_fx": "data_scan"
+  },
+  {
+    "id": "data-drain",
+    "name": "Data Drain",
+    "name_ja": "データ吸収",
+    "category": "attack",
+    "ai_type": "mean_reversion",
+    "power": 50,
+    "accuracy": 90,
+    "cooldown": 2,
+    "effects": [
+      { "type": "damage", "value": 50, "duration": 0, "chance": 1.0 },
+      { "type": "debuff_intelligence", "value": 15, "duration": 3, "chance": 0.5 }
+    ],
+    "description": "Drains opponent's data analysis capability.",
+    "visual_fx": "matrix_drain"
+  }
+]

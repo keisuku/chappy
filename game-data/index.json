@@ -1,0 +1,29 @@
+{
+  "name": "cryptarena-game-data",
+  "version": "0.1.0",
+  "description": "Game data schemas and seed data for Cryptarena",
+  "schemas": {
+    "bot": "schemas/bot.schema.json",
+    "ai_type": "schemas/ai-type.schema.json",
+    "move": "schemas/move.schema.json",
+    "item": "schemas/item.schema.json",
+    "stage": "schemas/stage.schema.json",
+    "event": "schemas/event.schema.json"
+  },
+  "data": {
+    "bots": "data/bots.json",
+    "ai_types": "data/ai-types.json",
+    "moves": "data/moves.json",
+    "items": "data/items.json",
+    "stages": "data/stages.json",
+    "events": "data/events.json"
+  },
+  "stats": {
+    "bots": 14,
+    "ai_types": 8,
+    "moves": 34,
+    "items": 15,
+    "stages": 12,
+    "events": 28
+  }
+}
