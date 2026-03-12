@@ -2,7 +2,6 @@
 
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 import { BattleState, StageConfig, VisualBattleEvent } from "@/types";
 import { HeroFigure } from "./HeroFigure";
@@ -159,6 +158,8 @@ export function ArenaScene({ battleState, stageConfig, activeEvents = [] }: Aren
 
       {/* Environment */}
       <Environment preset="night" />
+      {/* Hemisphere light for ambient environment */}
+      <hemisphereLight args={["#1a2a4a", "#050d1a", 0.3]} />
 
       {/* Floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
