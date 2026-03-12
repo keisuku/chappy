@@ -223,6 +223,64 @@ export interface Arena {
   enabled: boolean;
 }
 
+// ============================================
+// Market Force Engine Types
+// ============================================
+
+export type MarketForceType = "whale" | "bull" | "bear" | "shark" | "retail";
+
+export interface MarketForce {
+  type: MarketForceType;
+  name: string;
+  nameJa: string;
+  description: string;
+  color: string;
+  power: number;           // 0-100, current influence strength
+  basePower: number;       // starting power
+  bias: number;            // -1 (bearish) to +1 (bullish) price bias
+  volatilityImpact: number; // multiplier on volatility
+  momentum: number;        // how much force accelerates trends (-1 to +1)
+  icon: string;
+}
+
+export interface ForceState {
+  force: MarketForce;
+  energy: number;          // 0-100, depletes on actions, recharges over time
+  cooldown: number;        // ticks until next special action
+  streak: number;          // consecutive ticks of dominance
+  totalInfluence: number;  // cumulative price impact this battle
+}
+
+export type ForceEventType =
+  | "force_enter"        // force enters the arena
+  | "force_clash"        // two forces collide
+  | "force_dominate"     // one force overwhelms another
+  | "force_retreat"      // force loses power and retreats
+  | "force_surge"        // sudden power spike
+  | "force_special"      // unique force ability triggered
+  | "force_shift";       // dominant force changes
+
+export interface ForceEvent {
+  tick: number;
+  type: ForceEventType;
+  actorForce: MarketForceType;
+  targetForce?: MarketForceType;
+  name: string;
+  nameJa: string;
+  description: string;
+  priceImpact: number;       // direct price change
+  volatilityImpact: number;  // volatility modifier
+  magnitude: number;         // visual intensity 0-1
+}
+
+export interface ForceBattleState {
+  forces: Record<MarketForceType, ForceState>;
+  dominantForce: MarketForceType | null;
+  tension: number;            // 0-1, how contested the market is
+  events: ForceEvent[];
+  tick: number;
+}
+
 export interface GameState {
   playerBots: PlayerBot[];
   selectedBotId: string | null;
