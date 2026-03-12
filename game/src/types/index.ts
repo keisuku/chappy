@@ -442,3 +442,116 @@ export interface GameState {
   arenas: Arena[];
   botImages: Record<string, string>; // botId/characterId -> dataURL
 }
+
+// ============================================
+// Trading Engine — DNA, Leverage, Liquidation
+// ============================================
+
+/** Bot DNA: 8 genes that define trading behavior (0-100 each) */
+export interface BotDNA {
+  aggression: number;      // position size tendency (high = bigger bets)
+  conviction: number;      // hold duration (high = diamond hands, low = paper hands)
+  fearIndex: number;       // stop-loss tightness (high = scared, cuts fast)
+  greedIndex: number;      // take-profit greed (high = holds for bigger wins)
+  leverageBias: number;    // preferred leverage level (maps to 1x-1000x)
+  adaptSpeed: number;      // how fast bot changes strategy in regime shifts
+  contrarian: number;      // tendency to fade the crowd (high = counter-trend)
+  clutchFactor: number;    // performance under pressure (high = better at high stages)
+}
+
+/** Leverage tier with risk/reward characteristics */
+export interface LeverageTier {
+  label: string;
+  labelJa: string;
+  multiplier: number;       // 1-1000
+  liquidationDistance: number; // % price move to get liquidated
+  feeRate: number;           // funding rate per tick
+  color: string;
+}
+
+/** A leveraged position in the trading engine */
+export interface LeveragedPosition {
+  direction: TradeDirection;
+  entryPrice: number;
+  size: number;              // base position size in BTC
+  leverage: number;          // effective leverage multiplier
+  liquidationPrice: number;  // price at which position is force-closed
+  margin: number;            // collateral locked
+  unrealizedPnl: number;    // current floating PnL
+  maxUnrealizedPnl: number; // peak floating PnL (for trailing)
+  ticksHeld: number;        // how long position has been open
+  fundingPaid: number;      // cumulative funding fees
+}
+
+/** Per-bot state in the trading engine */
+export interface TradingBotState {
+  botId: string;
+  dna: BotDNA;
+  balance: number;          // current account balance (starts at margin)
+  startBalance: number;     // initial balance for ROI calc
+  position: LeveragedPosition | null;
+  isLiquidated: boolean;
+  liquidationTick: number | null;
+  trades: TradeLog[];
+  roi: number;              // running return on investment (%)
+  maxRoi: number;           // peak ROI
+  maxDrawdownPct: number;   // worst drawdown as %
+  totalFeesPaid: number;
+}
+
+export interface TradeLog {
+  tick: number;
+  action: "open_long" | "open_short" | "close" | "liquidated" | "stop_loss" | "take_profit" | "flip";
+  price: number;
+  leverage: number;
+  size: number;
+  pnl: number;
+  roi: number;              // ROI of this individual trade
+  reason: string;
+}
+
+/** Full trading session state */
+export interface TradingSession {
+  tick: number;
+  maxTicks: number;          // short sessions: 15-30 ticks
+  leftTrader: TradingBotState;
+  rightTrader: TradingBotState;
+  candles: Candlestick[];
+  currentPrice: number;
+  volatility: number;
+  regime: MarketRegime;
+  stage: number;
+  isActive: boolean;
+  winner: "left" | "right" | null;
+  events: TradingEvent[];
+}
+
+export interface TradingEvent {
+  tick: number;
+  actor: "left" | "right" | "market";
+  type: "leverage_up" | "leverage_down" | "liquidation" | "margin_call" | "take_profit" | "stop_loss" | "flip" | "open" | "close" | "funding";
+  description: string;
+  magnitude: number;         // for visual intensity scaling
+}
+
+/** Result of fusing two bots */
+export interface FusionResult {
+  dna: BotDNA;
+  mutationName: string;
+  mutationNameJa: string;
+  rarity: "common" | "rare" | "epic" | "legendary";
+  bonusGene: keyof BotDNA | null;   // which gene got a random boost
+  description: string;
+}
+
+export interface TradingSessionSummary {
+  winner: TradingBotState;
+  loser: TradingBotState;
+  winnerRoi: number;
+  loserRoi: number;
+  liquidationOccurred: boolean;
+  maxLeverage: number;
+  totalTrades: number;
+  maxStage: number;
+  events: TradingEvent[];
+}
