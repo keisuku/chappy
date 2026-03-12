@@ -19,7 +19,7 @@ export function BattleHUD({ battleState, stageConfig, onEncounter }: BattleHUDPr
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-3"
            style={{ background: "linear-gradient(180deg, rgba(5,13,26,0.95) 0%, transparent 100%)" }}>
         <div className="text-sm font-bold tracking-widest uppercase" style={{ color: "#00d4ff" }}>
-          CoinBattle Saki
+          Cryptarena
         </div>
         <div className="flex gap-3 items-center">
           <span className="px-3 py-1 rounded-md text-xs font-semibold"
@@ -45,7 +45,7 @@ export function BattleHUD({ battleState, stageConfig, onEncounter }: BattleHUDPr
             boxShadow: isActive ? "none" : "0 4px 20px rgba(0,212,255,0.3)",
           }}
         >
-          {isActive ? `Battle ${tick}/30` : "Push Encounter"}
+          {isActive ? `Battle ${tick}/30` : "View Results"}
         </button>
       </div>
 
@@ -135,7 +135,7 @@ export function BattleHUD({ battleState, stageConfig, onEncounter }: BattleHUDPr
               <p>Max DD: {(winner === "left" ? leftBot.maxDrawdown : rightBot.maxDrawdown).toFixed(0)} JPY</p>
               <p>Trades: {(winner === "left" ? leftBot : rightBot).trades}</p>
             </div>
-            <div className="mt-4 text-xs opacity-40">Click to start new battle</div>
+            <div className="mt-4 text-xs opacity-40">Click to view full results</div>
           </div>
         </div>
       )}
