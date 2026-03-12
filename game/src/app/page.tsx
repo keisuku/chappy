@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import { BattleHUD } from "@/components/ui/BattleHUD";
 import { CHARACTERS } from "@/lib/characters";
-import { createBattle, stepBattle, STAGES } from "@/lib/battle";
+import { createBattle, stepBattle, getBattleSummary, STAGES } from "@/lib/battle";
 import { MarketSimulator } from "@/lib/market";
 import type { BattleState } from "@/types";
 
@@ -49,16 +49,21 @@ export default function HomePage() {
         if (!prev || !prev.isActive) return prev;
         const next = stepBattle(prev, market);
 
-        // Log metrics to console
+        // Log battle summary
         if (!next.isActive && next.winner) {
-          const w = next.winner === "left" ? next.leftBot : next.rightBot;
-          console.log("[CoinBattle Metrics]", JSON.stringify({
-            winner: w.character.name,
-            profit: w.pnl.toFixed(0),
-            maxDrawdown: w.maxDrawdown.toFixed(0),
-            trades: w.trades,
-            duration: next.tick,
-          }, null, 2));
+          const summary = getBattleSummary(next);
+          if (summary) {
+            console.log("[Cryptarena Battle Summary]", JSON.stringify({
+              winner: summary.winner.name,
+              loser: summary.loser.name,
+              winnerPnl: summary.winnerPnl.toFixed(0),
+              loserPnl: summary.loserPnl.toFixed(0),
+              maxStage: summary.maxStage,
+              totalTicks: summary.totalTicks,
+              criticalMoments: summary.criticalMoments.length,
+              marketEvents: summary.marketEvents.length,
+            }, null, 2));
+          }
         }
 
         return next;
