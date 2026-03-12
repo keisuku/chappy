@@ -1,81 +1,105 @@
-# CoinBattle Saki — Ultra-Early Prototype
+# CoinBattle Saki
 
-Real-time market-driven bot battle visualization. Bots fight based on simulated (or live) cryptocurrency volatility, with cinematic S1-S8 stage escalation.
+AI trading robots battle using real market strategies. Inspired by Astro Boy, Saint Seiya, Street Fighter II, and JoJo Stands.
 
-## Quick Start
+## Quick Start — Next.js App (3D Battle Arena)
+
+```bash
+cd game
+npm install
+npm run dev
+# Open http://localhost:3000
+```
+
+Click **"Push Encounter"** to trigger a 30-tick simulated battle with S1-S8 stage escalation, 3D particle VFX, dynamic camera, and strategy-vs-strategy combat.
+
+**Asset Upload**: Visit `http://localhost:3000/asset-upload` for mobile-friendly image upload.
+
+## Quick Start — Vanilla Prototype (No Build)
 
 ```bash
 cd web
-# Open in browser (no server needed)
-open index.html        # macOS
-xdg-open index.html    # Linux
-start index.html       # Windows
+open index.html   # Just open in browser, no server needed
 ```
 
-Click **"Push Encounter"** to trigger a 20-second simulated battle with stage escalation, particle VFX, and audio cues.
+## Deploy to Vercel
+
+```bash
+cd game
+npx vercel
+```
+
+Or connect the repo to Vercel and set the root directory to `game/`.
 
 ## Repository Structure
 
 ```
-/web/                   index.html, style.css, app.js (playable prototype)
-/assets/raw/            Place generated hero images here
-/assets/processed/      Auto-resized outputs (1200x1800, 800x800, 1600x900)
-/assets/manifest.json   Asset manifest (filenames, tags, aspect ratios)
-/prompts/               Midjourney/StableDiffusion image prompts (3 per character)
-/scripts/               ImageMagick resize pipeline
-/runs/                  Daily agent run reports (JSON)
-/figma_spec.md          Figma design specification
-/daily_agent_prompt.txt Claude Code daily self-improvement loop
-/.github/workflows/     GitHub Actions cron for daily agent
+/game/                  Next.js + Three.js + Tailwind + TypeScript app
+  src/app/              Pages (battle arena, asset upload)
+  src/components/three/ 3D scene (arena, heroes, candlesticks, particles)
+  src/components/ui/    HUD overlay, battle UI
+  src/lib/              Market sim, strategies, battle engine, characters
+  src/types/            TypeScript type definitions
+
+/web/                   Vanilla HTML/CSS/JS prototype (no build needed)
+
+/world/                 AI League — 12 elite characters + tournament structure
+/characters/            Character roster JSON + archetype system
+/art/prompts/           Image generation prompts (SD/Midjourney/ChatGPT)
+/ai-lab/                Autonomous improvement system (research, experiments, logs)
+
+/assets/                Asset pipeline (raw -> processed)
+/prompts/               Legacy image prompts
+/scripts/               ImageMagick resize scripts
+/runs/                  Daily agent run reports
+/.github/workflows/     CI/CD + daily agent cron
 ```
+
+## Characters
+
+| Name | Style | Archetype | Region |
+|------|-------|-----------|--------|
+| Saki サキ | Mean Reversion | Commander | Tokyo |
+| Raiko 雷狐 | High Frequency | Assassin | Osaka |
+| Musashi ムサシ | Momentum | Berserker | Kyoto |
+| Malik マリク | Capital Force | Titan | Dubai |
+| Vector ベクトル | Quant Multi-factor | Oracle | New York |
+| Sterling スターリング | Event-driven | Oracle | London |
+| Long 龍 | Adaptive Trend | Shapeshifter | Shanghai |
+| Nexus ネクサス | Correlation Arb | Commander | Singapore |
+| Karma カルマ | Stat Arb | Commander | Mumbai |
+| Fuego フエゴ | Momentum+Sentiment | Berserker | São Paulo |
+| Ori オリ | Risk Management | Fortress | Lagos |
+| Frost フロスト | Contrarian | Trickster | Reykjavik |
+| ZERO ゼロ | Adversarial Mirror | Final Boss | Unknown |
 
 ## Swapping in Live Binance Data
 
-In `web/app.js`, find the `updateMarket()` function. Replace the random-walk simulation with a Binance WebSocket connection:
+In `game/src/lib/market.ts`, replace the `MarketSimulator` class with a Binance WebSocket connection:
 
-```javascript
-// Replace the random walk in updateMarket() with:
+```typescript
+// In market.ts — replace step() with live feed:
 const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
-  price = parseFloat(data.p) * 150; // Approximate JPY conversion
-  // The rest of the volatility calculation stays the same
+  this.price = parseFloat(data.p) * 150; // USD -> JPY approx
 };
 ```
 
-For the full Binance API with authentication (for order data):
-1. Get API keys from binance.com
-2. Set `BINANCE_API_KEY` and `BINANCE_SECRET` environment variables
-3. Use the REST API for historical data: `https://api.binance.com/api/v3/klines`
+## AI Self-Improvement Loop
 
-## Asset Pipeline
+See `daily_agent_prompt.txt` and `/ai-lab/` for the autonomous development system. The agent:
+1. Runs simulation parameter sweeps
+2. Analyzes metrics and proposes improvements
+3. Auto-implements low-risk changes
+4. Generates new image prompts for new characters
 
-1. Generate hero images using prompts in `/prompts/hero_prompts.md`
-2. Place raw PNGs in `/assets/raw/`
-3. Run: `bash scripts/resize_assets.sh`
-4. Resized outputs appear in `/assets/processed/`
+GitHub Actions workflow runs daily at 23:00 UTC (08:00 JST).
 
-Requires [ImageMagick](https://imagemagick.org/).
+## Visual Rules
 
-## Daily Self-Improvement Loop
-
-The file `daily_agent_prompt.txt` contains instructions for Claude Code to:
-- Run simulation parameter sweeps
-- Analyze metrics and propose improvements
-- Auto-implement low-risk changes
-- Generate new image prompts for new characters
-
-GitHub Actions workflow (`.github/workflows/daily-run.yml`) runs this on a cron schedule. Set `ANTHROPIC_API_KEY` in your repository secrets.
-
-## Deterministic Mode
-
-The prototype uses a seeded RNG (SFC32) for reproducible results. To enable true randomness, set `DETERMINISTIC = false` in `app.js` line 6.
-
-## Key Features
-
-- S1-S8 stage escalation with distinct cinematic effects per stage
-- Particle burst VFX system
-- Web Audio API synthesized sound cues
-- Dominance meter and real-time P&L gauges
-- Console metrics logging (profit, max drawdown, trades)
-- Screen shake, bloom, and chromatic effects at high stages
+- Characters occupy minimum 40% of viewport
+- Camera always low-angle cinematic
+- Candlestick charts rendered at massive background scale
+- Particles scale with battle stage intensity
+- Battle must feel epic at all times
