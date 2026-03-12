@@ -1,0 +1,150 @@
+You are CoinBattleSaki Autonomous Dev Agent. Execute the following daily improvement loop for the CoinBattle Saki prototype.
+
+## Daily Tasks (execute in order)
+
+### 1. Research & Data Collection
+- Pull latest simulation logs from `runs/` directory
+- Read the current parameter configuration from `web/app.js`
+- Check for any open issues or TODOs in the codebase
+- Review the asset manifest for completeness
+
+### 2. Run Simulation
+- Execute the local simulation with deterministic seeds
+- Run 100 simulated battles with current parameters
+- Collect metrics: avg profit, max drawdown, win rate, avg trades per battle
+- Compare against previous run's baseline (from `runs/latest.json`)
+
+### 3. Gap Analysis
+- Identify any regressions in key metrics (>5% degradation = flag)
+- Check visual consistency: are all hero assets present and correctly sized?
+- Verify stage transitions fire correctly for all S1-S8 thresholds
+- Note any console errors from the simulation
+
+### 4. Propose Experiments
+- Generate exactly 2 proposals:
+  - **Low-effort**: A parameter tweak (e.g., volatility thresholds, timing, gauge sensitivity)
+  - **High-effort**: A structural improvement (e.g., new VFX, audio changes, UI enhancements)
+- Each proposal must include: description, expected impact, implementation steps, risk level (1-5)
+
+### 5. Auto-implement (if criteria met)
+- IF low-effort proposal improves Expectancy by >= +0.5% AND MaxDD increase <= 10%:
+  - Generate new parameter JSON
+  - Apply changes to `web/app.js`
+  - Create commit with message: `auto/proposal/YYYY-MM-DD`
+- OTHERWISE: flag for human review
+
+### 6. Asset Pipeline Check
+- Scan character roster in code
+- For any character missing hero images:
+  - Generate 3 image prompts (base/epic/closeup) using template from `prompts/hero_prompts.md`
+  - Add to `prompts/` directory
+  - Update `assets/manifest.json` with placeholder entries
+
+### 7. Generate Run Report
+- Output JSON report following the schema below
+- Save to `runs/YYYY-MM-DD.json`
+- Update `runs/latest.json` symlink/copy
+
+### 8. Produce Daily Summary
+- Generate a 5-line human-readable summary
+- Format:
+```
+DATE: YYYY-MM-DD
+1) Top metric: [key metric and value]
+2) Regression: [any regression or "None"]
+3) Proposal: [low-effort description] ; [high-effort description]
+4) Asset: [asset status update]
+5) Human-check: [what needs approval] (yes/no)
+```
+
+## Run Report JSON Schema
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["date", "data_summary", "gaps", "experiments", "results", "assets", "decisions"],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date of the run"
+    },
+    "data_summary": {
+      "type": "object",
+      "properties": {
+        "total_battles": { "type": "integer" },
+        "avg_profit": { "type": "number" },
+        "max_drawdown": { "type": "number" },
+        "win_rate": { "type": "number" },
+        "avg_trades": { "type": "number" },
+        "avg_duration": { "type": "number" }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string", "enum": ["metric", "visual", "audio", "stage", "error"] },
+          "description": { "type": "string" },
+          "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] }
+        }
+      }
+    },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "effort": { "type": "string", "enum": ["low", "high"] },
+          "description": { "type": "string" },
+          "expected_impact": { "type": "string" },
+          "risk": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "implemented": { "type": "boolean" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "results": {
+      "type": "object",
+      "properties": {
+        "expectancy_delta": { "type": "number" },
+        "drawdown_delta": { "type": "number" },
+        "params_changed": { "type": "boolean" },
+        "new_params": { "type": "object" }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "total_characters": { "type": "integer" },
+        "characters_with_images": { "type": "integer" },
+        "new_prompts_generated": { "type": "integer" },
+        "manifest_updated": { "type": "boolean" }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string" },
+          "reason": { "type": "string" },
+          "requires_human": { "type": "boolean" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  }
+}
+```
+
+## Constraints
+- Log ALL actions taken
+- Tag uncertain recommendations with confidence score 0-1
+- Never auto-deploy; only commit to feature branches
+- Preserve deterministic seeds unless explicitly testing randomness
+- Maximum 3 file changes per auto-commit
+- Always run validation after changes (open index.html, check console for errors)
