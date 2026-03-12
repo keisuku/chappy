@@ -3,6 +3,7 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { BotAnimation } from "@/types";
 
 interface HeroFigureProps {
   position: [number, number, number];
@@ -12,11 +13,13 @@ interface HeroFigureProps {
   isActive: boolean;
   name: string;
   side: "left" | "right";
+  animation?: BotAnimation | null;
 }
 
 /**
  * Giant hero figure — occupies >40% of viewport.
  * Geometric robot silhouette with glowing elements.
+ * Now responds to visual event animations.
  */
 export function HeroFigure({
   position,
@@ -26,6 +29,7 @@ export function HeroFigure({
   isActive,
   name,
   side,
+  animation,
 }: HeroFigureProps) {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
@@ -39,36 +43,100 @@ export function HeroFigure({
     const t = clock.getElapsedTime();
 
     if (groupRef.current) {
-      // Breathing animation
-      const breathe = Math.sin(t * 1.2) * 0.03;
-      groupRef.current.position.y = position[1] + breathe;
+      // Base breathing animation
+      let yOffset = Math.sin(t * 1.2) * 0.03;
+      let rotY = (side === "left" ? 0.15 : -0.15) + Math.sin(t * 0.5) * 0.05;
+      let scaleVal = 1 + (power - 50) / 500;
+      let xOffset = 0;
 
-      // Slight rotation facing center
-      const faceAngle = side === "left" ? 0.15 : -0.15;
-      groupRef.current.rotation.y = faceAngle + Math.sin(t * 0.5) * 0.05;
+      // Event-driven animation overrides
+      if (animation && isActive) {
+        const ai = animation.intensity;
 
-      // Scale pulse on power
-      const powerScale = 1 + (power - 50) / 500;
-      groupRef.current.scale.setScalar(powerScale);
+        switch (animation.type) {
+          case "attack_lunge": {
+            // Lunge toward center
+            const lungeDir = side === "left" ? 1 : -1;
+            const lungePhase = Math.sin(t * 8) * Math.max(0, 1 - ((t * 2) % 3));
+            xOffset = lungeDir * lungePhase * ai * 0.8;
+            rotY += lungeDir * lungePhase * ai * 0.1;
+            break;
+          }
+          case "power_up": {
+            // Scale pulse + vertical lift
+            const pulsePhase = Math.sin(t * 4);
+            scaleVal += pulsePhase * ai * 0.15;
+            yOffset += Math.abs(pulsePhase) * ai * 0.1;
+            break;
+          }
+          case "stagger": {
+            // Knockback + wobble
+            const staggerDir = side === "left" ? -1 : 1;
+            const wobble = Math.sin(t * 10) * Math.max(0, 1 - ((t * 1.5) % 2));
+            xOffset = staggerDir * wobble * ai * 0.4;
+            rotY += wobble * ai * 0.15;
+            yOffset -= ai * 0.05;
+            break;
+          }
+          case "guard": {
+            // Compact defensive pose
+            scaleVal -= ai * 0.05;
+            yOffset -= ai * 0.03;
+            break;
+          }
+          case "celebrate": {
+            // Bounce + expand
+            const bouncePhase = Math.abs(Math.sin(t * 6));
+            yOffset += bouncePhase * ai * 0.15;
+            scaleVal += Math.sin(t * 3) * ai * 0.1;
+            rotY += Math.sin(t * 2) * ai * 0.1;
+            break;
+          }
+          case "charge": {
+            // Lean forward + grow
+            const chargeDir = side === "left" ? 1 : -1;
+            rotY += chargeDir * ai * 0.1;
+            scaleVal += ai * 0.05;
+            const chargeGlow = Math.sin(t * 6);
+            yOffset += chargeGlow * ai * 0.02;
+            break;
+          }
+          case "dodge": {
+            // Quick sidestep
+            const dodgeDir = side === "left" ? -1 : 1;
+            const dodgePhase = Math.sin(t * 12) * Math.max(0, 1 - ((t * 3) % 2));
+            xOffset = dodgeDir * dodgePhase * ai * 0.5;
+            break;
+          }
+        }
+      }
+
+      groupRef.current.position.x = position[0] + xOffset;
+      groupRef.current.position.y = position[1] + yOffset;
+      groupRef.current.rotation.y = rotY;
+      groupRef.current.scale.setScalar(scaleVal);
     }
 
-    // Eye glow pulse
+    // Eye glow pulse — intensifies during events
     if (eyeLeftRef.current && eyeRightRef.current) {
-      const eyeIntensity = isActive
-        ? 2 + Math.sin(t * 3) * 1.5
-        : 0.5;
+      let eyeIntensity = isActive ? 2 + Math.sin(t * 3) * 1.5 : 0.5;
+      if (animation && isActive) {
+        eyeIntensity += animation.intensity * 3;
+      }
       const mat = eyeLeftRef.current.material as THREE.MeshStandardMaterial;
       mat.emissiveIntensity = eyeIntensity;
       const mat2 = eyeRightRef.current.material as THREE.MeshStandardMaterial;
       mat2.emissiveIntensity = eyeIntensity;
     }
 
-    // Core glow
+    // Core glow — pulses harder during events
     if (coreRef.current) {
       const coreMat = coreRef.current.material as THREE.MeshStandardMaterial;
-      coreMat.emissiveIntensity = isActive
-        ? 1 + Math.sin(t * 2) * 0.5
-        : 0.3;
+      let coreIntensity = isActive ? 1 + Math.sin(t * 2) * 0.5 : 0.3;
+      if (animation && isActive) {
+        coreIntensity += animation.intensity * 2 * Math.abs(Math.sin(t * 4));
+      }
+      coreMat.emissiveIntensity = coreIntensity;
     }
   });
 
