@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/ai-type.schema.json",
+  "title": "Cryptarena AI Type",
+  "description": "A trading strategy archetype that defines how a bot trades",
+  "type": "object",
+  "required": [
+    "id", "code", "name", "name_ja", "color",
+    "timeframe", "trades_per_battle", "strategy_params", "signature_move",
+    "strengths", "weaknesses"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,31}$"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^ARC-\\d{2}$",
+      "description": "Archetype code (e.g. ARC-01)"
+    },
+    "name": {
+      "type": "string",
+      "description": "English name"
+    },
+    "name_ja": {
+      "type": "string",
+      "description": "Japanese subtitle"
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "timeframe": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "type": "string", "description": "e.g. 1s, 5m, 1h" },
+        "max": { "type": "string", "description": "e.g. 1m, 4h, 1d" }
+      },
+      "additionalProperties": false
+    },
+    "trades_per_battle": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "type": "integer", "minimum": 1 },
+        "max": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "strategy_params": {
+      "type": "object",
+      "description": "Strategy-specific tuning parameters",
+      "additionalProperties": true
+    },
+    "signature_move": {
+      "type": "string",
+      "description": "Reference to the signature move ID for this AI type"
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "weaknesses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "stat_bias": {
+      "type": "object",
+      "description": "Stat multipliers for bots of this type",
+      "properties": {
+        "hp": { "type": "number" },
+        "attack": { "type": "number" },
+        "defense": { "type": "number" },
+        "speed": { "type": "number" },
+        "intelligence": { "type": "number" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

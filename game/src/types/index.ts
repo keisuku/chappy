@@ -154,4 +154,64 @@ export interface BattleSummary {
   maxStage: number;
   criticalMoments: BattleEvent[];
   marketEvents: MarketEvent[];
+// ============================================
+// Cryptarena — Player Bot & Game State Types
+// ============================================
+
+export type BotRank = "F" | "E" | "D" | "C" | "B" | "A" | "S";
+
+export interface PlayerBot {
+  id: string;
+  name: string;
+  character: Character;
+  rank: BotRank;
+  level: number;
+  exp: number;
+  expToNext: number;
+  wins: number;
+  losses: number;
+  totalPnl: number;
+  stats: {
+    aggression: number;
+    precision: number;
+    resilience: number;
+    speed: number;
+  };
+  createdAt: number;
+  mutations: string[];
+}
+
+export interface BattleRecord {
+  id: string;
+  playerBotId: string;
+  opponentBotId: string;
+  playerBot: PlayerBot;
+  opponentBot: PlayerBot;
+  playerPnl: number;
+  opponentPnl: number;
+  playerWon: boolean;
+  totalTicks: number;
+  maxStage: number;
+  timestamp: number;
+  expGained: number;
+  rewardGold: number;
+}
+
+export interface EvolutionOption {
+  id: string;
+  name: string;
+  nameJa: string;
+  description: string;
+  statChanges: Partial<PlayerBot["stats"]>;
+  rarity: "common" | "rare" | "epic" | "legendary";
+  color: string;
+}
+
+export interface GameState {
+  playerBots: PlayerBot[];
+  selectedBotId: string | null;
+  gold: number;
+  battleHistory: BattleRecord[];
+  currentBattle: BattleState | null;
+  currentBattleRecord: Partial<BattleRecord> | null;
 }

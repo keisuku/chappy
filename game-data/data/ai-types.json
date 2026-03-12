@@ -1,0 +1,162 @@
+[
+  {
+    "id": "scalper",
+    "code": "ARC-01",
+    "name": "Scalper",
+    "name_ja": "瞬刃型",
+    "color": "#00ff88",
+    "description": "Ultra-fast execution bot that profits from micro price movements. Trades hundreds of times per battle.",
+    "timeframe": { "min": "1s", "max": "1m" },
+    "trades_per_battle": { "min": 200, "max": 500 },
+    "strategy_params": {
+      "entry_threshold": 0.0005,
+      "exit_threshold": 0.0003,
+      "max_hold_ticks": 2,
+      "position_size": 0.005
+    },
+    "signature_move": "thousand-cuts",
+    "strengths": ["speed", "consistency", "low single-trade risk"],
+    "weaknesses": ["high fees impact", "poor in trending markets", "low damage per trade"],
+    "stat_bias": { "hp": 0.7, "attack": 0.8, "defense": 0.6, "speed": 1.5, "intelligence": 1.0 }
+  },
+  {
+    "id": "momentum",
+    "code": "ARC-02",
+    "name": "Momentum",
+    "name_ja": "不退転型",
+    "color": "#ffd700",
+    "description": "Rides strong trends with heavy conviction. Few trades but massive potential payoff.",
+    "timeframe": { "min": "5m", "max": "4h" },
+    "trades_per_battle": { "min": 3, "max": 8 },
+    "strategy_params": {
+      "trend_lookback": 5,
+      "entry_threshold": 0.6,
+      "conviction_multiplier": 1.5,
+      "stop_loss": 0.02
+    },
+    "signature_move": "trend-slash",
+    "strengths": ["high damage in trends", "simple execution", "big wins"],
+    "weaknesses": ["whipsaw vulnerability", "slow entry", "large drawdowns"],
+    "stat_bias": { "hp": 1.2, "attack": 1.4, "defense": 0.9, "speed": 0.7, "intelligence": 0.8 }
+  },
+  {
+    "id": "mean_reversion",
+    "code": "ARC-03",
+    "name": "Mean Reversion",
+    "name_ja": "止水型",
+    "color": "#00d4ff",
+    "description": "Waits for overextended moves and trades back to equilibrium. Patient and precise.",
+    "timeframe": { "min": "15m", "max": "1d" },
+    "trades_per_battle": { "min": 8, "max": 15 },
+    "strategy_params": {
+      "lookback_period": 10,
+      "deviation_threshold": 0.005,
+      "position_size": 0.01,
+      "mean_type": "sma"
+    },
+    "signature_move": "equilibrium-lock",
+    "strengths": ["consistent in ranges", "high win rate", "good risk management"],
+    "weaknesses": ["crushed by strong trends", "slow to act", "limited upside per trade"],
+    "stat_bias": { "hp": 1.0, "attack": 0.8, "defense": 1.2, "speed": 0.8, "intelligence": 1.3 }
+  },
+  {
+    "id": "market_maker",
+    "code": "ARC-04",
+    "name": "Market Maker",
+    "name_ja": "双面型",
+    "color": "#8844ff",
+    "description": "Provides liquidity by quoting both sides. Profits from the spread while managing inventory risk.",
+    "timeframe": { "min": "continuous", "max": "continuous" },
+    "trades_per_battle": { "min": 100, "max": 300 },
+    "strategy_params": {
+      "spread_width": 0.001,
+      "inventory_limit": 0.05,
+      "skew_factor": 0.3,
+      "refresh_rate": 1
+    },
+    "signature_move": "spread-fortress",
+    "strengths": ["steady income", "market control", "high defense"],
+    "weaknesses": ["toxic flow", "inventory blowup", "needs liquidity"],
+    "stat_bias": { "hp": 1.0, "attack": 0.7, "defense": 1.4, "speed": 1.0, "intelligence": 1.2 }
+  },
+  {
+    "id": "news_hunter",
+    "code": "ARC-05",
+    "name": "News Hunter",
+    "name_ja": "情報猟型",
+    "color": "#cc8844",
+    "description": "Event-driven strategy that strikes on catalysts. Appears dormant then unleashes devastating moves.",
+    "timeframe": { "min": "event", "max": "event" },
+    "trades_per_battle": { "min": 2, "max": 6 },
+    "strategy_params": {
+      "catalyst_threshold": 0.8,
+      "pre_position_allowed": true,
+      "reaction_speed": 0.95,
+      "max_position_size": 0.03
+    },
+    "signature_move": "catalyst-strike",
+    "strengths": ["massive single hits", "surprise factor", "high intelligence"],
+    "weaknesses": ["inconsistent", "relies on events", "can misread signals"],
+    "stat_bias": { "hp": 0.9, "attack": 1.2, "defense": 0.8, "speed": 0.9, "intelligence": 1.4 }
+  },
+  {
+    "id": "whale_tracker",
+    "code": "ARC-06",
+    "name": "Whale Tracker",
+    "name_ja": "巨影追型",
+    "color": "#1144aa",
+    "description": "Follows large players and rides their wake. Extreme patience and survival instincts.",
+    "timeframe": { "min": "realtime", "max": "multi-hour" },
+    "trades_per_battle": { "min": 5, "max": 15 },
+    "strategy_params": {
+      "whale_threshold": 0.7,
+      "follow_delay": 1,
+      "position_size": 0.008,
+      "exit_on_whale_exit": true
+    },
+    "signature_move": "shadow-ride",
+    "strengths": ["huge defense", "survival", "compound gains"],
+    "weaknesses": ["dependent on whale activity", "slow", "low attack"],
+    "stat_bias": { "hp": 1.5, "attack": 0.6, "defense": 1.5, "speed": 0.5, "intelligence": 1.0 }
+  },
+  {
+    "id": "volatility_breaker",
+    "code": "ARC-07",
+    "name": "Volatility Breaker",
+    "name_ja": "嵐断型",
+    "color": "#aaddff",
+    "description": "Thrives in chaos and extreme market conditions. Contrarian that buys fear and sells greed.",
+    "timeframe": { "min": "multi-hour", "max": "multi-day" },
+    "trades_per_battle": { "min": 3, "max": 8 },
+    "strategy_params": {
+      "volatility_threshold": 1.5,
+      "contrarian_bias": 0.7,
+      "fear_greed_weight": 0.8,
+      "position_scale_with_vol": true
+    },
+    "signature_move": "storm-harvest",
+    "strengths": ["thrives in chaos", "contrarian edge", "high-volatility damage"],
+    "weaknesses": ["weak in calm markets", "can be early", "position sizing risk"],
+    "stat_bias": { "hp": 1.0, "attack": 1.1, "defense": 0.9, "speed": 0.8, "intelligence": 1.3 }
+  },
+  {
+    "id": "ai_hybrid",
+    "code": "ARC-08",
+    "name": "AI Hybrid",
+    "name_ja": "混沌融合型",
+    "color": "#ff0044",
+    "description": "Adaptive multi-strategy system that switches tactics mid-battle. Most powerful but unstable. Risk of ANC Collapse.",
+    "timeframe": { "min": "adaptive", "max": "adaptive" },
+    "trades_per_battle": { "min": 15, "max": 40 },
+    "strategy_params": {
+      "strategy_pool": ["scalper", "momentum", "mean_reversion", "market_maker"],
+      "switch_threshold": 0.4,
+      "adaptation_rate": 0.1,
+      "collapse_risk": 0.05
+    },
+    "signature_move": "paradigm-shift",
+    "strengths": ["adaptive", "unpredictable", "can counter any strategy"],
+    "weaknesses": ["ANC collapse risk", "complex", "jack-of-all-trades penalty"],
+    "stat_bias": { "hp": 1.1, "attack": 1.1, "defense": 1.1, "speed": 1.1, "intelligence": 1.1 }
+  }
+]
