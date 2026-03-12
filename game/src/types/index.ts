@@ -2,9 +2,20 @@
 // Cryptarena — Type Definitions
 // ============================================
 
-export type TradingStyle = "momentum" | "mean_reversion" | "high_frequency";
+export type TradingStyle =
+  | "momentum"
+  | "mean_reversion"
+  | "high_frequency"
+  | "event_driven"
+  | "arbitrage"
+  | "contrarian"
+  | "scalper"
+  | "volatility_breaker";
+
 export type BattleResult = "win" | "lose" | "draw";
 export type TradeDirection = "long" | "short" | "flat";
+export type MarketRegime = "trending" | "ranging" | "volatile" | "calm";
+export type BotArchetype = "commander" | "assassin" | "berserker" | "oracle" | "titan" | "shapeshifter" | "fortress" | "trickster";
 
 export interface Character {
   id: string;
@@ -20,6 +31,36 @@ export interface Character {
   mythReference: string;
   personality: string;
   battleCry: string;
+  region: string;
+  rank: "S" | "A" | "B" | "C" | "D" | "E";
+  archetype: BotArchetype;
+  // Base stats (0-100 scale)
+  stats: BotBaseStats;
+  // Special ability
+  ability: SpecialAbility;
+}
+
+export interface BotBaseStats {
+  attack: number;      // PnL multiplier potential
+  defense: number;     // Drawdown resistance
+  speed: number;       // Trade frequency bonus
+  precision: number;   // Signal accuracy
+  adaptability: number; // Regime change resistance
+}
+
+export interface SpecialAbility {
+  name: string;
+  nameJa: string;
+  description: string;
+  triggerCondition: "low_health" | "high_stage" | "losing_streak" | "winning_streak" | "regime_change";
+  effect: AbilityEffect;
+  cooldownTicks: number;
+}
+
+export interface AbilityEffect {
+  type: "pnl_boost" | "drawdown_shield" | "signal_override" | "position_scale" | "counter_trade";
+  magnitude: number; // multiplier or flat bonus
+  durationTicks: number;
 }
 
 export interface Candlestick {
@@ -36,6 +77,8 @@ export interface TradePosition {
   entryPrice: number;
   entryTime: number;
   size: number;
+  stopLoss?: number;
+  takeProfit?: number;
 }
 
 export interface BotState {
@@ -44,8 +87,30 @@ export interface BotState {
   pnl: number;
   power: number;
   trades: number;
+  wins: number;
+  losses: number;
   maxDrawdown: number;
   peakPnl: number;
+  currentStreak: number; // positive = wins, negative = losses
+  // Ability state
+  abilityActive: boolean;
+  abilityTicksRemaining: number;
+  abilityCooldown: number;
+}
+
+export interface MarketEvent {
+  type: "flash_crash" | "pump" | "liquidation_cascade" | "whale_entry" | "news_spike" | "regime_shift";
+  name: string;
+  nameJa: string;
+  magnitude: number; // price impact multiplier
+  tick: number;
+}
+
+export interface BattleEvent {
+  tick: number;
+  type: "trade" | "pnl_change" | "ability_trigger" | "market_event" | "stage_change" | "critical_hit";
+  actor: "left" | "right" | "market";
+  description: string;
 }
 
 export interface BattleState {
@@ -56,8 +121,11 @@ export interface BattleState {
   candles: Candlestick[];
   currentPrice: number;
   volatility: number;
+  regime: MarketRegime;
   isActive: boolean;
   winner: "left" | "right" | null;
+  events: BattleEvent[];
+  marketEvents: MarketEvent[];
 }
 
 export interface StageConfig {
@@ -70,6 +138,22 @@ export interface StageConfig {
   particleCount: number;
 }
 
+// Matchup advantage matrix: how well style A performs against style B
+export interface MatchupModifier {
+  attacker: TradingStyle;
+  defender: TradingStyle;
+  advantage: number; // multiplier: >1 = advantage, <1 = disadvantage
+}
+
+export interface BattleSummary {
+  winner: Character;
+  loser: Character;
+  winnerPnl: number;
+  loserPnl: number;
+  totalTicks: number;
+  maxStage: number;
+  criticalMoments: BattleEvent[];
+  marketEvents: MarketEvent[];
 // ============================================
 // Cryptarena — Player Bot & Game State Types
 // ============================================
