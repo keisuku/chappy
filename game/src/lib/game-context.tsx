@@ -12,12 +12,22 @@ function uid(): string {
 
 function baseStats(style: Character["tradingStyle"]): PlayerBot["stats"] {
   switch (style) {
+    case "scalper":
+      return { aggression: 60, precision: 55, resilience: 35, speed: 85 };
     case "momentum":
-      return { aggression: 70, precision: 50, resilience: 60, speed: 40 };
+      return { aggression: 75, precision: 50, resilience: 60, speed: 40 };
     case "mean_reversion":
-      return { aggression: 40, precision: 70, resilience: 65, speed: 45 };
-    case "high_frequency":
-      return { aggression: 60, precision: 55, resilience: 40, speed: 80 };
+      return { aggression: 35, precision: 75, resilience: 70, speed: 45 };
+    case "breakout":
+      return { aggression: 80, precision: 45, resilience: 50, speed: 55 };
+    case "market_maker":
+      return { aggression: 30, precision: 65, resilience: 80, speed: 50 };
+    case "news_hunter":
+      return { aggression: 70, precision: 40, resilience: 45, speed: 75 };
+    case "whale_tracker":
+      return { aggression: 50, precision: 70, resilience: 60, speed: 35 };
+    case "hybrid_ai":
+      return { aggression: 55, precision: 60, resilience: 55, speed: 60 };
   }
 }
 

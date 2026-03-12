@@ -2,7 +2,15 @@
 // Cryptarena — Type Definitions
 // ============================================
 
-export type TradingStyle = "momentum" | "mean_reversion" | "high_frequency";
+export type TradingStyle =
+  | "scalper"
+  | "momentum"
+  | "mean_reversion"
+  | "breakout"
+  | "market_maker"
+  | "news_hunter"
+  | "whale_tracker"
+  | "hybrid_ai";
 export type BattleResult = "win" | "lose" | "draw";
 export type TradeDirection = "long" | "short" | "flat";
 
