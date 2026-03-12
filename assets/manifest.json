@@ -1,0 +1,124 @@
+{
+  "version": "0.1.0",
+  "characters": [
+    {
+      "id": "raiko",
+      "name_ja": "雷狐",
+      "name_en": "Raiko",
+      "role": "HFT Bot",
+      "primary_color": "#00d4ff",
+      "secondary_color": "#0a2a4a",
+      "symbol": "phoenix",
+      "assets": [
+        {
+          "variant": "base",
+          "filename": "hero_raiko_base_1200x1800.png",
+          "aspect": "3:4",
+          "width": 1200,
+          "height": 1800,
+          "status": "placeholder",
+          "tags": ["hero", "card", "battle"]
+        },
+        {
+          "variant": "epic",
+          "filename": "hero_raiko_epic_1600x900.png",
+          "aspect": "16:9",
+          "width": 1600,
+          "height": 900,
+          "status": "placeholder",
+          "tags": ["banner", "stage-transition", "social"]
+        },
+        {
+          "variant": "closeup",
+          "filename": "hero_raiko_close_800x800.png",
+          "aspect": "1:1",
+          "width": 800,
+          "height": 800,
+          "status": "placeholder",
+          "tags": ["avatar", "thumbnail", "profile"]
+        }
+      ]
+    },
+    {
+      "id": "dubai",
+      "name_ja": "ドバイ王子",
+      "name_en": "Dubai Prince",
+      "role": "Capital Bot",
+      "primary_color": "#ffd700",
+      "secondary_color": "#3a2a0a",
+      "symbol": "dragon",
+      "assets": [
+        {
+          "variant": "base",
+          "filename": "hero_dubai_base_1200x1800.png",
+          "aspect": "3:4",
+          "width": 1200,
+          "height": 1800,
+          "status": "placeholder",
+          "tags": ["hero", "card", "battle"]
+        },
+        {
+          "variant": "epic",
+          "filename": "hero_dubai_epic_1600x900.png",
+          "aspect": "16:9",
+          "width": 1600,
+          "height": 900,
+          "status": "placeholder",
+          "tags": ["banner", "stage-transition", "social"]
+        },
+        {
+          "variant": "closeup",
+          "filename": "hero_dubai_close_800x800.png",
+          "aspect": "1:1",
+          "width": 800,
+          "height": 800,
+          "status": "placeholder",
+          "tags": ["avatar", "thumbnail", "profile"]
+        }
+      ]
+    },
+    {
+      "id": "sakuraha",
+      "name_ja": "桜刃",
+      "name_en": "Sakura-Ha",
+      "role": "Swing Trader",
+      "primary_color": "#ff88cc",
+      "secondary_color": "#2a0a1a",
+      "symbol": "crane",
+      "assets": [
+        {
+          "variant": "base",
+          "filename": "hero_sakuraha_base_1200x1800.png",
+          "aspect": "3:4",
+          "width": 1200,
+          "height": 1800,
+          "status": "placeholder",
+          "tags": ["hero", "card", "battle"]
+        },
+        {
+          "variant": "epic",
+          "filename": "hero_sakuraha_epic_1600x900.png",
+          "aspect": "16:9",
+          "width": 1600,
+          "height": 900,
+          "status": "placeholder",
+          "tags": ["banner", "stage-transition", "social"]
+        },
+        {
+          "variant": "closeup",
+          "filename": "hero_sakuraha_close_800x800.png",
+          "aspect": "1:1",
+          "width": 800,
+          "height": 800,
+          "status": "placeholder",
+          "tags": ["avatar", "thumbnail", "profile"]
+        }
+      ]
+    }
+  ],
+  "export_presets": {
+    "hero_card": { "width": 1200, "height": 1800, "aspect": "3:4" },
+    "banner": { "width": 1600, "height": 900, "aspect": "16:9" },
+    "avatar": { "width": 800, "height": 800, "aspect": "1:1" }
+  }
+}

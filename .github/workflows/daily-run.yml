@@ -1,0 +1,102 @@
+name: CoinBattle Saki — Daily Agent Run
+
+on:
+  schedule:
+    # Run daily at 23:00 UTC (08:00 JST next day)
+    - cron: '0 23 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  daily-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (for simulation)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python (for orchestrator)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pyyaml
+
+      - name: Run daily agent
+        env:
+          # HOOK: Set your Claude API key in repository secrets
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Option A: Call Claude Code API with the daily agent prompt
+          # python orchestrator/run_daily.py --config config.yaml --prompt daily_agent_prompt.txt
+
+          # Option B: Simple simulation runner (no API needed)
+          echo "=== CoinBattle Saki Daily Run ==="
+          echo "Date: $(date -u +%Y-%m-%d)"
+
+          # Create run directory
+          mkdir -p runs
+
+          # Generate run report (placeholder — replace with actual sim)
+          cat > "runs/$(date -u +%Y-%m-%d).json" << 'REPORT_EOF'
+          {
+            "date": "$(date -u +%Y-%m-%d)",
+            "data_summary": {
+              "total_battles": 100,
+              "avg_profit": 0,
+              "max_drawdown": 0,
+              "win_rate": 0.5,
+              "avg_trades": 0,
+              "avg_duration": 20
+            },
+            "gaps": [],
+            "experiments": [],
+            "results": {
+              "expectancy_delta": 0,
+              "drawdown_delta": 0,
+              "params_changed": false
+            },
+            "assets": {
+              "total_characters": 3,
+              "characters_with_images": 0,
+              "new_prompts_generated": 0,
+              "manifest_updated": false
+            },
+            "decisions": []
+          }
+          REPORT_EOF
+
+          cp "runs/$(date -u +%Y-%m-%d).json" runs/latest.json
+          echo "Run report saved."
+
+      - name: Commit results
+        run: |
+          git config user.name "CoinBattle Agent"
+          git config user.email "agent@coinbattle-saki.dev"
+          git add runs/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "auto/daily-run/$(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Upload run report
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-run-${{ github.run_number }}
+          path: runs/
+          retention-days: 30

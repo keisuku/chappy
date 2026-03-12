@@ -1,0 +1,299 @@
+/* ============================================
+   CoinBattle Saki — Prototype Stylesheet
+   Cinematic / Hero-scale / Dark futuristic
+   ============================================ */
+
+:root {
+  --bg: #050d1a;
+  --panel: #0a1628;
+  --accent: #00d4ff;
+  --accent2: #00ff88;
+  --danger: #ff2d55;
+  --gold: #ffd700;
+  --glow-left: rgba(0, 212, 255, 0.3);
+  --glow-right: rgba(255, 209, 79, 0.3);
+  --text: #d0eaff;
+  --text-dim: #6a8aaa;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #app {
+  height: 100%; width: 100%;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: radial-gradient(ellipse at 50% 0%, #0c1e3a 0%, var(--bg) 60%, #020810 100%);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* === HUD Header === */
+#hud {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px; z-index: 100;
+  background: linear-gradient(180deg, rgba(5,13,26,0.95) 0%, rgba(5,13,26,0) 100%);
+}
+
+#hud .left {
+  font-size: 14px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--accent);
+}
+
+.hud-center { display: flex; gap: 12px; align-items: center; }
+
+.vband {
+  background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2);
+  padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600;
+  color: var(--accent);
+}
+
+.stage-ind {
+  background: rgba(255,45,85,0.15); border: 1px solid rgba(255,45,85,0.3);
+  padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 700;
+  color: var(--danger); min-width: 36px; text-align: center;
+}
+
+#hud button {
+  background: linear-gradient(135deg, var(--accent), #0090cc);
+  border: none; padding: 10px 20px; border-radius: 8px;
+  color: #011; font-weight: 800; font-size: 14px; cursor: pointer;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+  transition: all 0.2s;
+}
+
+#hud button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 30px rgba(0,212,255,0.5);
+}
+
+#hud button:active { transform: translateY(0); }
+
+/* === Battle Screen === */
+#battleScreen {
+  display: flex; gap: 0; align-items: stretch;
+  justify-content: center; height: 100vh; padding: 60px 20px 20px;
+  position: relative;
+}
+
+/* === Hero Panels === */
+.hero {
+  width: 38%; height: 100%; position: relative;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  overflow: visible; z-index: 10;
+}
+
+.hero svg {
+  width: 92%; height: 70vh; min-height: 60vh;
+  filter: drop-shadow(0 40px 60px rgba(0,0,0,0.8));
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-glow {
+  position: absolute; top: 10%; width: 80%; height: 60%;
+  border-radius: 50%; filter: blur(80px); opacity: 0.4;
+  pointer-events: none; z-index: -1;
+  transition: opacity 0.5s;
+}
+
+.left-glow { background: var(--glow-left); }
+.right-glow { background: var(--glow-right); }
+
+.hero-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 20;
+}
+
+.tag {
+  margin: 6px 0 4px; padding: 6px 16px; border-radius: 999px;
+  background: rgba(255,255,255,0.04); backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+
+.pnl-gauge {
+  padding: 4px 14px; border-radius: 6px; font-size: 14px; font-weight: 700;
+  background: rgba(0,0,0,0.4); margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Center Overlay === */
+.overlay {
+  position: absolute; left: 0; right: 0; top: 8%; bottom: 10%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  pointer-events: none; z-index: 30;
+}
+
+#stageLabel {
+  font-size: 52px; font-weight: 900; letter-spacing: 2px;
+  color: white;
+  text-shadow: 0 0 40px rgba(0,212,255,0.5), 0 10px 40px rgba(0,0,0,0.8);
+  padding: 12px 32px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(255,255,255,0.02));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s;
+}
+
+#stageLabel.flash {
+  animation: stageFlash 0.5s ease-out;
+}
+
+@keyframes stageFlash {
+  0% { transform: scale(1.3); text-shadow: 0 0 80px rgba(255,255,255,0.8); }
+  100% { transform: scale(1); }
+}
+
+/* === Dominance Bar === */
+#dominance {
+  width: 50%; max-width: 400px; height: 28px;
+  border-radius: 8px; margin-top: 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative; overflow: hidden;
+}
+
+.gauge-half {
+  position: absolute; top: 0; height: 100%;
+  transition: width 300ms ease;
+}
+
+.gauge-half.left {
+  left: 0; width: 50%;
+  background: linear-gradient(90deg, var(--accent), rgba(0,212,255,0.4));
+  border-radius: 8px 0 0 8px;
+}
+
+.gauge-half.right {
+  right: 0; width: 50%;
+  background: linear-gradient(270deg, var(--gold), rgba(255,215,0,0.4));
+  border-radius: 0 8px 8px 0;
+}
+
+#gaugeMid {
+  position: absolute; top: -2px; bottom: -2px;
+  left: 50%; width: 3px; transform: translateX(-50%);
+  background: white; border-radius: 2px;
+  box-shadow: 0 0 10px white;
+  transition: left 300ms ease;
+}
+
+#ticker {
+  margin-top: 14px; font-size: 18px; font-weight: 700;
+  color: var(--text); font-variant-numeric: tabular-nums;
+}
+
+#battleTimer {
+  margin-top: 6px; font-size: 14px; font-weight: 600;
+  color: var(--accent); letter-spacing: 1px;
+}
+
+#tradeCount {
+  margin-top: 4px; font-size: 12px; color: var(--text-dim);
+}
+
+/* === Particle Canvas === */
+#particleCanvas {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 40;
+}
+
+/* === Console / Log === */
+#console {
+  position: fixed; right: 12px; bottom: 12px;
+  width: 360px; max-height: 240px;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; z-index: 50;
+  display: flex; flex-direction: column;
+}
+
+.console-header {
+  padding: 8px 14px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-dim); border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+#log {
+  padding: 8px 14px; font-size: 11px; line-height: 1.5;
+  color: var(--text-dim); overflow-y: auto; flex: 1;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  white-space: pre-wrap; word-break: break-all;
+}
+
+/* === Notification Banner === */
+#notification {
+  position: fixed; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 200; pointer-events: none;
+}
+
+#notification .notif-inner {
+  background: linear-gradient(135deg, var(--accent), #00b4ff, var(--accent2));
+  color: #011; padding: 20px 40px; border-radius: 16px;
+  font-size: 32px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase;
+  box-shadow: 0 0 80px rgba(0,212,255,0.6), 0 20px 60px rgba(0,0,0,0.5);
+  animation: notifPulse 0.6s ease-out;
+}
+
+@keyframes notifPulse {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* === Result Overlay === */
+#resultOverlay {
+  position: fixed; inset: 0; z-index: 150;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+}
+
+#resultContent {
+  text-align: center; padding: 40px 60px;
+  background: linear-gradient(135deg, rgba(10,22,40,0.95), rgba(0,0,0,0.9));
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  box-shadow: 0 0 100px rgba(0,212,255,0.2);
+}
+
+#resultTitle {
+  font-size: 48px; font-weight: 900; margin-bottom: 16px;
+}
+
+#resultStats {
+  font-size: 16px; color: var(--text-dim); line-height: 1.8;
+}
+
+.result-win { color: var(--accent2); text-shadow: 0 0 30px rgba(0,255,136,0.5); }
+.result-ko { color: var(--danger); text-shadow: 0 0 30px rgba(255,45,85,0.5); }
+
+.hidden { display: none !important; }
+
+/* === Stage-specific cinematic styles === */
+body.stage-5 { filter: saturate(1.1) contrast(1.05); }
+body.stage-6 { filter: saturate(1.2) contrast(1.1) brightness(1.02); }
+body.stage-7 {
+  filter: saturate(1.3) contrast(1.15) brightness(1.05);
+  animation: screenShake 0.3s ease-in-out infinite;
+}
+body.stage-8 {
+  filter: saturate(1.4) contrast(1.2) brightness(1.08);
+  animation: screenShake 0.15s ease-in-out infinite;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(0,0); }
+  25% { transform: translate(-2px, 1px); }
+  75% { transform: translate(2px, -1px); }
+}
+
+/* === Bloom effect for high stages === */
+body.bloom::after {
+  content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(0,212,255,0.08) 0%, transparent 70%);
+  pointer-events: none; z-index: 5;
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CoinBattle Saki — Prototype</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+  <header id="hud">
+    <div class="left">CoinBattle Saki — Proto v0.1</div>
+    <div class="hud-center">
+      <span id="volatilityBand" class="vband">VOL: <span id="volVal">0.00</span></span>
+      <span id="stageIndicator" class="stage-ind">S1</span>
+    </div>
+    <button id="encounterBtn">Push Encounter</button>
+  </header>
+
+  <main id="battleScreen">
+    <div id="leftHero" class="hero">
+      <div class="hero-glow left-glow"></div>
+      <svg id="leftSVG" viewBox="0 0 400 600"></svg>
+      <div class="hero-overlay" id="leftOverlay"></div>
+      <div class="tag">Left Bot — <span id="leftName">雷狐 Raiko (HFT)</span></div>
+      <div class="pnl-gauge" id="leftPnl">P&L: <span>0</span> JPY</div>
+    </div>
+
+    <div id="stageOverlay" class="overlay">
+      <div id="stageLabel">S1 凪</div>
+      <div id="dominance">
+        <div id="gaugeLeft" class="gauge-half left"></div>
+        <div id="gaugeRight" class="gauge-half right"></div>
+        <div id="gaugeMid"></div>
+      </div>
+      <div id="ticker">BTC/JPY: <span id="tickVal">10,000.00</span></div>
+      <div id="battleTimer" class="hidden">Battle: <span id="battleTime">0</span>s</div>
+      <div id="tradeCount">Trades: <span id="tradeNum">0</span></div>
+    </div>
+
+    <div id="rightHero" class="hero">
+      <div class="hero-glow right-glow"></div>
+      <svg id="rightSVG" viewBox="0 0 400 600"></svg>
+      <div class="hero-overlay" id="rightOverlay"></div>
+      <div class="tag">Right Bot — <span id="rightName">ドバイ王子 Dubai Prince (資金力)</span></div>
+      <div class="pnl-gauge" id="rightPnl">P&L: <span>0</span> JPY</div>
+    </div>
+  </main>
+
+  <!-- Particle canvas for cinematic VFX -->
+  <canvas id="particleCanvas"></canvas>
+
+  <aside id="console">
+    <div class="console-header">Battle Log</div>
+    <pre id="log"></pre>
+  </aside>
+
+  <div id="notification" class="hidden">
+    <div class="notif-inner">⚡ ENCOUNTER! ⚡</div>
+  </div>
+
+  <!-- Result overlay -->
+  <div id="resultOverlay" class="hidden">
+    <div id="resultContent">
+      <div id="resultTitle"></div>
+      <div id="resultStats"></div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
