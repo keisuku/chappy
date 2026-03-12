@@ -154,6 +154,8 @@ export interface BattleSummary {
   maxStage: number;
   criticalMoments: BattleEvent[];
   marketEvents: MarketEvent[];
+}
+
 // ============================================
 // Cryptarena — Player Bot & Game State Types
 // ============================================
@@ -207,6 +209,20 @@ export interface EvolutionOption {
   color: string;
 }
 
+export interface Arena {
+  id: string;
+  name: string;
+  nameJa: string;
+  description: string;
+  volatilityMultiplier: number;
+  eventFrequency: number;
+  maxStages: number;
+  tickCount: number;
+  color: string;
+  background: string;
+  enabled: boolean;
+}
+
 export interface GameState {
   playerBots: PlayerBot[];
   selectedBotId: string | null;
@@ -214,4 +230,6 @@ export interface GameState {
   battleHistory: BattleRecord[];
   currentBattle: BattleState | null;
   currentBattleRecord: Partial<BattleRecord> | null;
+  arenas: Arena[];
+  botImages: Record<string, string>; // botId/characterId -> dataURL
 }

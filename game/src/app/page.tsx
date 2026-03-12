@@ -1,18 +1,5 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import dynamic from "next/dynamic";
-import { BattleHUD } from "@/components/ui/BattleHUD";
-import { CHARACTERS } from "@/lib/characters";
-import { createBattle, stepBattle, getBattleSummary, STAGES } from "@/lib/battle";
-import { MarketSimulator } from "@/lib/market";
-import type { BattleState } from "@/types";
-
-// Dynamic import for Three.js (no SSR)
-const BattleArena = dynamic(
-  () => import("@/components/three/BattleArena").then((m) => m.BattleArena),
-  { ssr: false }
-);
 import Link from "next/link";
 import { useGame } from "@/lib/game-context";
 
@@ -37,22 +24,6 @@ export default function HomePage() {
         style={{ background: "radial-gradient(circle, #00d4ff, transparent 70%)" }}
       />
 
-        // Log battle summary
-        if (!next.isActive && next.winner) {
-          const summary = getBattleSummary(next);
-          if (summary) {
-            console.log("[Cryptarena Battle Summary]", JSON.stringify({
-              winner: summary.winner.name,
-              loser: summary.loser.name,
-              winnerPnl: summary.winnerPnl.toFixed(0),
-              loserPnl: summary.loserPnl.toFixed(0),
-              maxStage: summary.maxStage,
-              totalTicks: summary.totalTicks,
-              criticalMoments: summary.criticalMoments.length,
-              marketEvents: summary.marketEvents.length,
-            }, null, 2));
-          }
-        }
       <div className="relative z-10 text-center max-w-2xl">
         {/* Title */}
         <h1
