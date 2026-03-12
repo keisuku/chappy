@@ -3,6 +3,14 @@
 // ============================================
 
 export type TradingStyle =
+  | "scalper"
+  | "momentum"
+  | "mean_reversion"
+  | "breakout"
+  | "market_maker"
+  | "news_hunter"
+  | "whale_tracker"
+  | "hybrid_ai";
   | "momentum"
   | "mean_reversion"
   | "high_frequency"
