@@ -5,7 +5,8 @@
 // HOOK: Replace with Binance WebSocket for live data
 // ============================================
 
-import { Candlestick, MarketEvent, MarketRegime } from "@/types";
+import { Candlestick, MarketEvent, MarketRegime, ForceEvent } from "@/types";
+import { MarketForceEngine } from "./market-forces";
 
 // Seeded RNG for deterministic results
 function sfc32(a: number, b: number, c: number, d: number) {
@@ -38,8 +39,10 @@ export class MarketSimulator {
   private trendBias: number;
   public candles: Candlestick[] = [];
   public events: MarketEvent[] = [];
+  public forceEngine: MarketForceEngine | null = null;
+  public forceEvents: ForceEvent[] = [];
 
-  constructor(seed = 42, startPrice = 4500000) {
+  constructor(seed = 42, startPrice = 4500000, enableForces = false) {
     this.rng = sfc32(seed, seed * 13, seed * 7, seed * 31);
     this.price = startPrice;
     this.vol = 5000;
@@ -47,6 +50,9 @@ export class MarketSimulator {
     this._regime = "calm";
     this.regimeTicks = 0;
     this.trendBias = 0;
+    if (enableForces) {
+      this.forceEngine = new MarketForceEngine(seed);
+    }
   }
 
   step(): Candlestick {
@@ -66,16 +72,27 @@ export class MarketSimulator {
       eventImpact = event.magnitude;
     }
 
+    // ── Market Forces influence ──
+    let forcePriceBias = 0;
+    let forceVolMultiplier = 1.0;
+    if (this.forceEngine) {
+      this.forceEngine.setRegime(this._regime);
+      const forceResult = this.forceEngine.step();
+      forcePriceBias = forceResult.priceModifier * this.vol * 0.5;
+      forceVolMultiplier = forceResult.volatilityModifier;
+      this.forceEvents = this.forceEngine.state.events;
+    }
+
     // Generate intra-candle movement influenced by regime
-    const regimeMultiplier = this.getRegimeVolMultiplier();
+    const regimeMultiplier = this.getRegimeVolMultiplier() * forceVolMultiplier;
     const spikeChance = this._regime === "volatile" ? 0.06 : 0.02;
     const spike =
       this.rng() < spikeChance
         ? (this.rng() < 0.5 ? -1 : 1) * (20000 + this.rng() * 80000)
         : 0;
 
-    // Trend bias from regime
-    const trendComponent = this.trendBias * this.vol * 0.3;
+    // Trend bias from regime + market forces
+    const trendComponent = this.trendBias * this.vol * 0.3 + forcePriceBias;
 
     const bodySize = (this.rng() - 0.5) * this.vol * 0.6 * regimeMultiplier + spike + trendComponent + eventImpact;
     const wickUp = this.rng() * this.vol * 0.3 * regimeMultiplier;
