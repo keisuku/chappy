@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 import { BattleHUD } from "@/components/ui/BattleHUD";
 import { CHARACTERS } from "@/lib/characters";
 import { createBattle, stepBattle, STAGES } from "@/lib/battle";
+import { processEvents } from "@/lib/events";
 import { MarketSimulator } from "@/lib/market";
-import type { BattleState } from "@/types";
+import type { BattleState, VisualBattleEvent } from "@/types";
 
 // Dynamic import for Three.js (no SSR)
 const BattleArena = dynamic(
@@ -16,8 +17,10 @@ const BattleArena = dynamic(
 
 export default function HomePage() {
   const [battleState, setBattleState] = useState<BattleState | null>(null);
+  const [activeEvents, setActiveEvents] = useState<VisualBattleEvent[]>([]);
   const marketRef = useRef<MarketSimulator | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const prevStateRef = useRef<BattleState | null>(null);
 
   // Initialize first battle
   useEffect(() => {
@@ -41,13 +44,32 @@ export default function HomePage() {
 
     const { state, market } = createBattle(left, right);
     marketRef.current = market;
+    prevStateRef.current = state;
     setBattleState(state);
+    setActiveEvents([]);
 
     // Start ticking at 1s intervals
     intervalRef.current = setInterval(() => {
       setBattleState((prev) => {
         if (!prev || !prev.isActive) return prev;
         const next = stepBattle(prev, market);
+
+        // Process visual events
+        const events = processEvents(prev, next);
+        if (events.length > 0) {
+          setActiveEvents(events);
+          // Log significant events
+          const dominant = events[0];
+          if (dominant.signal.strength !== "weak") {
+            console.log("[Event]", dominant.signal.strength.toUpperCase(),
+              dominant.signal.description,
+              `| excitement: ${dominant.probability.excitement.toFixed(2)}`,
+              `| visual: ${dominant.visual.type}`,
+              `| camera: ${dominant.camera.type}`);
+          }
+        } else {
+          setActiveEvents([]);
+        }
 
         // Log metrics to console
         if (!next.isActive && next.winner) {
@@ -61,6 +83,7 @@ export default function HomePage() {
           }, null, 2));
         }
 
+        prevStateRef.current = next;
         return next;
       });
     }, 1000);
@@ -85,11 +108,16 @@ export default function HomePage() {
 
   return (
     <main className="relative w-full h-screen overflow-hidden">
-      <BattleArena battleState={battleState} stageConfig={stageConfig} />
+      <BattleArena
+        battleState={battleState}
+        stageConfig={stageConfig}
+        activeEvents={activeEvents}
+      />
       <BattleHUD
         battleState={battleState}
         stageConfig={stageConfig}
         onEncounter={handleEncounter}
+        activeEvents={activeEvents}
       />
     </main>
   );

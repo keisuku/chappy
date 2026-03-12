@@ -3,14 +3,15 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { ArenaScene } from "./ArenaScene";
-import { BattleState, StageConfig } from "@/types";
+import { BattleState, StageConfig, VisualBattleEvent } from "@/types";
 
 interface BattleArenaProps {
   battleState: BattleState;
   stageConfig: StageConfig;
+  activeEvents?: VisualBattleEvent[];
 }
 
-export function BattleArena({ battleState, stageConfig }: BattleArenaProps) {
+export function BattleArena({ battleState, stageConfig, activeEvents = [] }: BattleArenaProps) {
   return (
     <div className="fixed inset-0 z-0">
       <Canvas
@@ -21,7 +22,7 @@ export function BattleArena({ battleState, stageConfig }: BattleArenaProps) {
         <color attach="background" args={["#050d1a"]} />
         <fog attach="fog" args={["#050d1a", 10, 30]} />
         <Suspense fallback={null}>
-          <ArenaScene battleState={battleState} stageConfig={stageConfig} />
+          <ArenaScene battleState={battleState} stageConfig={stageConfig} activeEvents={activeEvents} />
         </Suspense>
       </Canvas>
     </div>

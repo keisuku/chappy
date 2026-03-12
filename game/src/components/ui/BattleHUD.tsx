@@ -1,20 +1,81 @@
 "use client";
 
-import { BattleState, StageConfig } from "@/types";
+import { BattleState, StageConfig, VisualBattleEvent } from "@/types";
 
 interface BattleHUDProps {
   battleState: BattleState;
   stageConfig: StageConfig;
   onEncounter: () => void;
+  activeEvents?: VisualBattleEvent[];
 }
 
-export function BattleHUD({ battleState, stageConfig, onEncounter }: BattleHUDProps) {
+const STRENGTH_COLORS: Record<string, string> = {
+  weak: "#888888",
+  medium: "#00d4ff",
+  strong: "#ff6600",
+  jackpot: "#ffd700",
+};
+
+export function BattleHUD({ battleState, stageConfig, onEncounter, activeEvents = [] }: BattleHUDProps) {
   const { leftBot, rightBot, tick, isActive, winner, currentPrice } = battleState;
   const leftPower = Math.max(0, Math.min(100, leftBot.power));
   const rightPower = 100 - leftPower;
 
+  // Get events worth showing (medium+ strength)
+  const dominantEvent = activeEvents.find((e) => e.signal.strength !== "weak") ?? null;
+
   return (
     <div className="fixed inset-0 z-10 pointer-events-none">
+      {/* Screen flash overlay for visual events */}
+      {dominantEvent && dominantEvent.visual.type === "screen_flash" && (
+        <div
+          className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-500"
+          style={{
+            background: dominantEvent.visual.color,
+            opacity: dominantEvent.visual.intensity * 0.12,
+          }}
+        />
+      )}
+
+      {/* Gold rain overlay for jackpot events */}
+      {dominantEvent && dominantEvent.visual.type === "gold_rain" && (
+        <div
+          className="absolute inset-0 z-20 pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse at center, rgba(255,215,0,0.2) 0%, transparent 70%)`,
+          }}
+        />
+      )}
+
+      {/* Event notification banner */}
+      {dominantEvent && isActive && (
+        <div className="absolute top-14 left-1/2 -translate-x-1/2 z-30 text-center">
+          <div
+            className="px-6 py-2 rounded-lg text-sm font-black uppercase tracking-wider"
+            style={{
+              background: `${STRENGTH_COLORS[dominantEvent.signal.strength]}20`,
+              border: `1px solid ${STRENGTH_COLORS[dominantEvent.signal.strength]}60`,
+              color: STRENGTH_COLORS[dominantEvent.signal.strength],
+              textShadow: `0 0 20px ${STRENGTH_COLORS[dominantEvent.signal.strength]}80`,
+            }}
+          >
+            {dominantEvent.signal.strength === "jackpot" ? "JACKPOT " : ""}
+            {dominantEvent.signal.strength === "strong" ? "STRONG " : ""}
+            {dominantEvent.signal.description}
+          </div>
+          {/* Excitement meter */}
+          <div className="mt-1 mx-auto w-32 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
+            <div
+              className="h-full rounded-full transition-all duration-300"
+              style={{
+                width: `${dominantEvent.probability.excitement * 100}%`,
+                background: STRENGTH_COLORS[dominantEvent.signal.strength],
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Top HUD bar */}
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-3"
            style={{ background: "linear-gradient(180deg, rgba(5,13,26,0.95) 0%, transparent 100%)" }}>
