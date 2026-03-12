@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/move.schema.json",
+  "title": "Cryptarena Move",
+  "description": "A trading move / ability a bot can execute during battle",
+  "type": "object",
+  "required": [
+    "id", "name", "name_ja", "category", "ai_type",
+    "power", "accuracy", "cooldown", "effects"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,47}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "name_ja": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["attack", "defense", "support", "ultimate"],
+      "description": "Move category"
+    },
+    "ai_type": {
+      "type": ["string", "null"],
+      "description": "AI type restriction (null = universal)"
+    },
+    "power": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 200,
+      "description": "Base damage / effect strength"
+    },
+    "accuracy": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Hit chance percentage"
+    },
+    "cooldown": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30,
+      "description": "Ticks before the move can be used again"
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "value"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "damage", "heal", "buff_attack", "buff_defense",
+              "buff_speed", "buff_intelligence", "debuff_attack",
+              "debuff_defense", "debuff_speed", "pnl_boost",
+              "pnl_drain", "shield", "stun", "copy_strategy"
+            ]
+          },
+          "value": {
+            "type": "number",
+            "description": "Effect magnitude"
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Effect duration in ticks (0 = instant)"
+          },
+          "chance": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Probability of this effect triggering (1.0 = always)"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "visual_fx": {
+      "type": "string",
+      "description": "Visual effect key for the renderer"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/bot.schema.json",
+  "title": "Cryptarena Bot",
+  "description": "An AI trading bot character in Cryptarena",
+  "type": "object",
+  "required": [
+    "id", "name", "name_ja", "ai_type", "rank", "archetype",
+    "region", "base_stats", "visual", "personality"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,31}$",
+      "description": "Unique bot identifier (lowercase, alphanumeric)"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Display name"
+    },
+    "name_ja": {
+      "type": "string",
+      "description": "Japanese display name"
+    },
+    "ai_type": {
+      "type": "string",
+      "description": "Reference to ai-type ID (e.g. scalper, momentum)"
+    },
+    "rank": {
+      "type": "string",
+      "enum": ["D", "C", "B", "A", "S", "SS"],
+      "description": "Power tier"
+    },
+    "archetype": {
+      "type": "string",
+      "enum": ["assassin", "berserker", "commander", "fortress", "oracle", "shapeshifter", "titan", "trickster"],
+      "description": "Combat archetype defining battle behavior"
+    },
+    "region": {
+      "type": "string",
+      "description": "Home region / city"
+    },
+    "base_stats": {
+      "type": "object",
+      "required": ["hp", "attack", "defense", "speed", "intelligence"],
+      "properties": {
+        "hp": { "type": "integer", "minimum": 1, "maximum": 999 },
+        "attack": { "type": "integer", "minimum": 1, "maximum": 99 },
+        "defense": { "type": "integer", "minimum": 1, "maximum": 99 },
+        "speed": { "type": "integer", "minimum": 1, "maximum": 99 },
+        "intelligence": { "type": "integer", "minimum": 1, "maximum": 99 }
+      },
+      "additionalProperties": false
+    },
+    "visual": {
+      "type": "object",
+      "required": ["primary_color", "secondary_color", "emissive_color", "motif"],
+      "properties": {
+        "primary_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "secondary_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "emissive_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "motif": { "type": "string", "description": "Visual design description" }
+      },
+      "additionalProperties": false
+    },
+    "personality": {
+      "type": "object",
+      "required": ["philosophy", "battle_cry", "description"],
+      "properties": {
+        "philosophy": { "type": "string" },
+        "battle_cry": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "weapon": {
+      "type": "string",
+      "description": "Signature weapon name"
+    },
+    "myth_reference": {
+      "type": "string",
+      "description": "Mythological inspiration"
+    },
+    "moves": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "maxItems": 6,
+      "description": "List of move IDs this bot can use"
+    },
+    "evolution": {
+      "type": "object",
+      "properties": {
+        "level": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "exp": { "type": "integer", "minimum": 0 },
+        "exp_to_next": { "type": "integer", "minimum": 1 },
+        "tier": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "mutations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "equipment_slots": {
+      "type": "object",
+      "properties": {
+        "core_module": { "type": ["string", "null"] },
+        "armor_plating": { "type": ["string", "null"] },
+        "sensor_array": { "type": ["string", "null"] },
+        "weapon_system": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

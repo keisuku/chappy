@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/item.schema.json",
+  "title": "Cryptarena Item",
+  "description": "An equipment item or consumable in Cryptarena",
+  "type": "object",
+  "required": ["id", "name", "name_ja", "type", "rarity", "slot", "effects"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,47}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "name_ja": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["equipment", "consumable"],
+      "description": "Item type"
+    },
+    "rarity": {
+      "type": "string",
+      "enum": ["common", "uncommon", "rare", "epic", "legendary", "mythic"],
+      "description": "Rarity tier"
+    },
+    "slot": {
+      "type": ["string", "null"],
+      "enum": ["core_module", "armor_plating", "sensor_array", "weapon_system", null],
+      "description": "Equipment slot (null for consumables)"
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stat", "value"],
+        "properties": {
+          "stat": {
+            "type": "string",
+            "enum": [
+              "hp", "attack", "defense", "speed", "intelligence",
+              "pnl_multiplier", "trade_speed", "drawdown_resist",
+              "crit_rate", "cooldown_reduction"
+            ]
+          },
+          "value": {
+            "type": "number",
+            "description": "Flat bonus or multiplier"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "ai_type_restriction": {
+      "type": ["string", "null"],
+      "description": "Restricted to bots of this AI type (null = any)"
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "arena_coin": { "type": "integer", "minimum": 0 },
+        "evolution_crystal": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
