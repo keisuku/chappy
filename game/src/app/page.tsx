@@ -50,6 +50,7 @@ export default function HomePage() {
               totalTicks: summary.totalTicks,
               criticalMoments: summary.criticalMoments.length,
               marketEvents: summary.marketEvents.length,
+              signals: summary.signalStats,
             }, null, 2));
           }
         }

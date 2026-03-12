@@ -12,11 +12,19 @@ import {
   Character,
   MarketRegime,
   MatchupModifier,
+  SignalEngineState,
   StageConfig,
   TradingStyle,
 } from "@/types";
 import { MarketSimulator } from "./market";
 import { runStrategy, StrategySignal } from "./strategies";
+import {
+  createSignalEngineState,
+  generateSignals,
+  tickSignals,
+  evaluateSignalsForBot,
+  resolveSignalOutcome,
+} from "./signals";
 
 export const TOTAL_TICKS = 30;
 
@@ -122,6 +130,7 @@ export function createBattle(left: Character, right: Character): {
       winner: null,
       events: [],
       marketEvents: [],
+      signals: createSignalEngineState(),
     },
     market,
   };
@@ -204,6 +213,80 @@ export function stepBattle(
   // ── Check & Trigger Abilities ──
   newState.leftBot = checkAbility(newState.leftBot, newState, "left");
   newState.rightBot = checkAbility(newState.rightBot, newState, "right");
+
+  // ── Signal Engine ──
+  // 1. Decay existing signals
+  newState.signals = tickSignals(state.signals, newState.tick);
+
+  // 2. Generate new signals from market data
+  // Use a simple seeded rng derived from tick + price for determinism
+  const signalSeed = (newState.tick * 7919 + Math.floor(newState.currentPrice)) >>> 0;
+  let signalRngState = signalSeed;
+  const signalRng = () => {
+    signalRngState = (signalRngState * 1664525 + 1013904223) >>> 0;
+    return signalRngState / 4294967296;
+  };
+
+  const newSignals = generateSignals(
+    newState.candles,
+    newState.regime,
+    newState.volatility,
+    newState.stage,
+    newState.tick,
+    signalRng
+  );
+
+  // Track stats
+  newState.signals = {
+    ...newState.signals,
+    activeSignals: [...newState.signals.activeSignals, ...newSignals],
+    signalsGenerated: newState.signals.signalsGenerated + newSignals.length,
+    legendaryCount: newState.signals.legendaryCount + newSignals.filter(s => s.strength === "legendary").length,
+  };
+
+  // 3. Bot reactions to active signals
+  const leftReactions = evaluateSignalsForBot(newState.leftBot, newState.signals.activeSignals, signalRng)
+    .map(r => ({ ...r, botSide: "left" as const }));
+  const rightReactions = evaluateSignalsForBot(newState.rightBot, newState.signals.activeSignals, signalRng)
+    .map(r => ({ ...r, botSide: "right" as const }));
+
+  // Log notable reactions as battle events
+  for (const r of [...leftReactions, ...rightReactions]) {
+    if (r.reaction === "engage" || r.reaction === "all_in" || r.reaction === "dodge") {
+      newState.events.push({
+        tick: newState.tick,
+        type: "trade",
+        actor: r.botSide,
+        description: r.reactionReason,
+      });
+    }
+    // Track traps
+    if (r.acted && r.signal.isTrap) {
+      newState.signals = {
+        ...newState.signals,
+        trapsTriggered: newState.signals.trapsTriggered + 1,
+      };
+      newState.events.push({
+        tick: newState.tick,
+        type: "critical_hit",
+        actor: r.botSide === "left" ? "right" : "left",
+        description: `TRAP! ${r.signal.type} was a fakeout — ${r.botSide === "left" ? newState.leftBot.character.name : newState.rightBot.character.name} falls for it!`,
+      });
+    }
+  }
+
+  // 4. Resolve expired signals
+  for (const signal of newState.signals.resolvedSignals) {
+    const reactions = [...leftReactions, ...rightReactions].filter(r => r.signal.id === signal.id && r.acted);
+    for (const r of reactions) {
+      r.profited = resolveSignalOutcome(signal, signal.priceLevel, newState.currentPrice);
+    }
+  }
+
+  newState.signals = {
+    ...newState.signals,
+    reactions: [...newState.signals.reactions, ...leftReactions, ...rightReactions],
+  };
 
   // ── Power Calculation ──
   // Base: relative PnL advantage
@@ -491,6 +574,11 @@ export function getBattleSummary(state: BattleState): BattleSummary | null {
     maxStage: state.stage,
     criticalMoments,
     marketEvents: state.marketEvents,
+    signalStats: {
+      total: state.signals.signalsGenerated,
+      trapsTriggered: state.signals.trapsTriggered,
+      legendary: state.signals.legendaryCount,
+    },
   };
 }
 
