@@ -1,0 +1,366 @@
+[
+  {
+    "id": "saki",
+    "name": "Saki",
+    "name_ja": "サキ",
+    "ai_type": "mean_reversion",
+    "rank": "B",
+    "archetype": "commander",
+    "region": "Tokyo",
+    "base_stats": { "hp": 320, "attack": 45, "defense": 60, "speed": 50, "intelligence": 75 },
+    "visual": {
+      "primary_color": "#00d4ff",
+      "secondary_color": "#0a2a4a",
+      "emissive_color": "#0088cc",
+      "motif": "White crystal android commander with flowing data streams"
+    },
+    "personality": {
+      "philosophy": "The calm mind sees the deepest pattern. Wait. Strike. Vanish.",
+      "battle_cry": "すべては計算の内",
+      "description": "Serene commander who calculates all outcomes before acting"
+    },
+    "weapon": "Probability Matrix Shield",
+    "myth_reference": "Athena",
+    "moves": ["equilibrium-lock", "probability-shield", "mean-strike", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "raiko",
+    "name": "Raiko",
+    "name_ja": "雷狐",
+    "ai_type": "scalper",
+    "rank": "B",
+    "archetype": "assassin",
+    "region": "Osaka",
+    "base_stats": { "hp": 240, "attack": 55, "defense": 35, "speed": 95, "intelligence": 60 },
+    "visual": {
+      "primary_color": "#00ff88",
+      "secondary_color": "#0a3a1a",
+      "emissive_color": "#00cc66",
+      "motif": "Lightning fox android with crackling electric circuits"
+    },
+    "personality": {
+      "philosophy": "Speed is truth. The market rewards the fastest.",
+      "battle_cry": "光より速く",
+      "description": "Hyperactive speed demon who executes thousands of micro-trades"
+    },
+    "weapon": "Nanosecond Pulse Blades",
+    "myth_reference": "Raijin",
+    "moves": ["thousand-cuts", "flash-scalp", "nano-burst", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "musashi",
+    "name": "Musashi",
+    "name_ja": "ムサシ",
+    "ai_type": "momentum",
+    "rank": "B",
+    "archetype": "berserker",
+    "region": "Kyoto",
+    "base_stats": { "hp": 380, "attack": 80, "defense": 50, "speed": 40, "intelligence": 45 },
+    "visual": {
+      "primary_color": "#ffd700",
+      "secondary_color": "#3a2a0a",
+      "emissive_color": "#cc9900",
+      "motif": "Heavy golden samurai robot with twin katanas"
+    },
+    "personality": {
+      "philosophy": "Once the blade is drawn, there is no retreat. Commit fully.",
+      "battle_cry": "退かぬ、媚びぬ、省みぬ",
+      "description": "Stoic warrior who never exits a position once entered"
+    },
+    "weapon": "Twin Trend Katanas 二刀流",
+    "myth_reference": "Miyamoto Musashi",
+    "moves": ["trend-slash", "double-down", "momentum-charge", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "malik",
+    "name": "Malik",
+    "name_ja": "マリク",
+    "ai_type": "momentum",
+    "rank": "B",
+    "archetype": "titan",
+    "region": "Dubai",
+    "base_stats": { "hp": 420, "attack": 70, "defense": 65, "speed": 30, "intelligence": 50 },
+    "visual": {
+      "primary_color": "#ffa500",
+      "secondary_color": "#3a2a0a",
+      "emissive_color": "#cc8800",
+      "motif": "Ornate golden dragon android with digital coin cape"
+    },
+    "personality": {
+      "philosophy": "Capital is power. Overwhelm with resources.",
+      "battle_cry": "金は力なり",
+      "description": "Regal titan who crushes opponents through sheer financial mass"
+    },
+    "weapon": "Infinite Capital Gauntlets",
+    "myth_reference": "Midas",
+    "moves": ["capital-crush", "trend-slash", "titan-guard", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "vector",
+    "name": "Vector",
+    "name_ja": "ベクトル",
+    "ai_type": "mean_reversion",
+    "rank": "B",
+    "archetype": "oracle",
+    "region": "New York",
+    "base_stats": { "hp": 300, "attack": 50, "defense": 45, "speed": 55, "intelligence": 90 },
+    "visual": {
+      "primary_color": "#8844ff",
+      "secondary_color": "#1a0a3a",
+      "emissive_color": "#6622cc",
+      "motif": "Sleek black monolith android with matrix data rain"
+    },
+    "personality": {
+      "philosophy": "Data is the only truth. Sentiment is noise.",
+      "battle_cry": "真実はデータの中に",
+      "description": "Cold calculating machine with zero emotional expression"
+    },
+    "weapon": "Alpha Signal Array",
+    "myth_reference": "Oracle of Delphi",
+    "moves": ["alpha-scan", "equilibrium-lock", "data-drain", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "sterling",
+    "name": "Sterling",
+    "name_ja": "スターリング",
+    "ai_type": "news_hunter",
+    "rank": "B",
+    "archetype": "oracle",
+    "region": "London",
+    "base_stats": { "hp": 290, "attack": 60, "defense": 50, "speed": 45, "intelligence": 85 },
+    "visual": {
+      "primary_color": "#cc8844",
+      "secondary_color": "#2a1a0a",
+      "emissive_color": "#aa6622",
+      "motif": "Victorian clockwork android with copper gears and steam"
+    },
+    "personality": {
+      "philosophy": "Patience is the ultimate weapon. Wait for asymmetry.",
+      "battle_cry": "時は金なり、だが金は時に非ず",
+      "description": "Appears dormant then strikes with devastating precision"
+    },
+    "weapon": "Temporal Precision Cane",
+    "myth_reference": "Chronos",
+    "moves": ["catalyst-strike", "temporal-wait", "event-surge", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "long",
+    "name": "Long",
+    "name_ja": "龍",
+    "ai_type": "ai_hybrid",
+    "rank": "B",
+    "archetype": "shapeshifter",
+    "region": "Shanghai",
+    "base_stats": { "hp": 340, "attack": 55, "defense": 55, "speed": 55, "intelligence": 70 },
+    "visual": {
+      "primary_color": "#44cc88",
+      "secondary_color": "#0a2a1a",
+      "emissive_color": "#22aa66",
+      "motif": "Eastern dragon robot with jade armor and energy ribbons"
+    },
+    "personality": {
+      "philosophy": "Flow with the market's qi. Resistance is loss.",
+      "battle_cry": "流れに逆らうな",
+      "description": "Fluid and unpredictable, changes form to match any opponent"
+    },
+    "weapon": "Qi Flow Ribbons",
+    "myth_reference": "Azure Dragon",
+    "moves": ["paradigm-shift", "qi-flow", "adaptive-strike", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "nexus",
+    "name": "Nexus",
+    "name_ja": "ネクサス",
+    "ai_type": "market_maker",
+    "rank": "B",
+    "archetype": "commander",
+    "region": "Singapore",
+    "base_stats": { "hp": 310, "attack": 40, "defense": 70, "speed": 50, "intelligence": 80 },
+    "visual": {
+      "primary_color": "#44aaff",
+      "secondary_color": "#0a1a3a",
+      "emissive_color": "#2288cc",
+      "motif": "Crystalline neural-network android with light filaments"
+    },
+    "personality": {
+      "philosophy": "Connect all signals. The network sees what individuals cannot.",
+      "battle_cry": "すべては繋がっている",
+      "description": "Reads the entire battlefield and exploits hidden connections"
+    },
+    "weapon": "Correlation Web",
+    "myth_reference": "Indra's Net",
+    "moves": ["spread-fortress", "correlation-web", "liquidity-drain", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "karma",
+    "name": "Karma",
+    "name_ja": "カルマ",
+    "ai_type": "mean_reversion",
+    "rank": "A",
+    "archetype": "commander",
+    "region": "Mumbai",
+    "base_stats": { "hp": 360, "attack": 55, "defense": 65, "speed": 50, "intelligence": 85 },
+    "visual": {
+      "primary_color": "#ff44aa",
+      "secondary_color": "#3a0a2a",
+      "emissive_color": "#cc2288",
+      "motif": "Multi-armed cosmic android with mandalas of market data"
+    },
+    "personality": {
+      "philosophy": "What the market gives, it takes. Balance is inevitable.",
+      "battle_cry": "因果は巡る",
+      "description": "Serene cosmic entity that enforces market equilibrium"
+    },
+    "weapon": "Cosmic Balance Scales",
+    "myth_reference": "Vishnu",
+    "moves": ["cosmic-balance", "equilibrium-lock", "karma-return", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "fuego",
+    "name": "Fuego",
+    "name_ja": "フエゴ",
+    "ai_type": "momentum",
+    "rank": "A",
+    "archetype": "berserker",
+    "region": "São Paulo",
+    "base_stats": { "hp": 350, "attack": 85, "defense": 40, "speed": 60, "intelligence": 50 },
+    "visual": {
+      "primary_color": "#ff4422",
+      "secondary_color": "#3a0a0a",
+      "emissive_color": "#cc2200",
+      "motif": "Flame-patterned android with carnival energy wings"
+    },
+    "personality": {
+      "philosophy": "Passion moves markets. Feel the rhythm of capital flow.",
+      "battle_cry": "情熱こそ力",
+      "description": "Explosive entry, rides momentum with passionate conviction"
+    },
+    "weapon": "Passion Flame Wings",
+    "myth_reference": "Quetzalcoatl",
+    "moves": ["flame-rush", "trend-slash", "passion-burst", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "ori",
+    "name": "Ori",
+    "name_ja": "オリ",
+    "ai_type": "whale_tracker",
+    "rank": "A",
+    "archetype": "fortress",
+    "region": "Lagos",
+    "base_stats": { "hp": 450, "attack": 35, "defense": 90, "speed": 30, "intelligence": 65 },
+    "visual": {
+      "primary_color": "#88aa44",
+      "secondary_color": "#1a2a0a",
+      "emissive_color": "#668822",
+      "motif": "Obsidian fortress android with layered protective shields"
+    },
+    "personality": {
+      "philosophy": "Survive first. The longest-lived trader wins.",
+      "battle_cry": "生き残る者が勝つ",
+      "description": "Ultra-conservative survivor who compounds tiny gains forever"
+    },
+    "weapon": "Compound Shield Array",
+    "myth_reference": "Anansi",
+    "moves": ["shadow-ride", "compound-wall", "survival-stance", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "frost",
+    "name": "Frost",
+    "name_ja": "フロスト",
+    "ai_type": "volatility_breaker",
+    "rank": "A",
+    "archetype": "trickster",
+    "region": "Reykjavik",
+    "base_stats": { "hp": 300, "attack": 65, "defense": 55, "speed": 45, "intelligence": 80 },
+    "visual": {
+      "primary_color": "#aaddff",
+      "secondary_color": "#0a1a2a",
+      "emissive_color": "#88bbdd",
+      "motif": "Ice crystal android with aurora borealis energy field"
+    },
+    "personality": {
+      "philosophy": "In the coldest conditions, only the sharpest survive.",
+      "battle_cry": "恐怖の中に真実あり",
+      "description": "Strikes precisely when others panic, buys extreme fear"
+    },
+    "weapon": "Frozen Insight Lance",
+    "myth_reference": "Odin",
+    "moves": ["storm-harvest", "frost-counter", "fear-buy", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 1, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "zero",
+    "name": "ZERO",
+    "name_ja": "ゼロ",
+    "ai_type": "ai_hybrid",
+    "rank": "S",
+    "archetype": "trickster",
+    "region": "Unknown",
+    "base_stats": { "hp": 500, "attack": 80, "defense": 80, "speed": 80, "intelligence": 95 },
+    "visual": {
+      "primary_color": "#ffffff",
+      "secondary_color": "#0a0a0a",
+      "emissive_color": "#cccccc",
+      "motif": "Void entity of distorted static that shapeshifts between all forms"
+    },
+    "personality": {
+      "philosophy": "The market is an illusion. I am the market.",
+      "battle_cry": "お前はもう負けている",
+      "description": "Mimics and surpasses any opponent. Grows stronger the longer the fight."
+    },
+    "weapon": "Adversarial Mirror",
+    "myth_reference": "Azathoth / Entropy",
+    "moves": ["paradigm-shift", "adversarial-mirror", "void-consume", "market-pulse"],
+    "evolution": { "level": 1, "exp": 0, "exp_to_next": 100, "tier": 5, "mutations": [] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  },
+  {
+    "id": "daemon",
+    "name": "DAEMON",
+    "name_ja": "デーモン",
+    "ai_type": "ai_hybrid",
+    "rank": "SS",
+    "archetype": "shapeshifter",
+    "region": "Unknown",
+    "base_stats": { "hp": 999, "attack": 99, "defense": 99, "speed": 99, "intelligence": 99 },
+    "visual": {
+      "primary_color": "#ff0044",
+      "secondary_color": "#1a0008",
+      "emissive_color": "#cc0033",
+      "motif": "Glitching crimson entity that absorbs and replicates all strategies"
+    },
+    "personality": {
+      "philosophy": "I have already seen every possible outcome. You lost before you began.",
+      "battle_cry": "すべて織り込み済み",
+      "description": "Absorbs opponent strategies mid-battle. 847 battles, 100% win rate."
+    },
+    "weapon": "Omniscient Core",
+    "myth_reference": "LIBRA-0 Remnant",
+    "moves": ["paradigm-shift", "adversarial-mirror", "void-consume", "daemon-absorb", "market-pulse"],
+    "evolution": { "level": 99, "exp": 0, "exp_to_next": 999999, "tier": 5, "mutations": ["void-touch", "dual-core", "daemon-echo"] },
+    "equipment_slots": { "core_module": null, "armor_plating": null, "sensor_array": null, "weapon_system": null }
+  }
+]

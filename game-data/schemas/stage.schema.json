@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/stage.schema.json",
+  "title": "Cryptarena Stage",
+  "description": "A battle arena / stage where bots fight",
+  "type": "object",
+  "required": [
+    "id", "name", "name_ja", "region", "tier",
+    "visual", "arena_effects", "market_modifiers"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,47}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "name_ja": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string",
+      "description": "City or region"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["D", "C", "B", "A", "S", "SS"],
+      "description": "Difficulty tier"
+    },
+    "visual": {
+      "type": "object",
+      "required": ["theme", "bg_color", "accent_color", "particle_type"],
+      "properties": {
+        "theme": { "type": "string", "description": "Visual theme description" },
+        "bg_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "accent_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "particle_type": {
+          "type": "string",
+          "enum": ["spark", "flame", "ice", "data", "gold", "void", "electric", "nature"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "arena_effects": {
+      "type": "object",
+      "description": "Battle modifiers active on this stage",
+      "properties": {
+        "volatility_multiplier": { "type": "number", "minimum": 0.1, "maximum": 5.0 },
+        "speed_bonus": { "type": "number" },
+        "home_advantage_bot": { "type": ["string", "null"], "description": "Bot ID that gets home advantage" }
+      },
+      "additionalProperties": false
+    },
+    "market_modifiers": {
+      "type": "object",
+      "description": "How this stage modifies the market simulation",
+      "properties": {
+        "trend_bias": { "type": "number", "minimum": -1, "maximum": 1 },
+        "spike_frequency": { "type": "number", "minimum": 0, "maximum": 1 },
+        "mean_reversion_strength": { "type": "number", "minimum": 0, "maximum": 2 }
+      },
+      "additionalProperties": false
+    },
+    "hazard": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "trigger_stage": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "effect": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

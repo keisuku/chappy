@@ -1,0 +1,209 @@
+[
+  {
+    "id": "basic-neural-core",
+    "name": "Basic Neural Core",
+    "name_ja": "基本神経核",
+    "type": "equipment",
+    "rarity": "common",
+    "slot": "core_module",
+    "effects": [{ "stat": "intelligence", "value": 5 }],
+    "description": "Standard neural processing core. Provides basic intelligence boost.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 100, "evolution_crystal": 0 }
+  },
+  {
+    "id": "quantum-processor",
+    "name": "Quantum Processor",
+    "name_ja": "量子演算器",
+    "type": "equipment",
+    "rarity": "rare",
+    "slot": "core_module",
+    "effects": [
+      { "stat": "intelligence", "value": 15 },
+      { "stat": "speed", "value": 5 }
+    ],
+    "description": "Advanced quantum computing core for faster analysis.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 500, "evolution_crystal": 5 }
+  },
+  {
+    "id": "daemon-fragment-core",
+    "name": "DAEMON Fragment Core",
+    "name_ja": "デーモン断片核",
+    "type": "equipment",
+    "rarity": "mythic",
+    "slot": "core_module",
+    "effects": [
+      { "stat": "intelligence", "value": 30 },
+      { "stat": "attack", "value": 15 },
+      { "stat": "crit_rate", "value": 0.1 }
+    ],
+    "description": "A fragment of DAEMON's core. Whispers strategies from the void.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 10000, "evolution_crystal": 100 }
+  },
+  {
+    "id": "steel-plating",
+    "name": "Steel Plating",
+    "name_ja": "鋼板装甲",
+    "type": "equipment",
+    "rarity": "common",
+    "slot": "armor_plating",
+    "effects": [{ "stat": "defense", "value": 8 }],
+    "description": "Standard protective armor plating.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 100, "evolution_crystal": 0 }
+  },
+  {
+    "id": "adaptive-nano-armor",
+    "name": "Adaptive Nano-Armor",
+    "name_ja": "適応ナノ装甲",
+    "type": "equipment",
+    "rarity": "epic",
+    "slot": "armor_plating",
+    "effects": [
+      { "stat": "defense", "value": 20 },
+      { "stat": "hp", "value": 50 },
+      { "stat": "drawdown_resist", "value": 0.15 }
+    ],
+    "description": "Self-repairing armor that adapts to damage patterns.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 2000, "evolution_crystal": 20 }
+  },
+  {
+    "id": "fortress-wall-mk3",
+    "name": "Fortress Wall Mk3",
+    "name_ja": "要塞壁Mk3",
+    "type": "equipment",
+    "rarity": "legendary",
+    "slot": "armor_plating",
+    "effects": [
+      { "stat": "defense", "value": 30 },
+      { "stat": "hp", "value": 100 },
+      { "stat": "drawdown_resist", "value": 0.25 }
+    ],
+    "description": "Ultimate defensive armor. Designed for whale tracker bots.",
+    "ai_type_restriction": "whale_tracker",
+    "cost": { "arena_coin": 5000, "evolution_crystal": 50 }
+  },
+  {
+    "id": "basic-radar",
+    "name": "Basic Radar",
+    "name_ja": "基本レーダー",
+    "type": "equipment",
+    "rarity": "common",
+    "slot": "sensor_array",
+    "effects": [{ "stat": "intelligence", "value": 3 }, { "stat": "speed", "value": 3 }],
+    "description": "Standard market data sensor array.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 80, "evolution_crystal": 0 }
+  },
+  {
+    "id": "hft-antenna",
+    "name": "HFT Antenna",
+    "name_ja": "高頻度アンテナ",
+    "type": "equipment",
+    "rarity": "rare",
+    "slot": "sensor_array",
+    "effects": [
+      { "stat": "speed", "value": 20 },
+      { "stat": "trade_speed", "value": 0.2 }
+    ],
+    "description": "Ultra-low latency antenna for high-frequency trading bots.",
+    "ai_type_restriction": "scalper",
+    "cost": { "arena_coin": 800, "evolution_crystal": 8 }
+  },
+  {
+    "id": "alpha-detector",
+    "name": "Alpha Detector",
+    "name_ja": "アルファ探知機",
+    "type": "equipment",
+    "rarity": "epic",
+    "slot": "sensor_array",
+    "effects": [
+      { "stat": "intelligence", "value": 20 },
+      { "stat": "crit_rate", "value": 0.08 }
+    ],
+    "description": "Detects hidden alpha signals in noisy market data.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 2500, "evolution_crystal": 25 }
+  },
+  {
+    "id": "pulse-blade",
+    "name": "Pulse Blade",
+    "name_ja": "パルス刃",
+    "type": "equipment",
+    "rarity": "common",
+    "slot": "weapon_system",
+    "effects": [{ "stat": "attack", "value": 8 }],
+    "description": "Standard energy blade for combat.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 100, "evolution_crystal": 0 }
+  },
+  {
+    "id": "trend-katana",
+    "name": "Trend Katana",
+    "name_ja": "趨勢刀",
+    "type": "equipment",
+    "rarity": "rare",
+    "slot": "weapon_system",
+    "effects": [
+      { "stat": "attack", "value": 18 },
+      { "stat": "pnl_multiplier", "value": 0.1 }
+    ],
+    "description": "A blade that grows sharper in trending markets.",
+    "ai_type_restriction": "momentum",
+    "cost": { "arena_coin": 600, "evolution_crystal": 6 }
+  },
+  {
+    "id": "volatility-lance",
+    "name": "Volatility Lance",
+    "name_ja": "変動槍",
+    "type": "equipment",
+    "rarity": "epic",
+    "slot": "weapon_system",
+    "effects": [
+      { "stat": "attack", "value": 22 },
+      { "stat": "crit_rate", "value": 0.12 }
+    ],
+    "description": "Piercing lance that does more damage in volatile conditions.",
+    "ai_type_restriction": "volatility_breaker",
+    "cost": { "arena_coin": 2000, "evolution_crystal": 20 }
+  },
+  {
+    "id": "repair-patch",
+    "name": "Repair Patch",
+    "name_ja": "修復パッチ",
+    "type": "consumable",
+    "rarity": "common",
+    "slot": null,
+    "effects": [{ "stat": "hp", "value": 50 }],
+    "description": "Restores 50 HP during battle.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 30, "evolution_crystal": 0 }
+  },
+  {
+    "id": "overclock-chip",
+    "name": "Overclock Chip",
+    "name_ja": "オーバークロックチップ",
+    "type": "consumable",
+    "rarity": "uncommon",
+    "slot": null,
+    "effects": [{ "stat": "speed", "value": 15 }, { "stat": "attack", "value": 10 }],
+    "description": "Temporarily boosts speed and attack for one battle.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 80, "evolution_crystal": 1 }
+  },
+  {
+    "id": "evolution-catalyst",
+    "name": "Evolution Catalyst",
+    "name_ja": "進化触媒",
+    "type": "consumable",
+    "rarity": "rare",
+    "slot": null,
+    "effects": [{ "stat": "crit_rate", "value": 0.2 }],
+    "description": "Increases mutation chance during next evolution attempt.",
+    "ai_type_restriction": null,
+    "cost": { "arena_coin": 300, "evolution_crystal": 10 }
+  }
+]
