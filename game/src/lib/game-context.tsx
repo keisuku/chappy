@@ -37,8 +37,6 @@ function baseStats(style: Character["tradingStyle"]): PlayerBot["stats"] {
       return { aggression: 45, precision: 80, resilience: 55, speed: 65 };
     case "contrarian":
       return { aggression: 65, precision: 60, resilience: 70, speed: 45 };
-    case "scalper":
-      return { aggression: 55, precision: 65, resilience: 45, speed: 75 };
     case "volatility_breaker":
       return { aggression: 60, precision: 70, resilience: 50, speed: 50 };
   }
