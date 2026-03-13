@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CoinBattle Saki</title>
+<link rel="stylesheet" href="coinbattle.css" />
+</head>
+<body>
+<div id="app">
+  <!-- ═══ TOP BAR ═══ -->
+  <header id="topbar">
+    <div class="logo">CoinBattle<span>Saki</span></div>
+    <div class="coin-tabs" id="coinTabs">
+      <button class="coin-tab active" data-coin="BTC">BTC</button>
+      <button class="coin-tab" data-coin="ETH">ETH</button>
+      <button class="coin-tab" data-coin="SOL">SOL</button>
+      <button class="coin-tab" data-coin="XRP">XRP</button>
+    </div>
+    <div class="tf-tabs" id="tfTabs">
+      <button class="tf-tab" data-tf="5m">5m</button>
+      <button class="tf-tab active" data-tf="15m">15m</button>
+      <button class="tf-tab" data-tf="1h">1h</button>
+      <button class="tf-tab" data-tf="4h">4h</button>
+      <button class="tf-tab" data-tf="1D">1D</button>
+    </div>
+    <div class="price-display">
+      <span class="price-label" id="pairLabel">BTC/USDT</span>
+      <span class="price-value" id="priceValue">--</span>
+      <span class="price-change" id="priceChange">--</span>
+    </div>
+  </header>
+
+  <!-- ═══ CHART SECTION (top 50%) ═══ -->
+  <section id="chartSection">
+    <canvas id="chartCanvas"></canvas>
+    <!-- TP/SL lines drawn on chart -->
+    <div class="tp-line hidden" id="tpLine"><span>TP</span></div>
+    <div class="sl-line hidden" id="slLine"><span>SL</span></div>
+    <!-- Signal event marker -->
+    <div class="signal-marker hidden" id="signalMarker">SIGNAL</div>
+  </section>
+
+  <!-- ═══ BATTLE STAGE (bottom 50%) ═══ -->
+  <section id="battleSection">
+    <!-- Character display -->
+    <div id="battleStage">
+      <canvas id="characterCanvas"></canvas>
+      <!-- Boss overlay -->
+      <div class="boss-overlay hidden" id="bossOverlay">
+        <div class="boss-name" id="bossName"></div>
+      </div>
+      <!-- Battle status -->
+      <div class="battle-status" id="battleStatus">
+        <div class="status-label">IDLE</div>
+      </div>
+    </div>
+
+    <!-- Trading panel -->
+    <div id="tradingPanel">
+      <div class="panel-header">
+        <span class="panel-title">Trade</span>
+        <span class="pnl-display" id="pnlDisplay">P&L: <span id="pnlValue">0.00</span></span>
+      </div>
+
+      <!-- Position info -->
+      <div class="position-info hidden" id="positionInfo">
+        <div class="pos-direction" id="posDirection">--</div>
+        <div class="pos-entry">Entry: <span id="posEntry">--</span></div>
+        <div class="pos-size">Size: <span id="posSize">--</span></div>
+      </div>
+
+      <!-- Leverage selector -->
+      <div class="leverage-row">
+        <label>Leverage</label>
+        <div class="leverage-btns" id="leverageBtns">
+          <button class="lev-btn" data-lev="1">1x</button>
+          <button class="lev-btn active" data-lev="2">2x</button>
+          <button class="lev-btn" data-lev="5">5x</button>
+          <button class="lev-btn" data-lev="10">10x</button>
+          <button class="lev-btn" data-lev="20">20x</button>
+        </div>
+      </div>
+
+      <!-- TP/SL inputs -->
+      <div class="tpsl-row">
+        <div class="tpsl-input">
+          <label>TP %</label>
+          <input type="number" id="tpInput" value="3" min="0.1" max="100" step="0.1" />
+        </div>
+        <div class="tpsl-input">
+          <label>SL %</label>
+          <input type="number" id="slInput" value="1.5" min="0.1" max="100" step="0.1" />
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-row">
+        <button class="btn-long" id="btnLong">LONG</button>
+        <button class="btn-short" id="btnShort">SHORT</button>
+      </div>
+
+      <!-- Close position -->
+      <button class="btn-close hidden" id="btnClose">CLOSE POSITION</button>
+
+      <!-- Event log -->
+      <div class="event-log" id="eventLog">
+        <div class="log-entry system">System ready. Select a coin and open a position.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ANIMATION OVERLAYS ═══ -->
+  <div class="anim-overlay hidden" id="victoryOverlay">
+    <canvas id="victoryCanvas"></canvas>
+    <div class="anim-text victory">TAKE PROFIT</div>
+  </div>
+
+  <div class="anim-overlay hidden" id="defeatOverlay">
+    <canvas id="defeatCanvas"></canvas>
+    <div class="anim-text defeat">STOP LOSS</div>
+  </div>
+
+  <div class="anim-overlay hidden" id="signalOverlay">
+    <div class="anim-text signal">SIGNAL EVENT</div>
+  </div>
+</div>
+<script src="coinbattle.js"></script>
+</body>
+</html>

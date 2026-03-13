@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cryptarena.game/schemas/title.schema.json",
+  "title": "Cryptarena Trader Title",
+  "description": "A title earned by players based on trading performance and patterns",
+  "type": "object",
+  "required": ["id", "name", "name_ja", "category", "rarity", "description", "condition", "reward_ac"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,47}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 48
+    },
+    "name_ja": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["daily", "lifetime", "style"]
+    },
+    "rarity": {
+      "type": "string",
+      "enum": ["common", "uncommon", "rare", "epic", "legendary"]
+    },
+    "description": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "daily_profit", "daily_profit_negative", "daily_trades", "daily_win_rate",
+            "daily_max_drawdown", "daily_perfect_trades", "daily_stage_reached",
+            "daily_jackpots", "daily_comebacks", "daily_battles",
+            "total_profit", "total_trades", "total_wins", "total_battles",
+            "total_jackpots", "total_perfect_trades", "total_max_streak",
+            "total_unique_bots", "total_s8_battles", "total_comebacks",
+            "style_pattern"
+          ]
+        },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "min_trades": { "type": "integer", "minimum": 1 },
+        "stage": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "pattern": {
+          "type": "string",
+          "enum": [
+            "momentum_dominant", "contrarian", "scalper", "swing_trader",
+            "long_biased", "short_biased", "high_frequency", "sniper",
+            "dip_buyer", "top_seller", "volatility_hunter", "calm_trader",
+            "comeback_king", "iron_hands", "first_mover", "closer",
+            "multi_strategy", "one_trick", "risk_taker", "conservative",
+            "perfectionist", "survivor"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "reward_ac": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Arena Coin reward for earning this title"
+    }
+  },
+  "additionalProperties": false
+}
