@@ -3,412 +3,968 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>CoinBattle Saki</title>
+<title>COIN BATTLE Saki</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:#050d1a;color:#d0eaff;font-family:'Inter',system-ui,sans-serif;touch-action:none}
-#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-#hud{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10;pointer-events:none}
-.hud-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(180deg,rgba(5,13,26,.95) 0%,transparent 100%)}
-.logo{font-size:12px;font-weight:900;letter-spacing:2px;color:#00d4ff;text-transform:uppercase}
-.badges{display:flex;gap:6px;align-items:center}
-.badge{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700}
-.badge-vol{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);color:#00d4ff}
-.badge-stage{background:rgba(255,45,85,.15);border:1px solid rgba(255,45,85,.3)}
-.badge-price{background:rgba(255,255,255,.05);color:#d0eaff}
-.btn-encounter{pointer-events:auto;padding:8px 18px;border:none;border-radius:8px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px;cursor:pointer;color:#011}
-.btn-encounter:disabled{opacity:.4;cursor:default}
-.char-left,.char-right{position:absolute;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:3px}
-.char-left{left:12px}
-.char-right{right:12px;align-items:flex-end}
-.char-name{font-size:16px;font-weight:900}
-.char-sub{font-size:10px;opacity:.5}
-.char-pnl{font-size:11px;font-weight:700}
-.pnl-pos{color:#00ff88}
-.pnl-neg{color:#ff2d55}
-.dom-bar-wrap{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);width:min(85%,360px)}
-.dom-labels{display:flex;justify-content:space-between;font-size:9px;opacity:.5;margin-bottom:3px}
-.dom-track{height:16px;border-radius:8px;overflow:hidden;display:flex;background:rgba(255,255,255,.03)}
-.dom-fill{height:100%;transition:width .3s}
-.philosophy{position:absolute;bottom:10px;font-size:9px;font-style:italic;opacity:.25;max-width:40%}
-.philosophy-l{left:12px}
-.philosophy-r{right:12px;text-align:right}
-.stage-label{position:absolute;top:55px;left:50%;transform:translateX(-50%);text-align:center;font-size:36px;font-weight:900;color:#fff;pointer-events:none}
-.winner-overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer}
-.winner-box{text-align:center;padding:30px;border-radius:16px;background:linear-gradient(135deg,rgba(10,22,40,.95),rgba(0,0,0,.9));border:1px solid rgba(255,255,255,.1)}
-.winner-title{font-size:32px;font-weight:900;margin-bottom:10px}
-.winner-sub{font-size:14px;opacity:.6;margin-bottom:8px}
-.winner-stats{font-size:11px;opacity:.4}
-.winner-hint{font-size:10px;opacity:.3;margin-top:12px}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#050510;color:#fff;font-family:'Rajdhani','Inter',system-ui,sans-serif;touch-action:none;user-select:none}
+
+/* === MAIN FRAME === */
+#app{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden}
+
+/* Cyberpunk border frame */
+.cyber-frame{position:fixed;inset:0;pointer-events:none;z-index:100}
+.cyber-frame::before{content:'';position:absolute;inset:3px;border:1px solid rgba(0,200,255,.15);border-radius:8px}
+.cyber-frame .corner{position:absolute;width:20px;height:20px}
+.corner-tl{top:0;left:0;border-top:2px solid #00d4ff;border-left:2px solid #00d4ff}
+.corner-tr{top:0;right:0;border-top:2px solid #00d4ff;border-right:2px solid #00d4ff}
+.corner-bl{bottom:0;left:0;border-bottom:2px solid #ff00ff;border-left:2px solid #ff00ff}
+.corner-br{bottom:0;right:0;border-bottom:2px solid #ff00ff;border-right:2px solid #ff00ff}
+
+/* === HEADER === */
+.header{display:flex;align-items:center;justify-content:center;padding:8px 12px;background:linear-gradient(180deg,rgba(10,5,30,.98) 0%,rgba(10,5,30,.85) 100%);position:relative;z-index:10;gap:6px;border-bottom:1px solid rgba(0,200,255,.1)}
+.header-wifi{font-size:14px;opacity:.4;position:absolute;left:12px}
+.header-gear{font-size:18px;opacity:.4;position:absolute;right:12px;cursor:pointer}
+.header-logo{display:flex;align-items:center;gap:6px}
+.btc-icon{width:22px;height:22px;background:linear-gradient(135deg,#f7931a,#ff6600);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff;font-family:'Orbitron'}
+.logo-text{font-family:'Orbitron';font-weight:900;font-size:16px;letter-spacing:3px;background:linear-gradient(90deg,#fff,#cce8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-saki{font-family:'Orbitron';font-size:18px;font-weight:400;font-style:italic;background:linear-gradient(90deg,#ff69b4,#ff1493,#ff69b4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 20px rgba(255,105,180,.3);margin-left:2px}
+
+/* === PRICE BAR === */
+.price-bar{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:rgba(8,4,25,.9);border-bottom:1px solid rgba(0,200,255,.08)}
+.pair-selector{display:flex;align-items:center;gap:6px;padding:4px 12px;border:1px solid rgba(255,165,0,.4);border-radius:20px;background:rgba(255,165,0,.05);font-size:13px;font-weight:700}
+.pair-selector .btc-sm{width:16px;height:16px;background:linear-gradient(135deg,#f7931a,#ff6600);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900}
+.pair-arrows{color:#ff8800;font-size:11px;margin-left:4px}
+.price-val{font-family:'Orbitron';font-size:20px;font-weight:900;letter-spacing:1px}
+.price-change{font-family:'Orbitron';font-size:14px;font-weight:700;display:flex;align-items:center;gap:2px}
+.price-up{color:#00e676}
+.price-down{color:#ff1744}
+
+/* === CHART AREA === */
+.chart-wrapper{flex:0 0 auto;position:relative;background:rgba(5,3,18,.95);border-bottom:1px solid rgba(0,200,255,.08)}
+.chart-canvas{width:100%;display:block}
+
+/* === TIMEFRAME TABS === */
+.tf-bar{display:flex;align-items:center;padding:4px 10px;gap:4px;background:rgba(8,4,25,.9);border-bottom:1px solid rgba(0,200,255,.08)}
+.tf-btn{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:700;font-family:'Rajdhani';border:1px solid transparent;background:transparent;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
+.tf-btn.active{background:rgba(255,165,0,.15);border-color:rgba(255,165,0,.5);color:#ffaa00}
+
+/* === SIGNALS === */
+.signals-bar{display:flex;align-items:center;padding:6px 8px;gap:5px;background:linear-gradient(90deg,rgba(8,4,25,.95),rgba(15,5,30,.95));border-bottom:1px solid rgba(150,0,255,.15);overflow-x:auto;flex-shrink:0}
+.signals-label{font-family:'Orbitron';font-size:9px;font-weight:700;color:#ff00ff;letter-spacing:2px;margin-right:4px;white-space:nowrap;padding:3px 8px;border:1px solid rgba(255,0,255,.3);border-radius:4px;background:rgba(255,0,255,.05)}
+.signal-chip{display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);min-width:52px;flex-shrink:0}
+.signal-icon{font-size:16px;line-height:1}
+.signal-text{font-size:9px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.signal-buy .signal-icon{color:#00e5cc}
+.signal-buy .signal-text{color:#00e5cc}
+.signal-rsi .signal-icon{color:#ff69b4}
+.signal-rsi .signal-text{color:#ff69b4}
+.signal-macd .signal-icon{color:#ff69b4}
+.signal-macd .signal-text{color:#ff69b4}
+.signal-bull .signal-icon{color:#aa66ff}
+.signal-bull .signal-text{color:#aa66ff}
+.signal-vol .signal-icon{color:#4488ff}
+.signal-vol .signal-text{color:#4488ff}
+.signal-ema .signal-icon{color:#ffaa00}
+.signal-ema .signal-text{color:#ffaa00}
+
+/* === CHARACTER AREA === */
+.char-area{flex:1;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(10,5,25,.9) 0%,rgba(20,10,40,.6) 40%,rgba(40,20,60,.4) 100%);min-height:0}
+.char-canvas{position:absolute;inset:0;width:100%;height:100%}
+/* P&L overlay */
+.pnl-overlay{position:absolute;top:10px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;pointer-events:none}
+.pnl-label{font-size:10px;opacity:.5;letter-spacing:1px}
+.pnl-value{font-family:'Orbitron';font-size:28px;font-weight:900;text-shadow:0 0 20px currentColor}
+.pnl-value.profit{color:#00ff88}
+.pnl-value.loss{color:#ff2255}
+.pnl-value.neutral{color:#aabbcc}
+.pnl-sub{font-size:11px;opacity:.6;margin-top:2px}
+/* Position indicator */
+.pos-indicator{position:absolute;top:10px;right:12px;z-index:5;pointer-events:none}
+.pos-badge{padding:4px 10px;border-radius:6px;font-family:'Orbitron';font-size:11px;font-weight:900}
+.pos-long{background:rgba(0,229,204,.15);border:1px solid rgba(0,229,204,.4);color:#00e5cc}
+.pos-short{background:rgba(255,34,85,.15);border:1px solid rgba(255,34,85,.4);color:#ff2255}
+.pos-none{background:rgba(100,100,120,.15);border:1px solid rgba(100,100,120,.3);color:#667}
+/* Lev indicator */
+.lev-circle{position:absolute;top:8px;left:12px;width:48px;height:48px;border-radius:50%;border:2px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;pointer-events:none;background:rgba(0,0,0,.5)}
+.lev-circle.active{border-color:#ff00ff;box-shadow:0 0 15px rgba(255,0,255,.3)}
+.lev-circle.inactive{border-color:rgba(100,100,120,.3)}
+.lev-label{font-size:7px;opacity:.5;line-height:1}
+.lev-val{font-family:'Orbitron';font-size:14px;font-weight:900;line-height:1;color:#ff00ff}
+
+/* === ACTION BUTTONS === */
+.action-bar{display:flex;align-items:center;justify-content:center;padding:8px 10px 12px;gap:6px;background:linear-gradient(0deg,rgba(5,2,15,.98) 0%,rgba(10,5,25,.95) 100%);position:relative;z-index:10;flex-shrink:0}
+.action-btn{position:relative;flex:1;height:56px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;clip-path:polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);font-family:'Orbitron';transition:transform .1s,filter .1s}
+.action-btn:active{transform:scale(.95);filter:brightness(1.3)}
+.btn-long{background:linear-gradient(135deg,#004d44,#00e5cc,#004d44);color:#fff}
+.btn-long .btn-icon{font-size:14px}
+.btn-long .btn-label{font-size:16px;font-weight:900;letter-spacing:2px}
+.btn-lev{background:linear-gradient(135deg,#4a3000,#ffaa00,#4a3000);color:#fff}
+.btn-lev .btn-val{font-size:20px;font-weight:900}
+.btn-lev .btn-sub{font-size:8px;letter-spacing:2px;opacity:.8}
+.btn-short{background:linear-gradient(135deg,#4a0020,#ff2255,#4a0020);color:#fff}
+.btn-short .btn-icon{font-size:14px}
+.btn-short .btn-label{font-size:16px;font-weight:900;letter-spacing:2px}
+.btn-close{background:linear-gradient(135deg,#1a1a2e,#445566,#1a1a2e);color:#aabbcc}
+.btn-close .btn-icon{font-size:14px}
+.btn-close .btn-label{font-size:14px;font-weight:900;letter-spacing:2px}
+/* Neon glow on buttons */
+.btn-glow{position:absolute;inset:-2px;clip-path:polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);z-index:-1;opacity:.6;filter:blur(4px);animation:pulseGlow 2s ease-in-out infinite}
+.btn-long .btn-glow{background:#00e5cc}
+.btn-lev .btn-glow{background:#ffaa00}
+.btn-short .btn-glow{background:#ff2255}
+.btn-close .btn-glow{background:#445566}
+@keyframes pulseGlow{0%,100%{opacity:.3}50%{opacity:.7}}
+
+/* === NEON LINE DECORATIONS === */
+.neon-line{height:1px;background:linear-gradient(90deg,transparent,#00d4ff,#ff00ff,transparent);opacity:.3}
+.neon-line-bottom{height:1px;background:linear-gradient(90deg,transparent,#ff00ff,#00d4ff,transparent);opacity:.3}
+
+/* === FLOATING COINS === */
+.coin-particle{position:absolute;pointer-events:none;z-index:4;font-size:20px;opacity:0;animation:floatCoin 3s ease-out forwards}
+@keyframes floatCoin{0%{opacity:0;transform:translateY(0) scale(.5) rotate(0deg)}10%{opacity:.8}80%{opacity:.6}100%{opacity:0;transform:translateY(-200px) scale(1) rotate(360deg)}}
+
+/* === TOAST === */
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:200;padding:16px 32px;border-radius:12px;font-family:'Orbitron';font-size:24px;font-weight:900;text-align:center;pointer-events:none;animation:toastPop .6s ease forwards}
+.toast-profit{background:rgba(0,40,20,.9);border:2px solid #00ff88;color:#00ff88;box-shadow:0 0 40px rgba(0,255,136,.3)}
+.toast-loss{background:rgba(40,0,10,.9);border:2px solid #ff2255;color:#ff2255;box-shadow:0 0 40px rgba(255,34,85,.3)}
+.toast-long{background:rgba(0,30,30,.9);border:2px solid #00e5cc;color:#00e5cc;box-shadow:0 0 40px rgba(0,229,204,.3)}
+.toast-short{background:rgba(40,0,20,.9);border:2px solid #ff2255;color:#ff2255;box-shadow:0 0 40px rgba(255,34,85,.3)}
+@keyframes toastPop{0%{transform:translate(-50%,-50%) scale(0)}20%{transform:translate(-50%,-50%) scale(1.1)}40%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
+
+/* === LIQD SCREEN === */
+.liqd-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
+.liqd-overlay.show{display:flex}
+.liqd-box{text-align:center;padding:30px;animation:liqShake .5s ease}
+.liqd-title{font-family:'Orbitron';font-size:36px;font-weight:900;color:#ff0044;text-shadow:0 0 40px rgba(255,0,68,.5);margin-bottom:10px}
+.liqd-sub{font-size:16px;opacity:.6;margin-bottom:20px}
+.liqd-btn{padding:12px 40px;border:2px solid #00d4ff;border-radius:8px;background:transparent;color:#00d4ff;font-family:'Orbitron';font-size:14px;font-weight:700;cursor:pointer}
+@keyframes liqShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5px)}20%,40%,60%,80%{transform:translateX(5px)}}
+
+/* Scrollbar hide */
+::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
-<canvas id="c"></canvas>
-<div id="hud"></div>
+<div id="app">
+  <!-- Cyberpunk Frame -->
+  <div class="cyber-frame">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <span class="header-wifi">&#x1F4F6;</span>
+    <div class="header-logo">
+      <div class="btc-icon">B</div>
+      <span class="logo-text">COIN BATTLE</span>
+      <span class="logo-saki">Saki</span>
+    </div>
+    <span class="header-gear" id="gearBtn">&#x2699;</span>
+  </div>
+
+  <div class="neon-line"></div>
+
+  <!-- Price Bar -->
+  <div class="price-bar">
+    <div class="pair-selector">
+      <div class="btc-sm">B</div>
+      <span>BTC/USDT</span>
+      <span class="pair-arrows">&raquo;</span>
+    </div>
+    <div class="price-val" id="priceVal">70,662.45</div>
+    <div class="price-change price-up" id="priceChange">+2.45%<span style="margin-left:2px">&#9650;</span></div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-wrapper" id="chartWrap">
+    <canvas class="chart-canvas" id="chartCanvas"></canvas>
+  </div>
+
+  <!-- Timeframe -->
+  <div class="tf-bar">
+    <button class="tf-btn active" data-tf="5">5m</button>
+    <button class="tf-btn" data-tf="15">15m</button>
+    <button class="tf-btn" data-tf="60">1h</button>
+    <button class="tf-btn" data-tf="240">4h</button>
+    <button class="tf-btn" data-tf="1440">1D</button>
+  </div>
+
+  <!-- Signals -->
+  <div class="signals-bar">
+    <div class="signals-label">SIGNALS</div>
+    <div class="signal-chip signal-buy" id="sig-buy"><span class="signal-icon">&#9650;</span><span class="signal-text">BUY</span></div>
+    <div class="signal-chip signal-rsi" id="sig-rsi"><span class="signal-icon">&#8599;</span><span class="signal-text">RSI &#8593;</span></div>
+    <div class="signal-chip signal-macd" id="sig-macd"><span class="signal-icon">&#8635;</span><span class="signal-text">MACD &#8593;</span></div>
+    <div class="signal-chip signal-bull" id="sig-bull"><span class="signal-icon">&#9681;</span><span class="signal-text">BULLISH</span></div>
+    <div class="signal-chip signal-vol" id="sig-vol"><span class="signal-icon">&#9646;&#9646;&#9646;</span><span class="signal-text">VOL &#9650;</span></div>
+    <div class="signal-chip signal-ema" id="sig-ema"><span class="signal-icon">&#8734;</span><span class="signal-text">EMA CROSS</span></div>
+  </div>
+
+  <div class="neon-line-bottom"></div>
+
+  <!-- Character Area -->
+  <div class="char-area" id="charArea">
+    <canvas class="char-canvas" id="charCanvas"></canvas>
+    <div class="pnl-overlay" id="pnlOverlay">
+      <div class="pnl-label">UNREALIZED P&L</div>
+      <div class="pnl-value neutral" id="pnlValue">$0.00</div>
+      <div class="pnl-sub" id="pnlSub">Balance: $10,000.00</div>
+    </div>
+    <div class="lev-circle active" id="levCircle">
+      <div class="lev-label">LEV</div>
+      <div class="lev-val">100x</div>
+    </div>
+    <div class="pos-indicator" id="posIndicator">
+      <div class="pos-badge pos-none" id="posBadge">NO POS</div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-bar">
+    <button class="action-btn btn-long" id="btnLong">
+      <div class="btn-glow"></div>
+      <span class="btn-icon">&#9650;</span>
+      <span class="btn-label">LONG</span>
+    </button>
+    <button class="action-btn btn-lev" id="btnLev">
+      <div class="btn-glow"></div>
+      <span class="btn-val">100x</span>
+      <span class="btn-sub">LEVERAGE</span>
+    </button>
+    <button class="action-btn btn-short" id="btnShort">
+      <div class="btn-glow"></div>
+      <span class="btn-icon">&#9660;</span>
+      <span class="btn-label">SHORT</span>
+    </button>
+    <button class="action-btn btn-close" id="btnClose">
+      <div class="btn-glow"></div>
+      <span class="btn-icon">&#10005;</span>
+      <span class="btn-label">CLOSE</span>
+    </button>
+  </div>
+</div>
+
+<!-- Liquidation overlay -->
+<div class="liqd-overlay" id="liqdOverlay">
+  <div class="liqd-box">
+    <div class="liqd-title">LIQUIDATED</div>
+    <div class="liqd-sub" id="liqdSub">Position wiped at 100x leverage</div>
+    <button class="liqd-btn" id="liqdBtn">RETRY</button>
+  </div>
+</div>
+
 <script>
 // ================================================
-// CoinBattle Saki — Standalone Battle Viewer
-// Single-file, no server, no build step
-// Three.js rendered via raw WebGL for zero dependencies
+// COIN BATTLE SAKI — Full Trading Game
 // ================================================
 
-// === CHARACTERS ===
-const CHARS=[
-{id:"saki",name:"Saki",ja:"サキ",style:"mean_reversion",color:[0,0.83,1],hex:"#00d4ff",philosophy:"すべては計算の内",emissive:[0,0.53,0.8]},
-{id:"raiko",name:"Raiko",ja:"雷狐",style:"high_frequency",color:[0,1,0.53],hex:"#00ff88",philosophy:"光より速く",emissive:[0,0.8,0.4]},
-{id:"musashi",name:"Musashi",ja:"ムサシ",style:"momentum",color:[1,0.84,0],hex:"#ffd700",philosophy:"退かぬ、媚びぬ、省みぬ",emissive:[0.8,0.6,0]}
-];
+// === CONFIG ===
+const LEVERAGE_OPTIONS = [10, 25, 50, 100];
+let leverageIdx = 3; // start at 100x
+let leverage = LEVERAGE_OPTIONS[leverageIdx];
 
-const STAGES=[
-{id:1,name:"S1 凪",color:"#4488aa",shake:0,bloom:0,particles:0},
-{id:2,name:"S2 気配",color:"#44aacc",shake:0,bloom:.1,particles:2},
-{id:3,name:"S3 胎動",color:"#44ccaa",shake:.3,bloom:.2,particles:5},
-{id:4,name:"S4 激突",color:"#aacc44",shake:.5,bloom:.3,particles:10},
-{id:5,name:"S5 激アツ",color:"#ffaa00",shake:1,bloom:.5,particles:20},
-{id:6,name:"S6 覚醒",color:"#ff6600",shake:1.5,bloom:.7,particles:30},
-{id:7,name:"S7 臨界",color:"#ff2d55",shake:2,bloom:.9,particles:50},
-{id:8,name:"S8 終焉",color:"#aa00ff",shake:3,bloom:1,particles:80}
-];
+// === GAME STATE ===
+const state = {
+  balance: 10000,
+  position: null, // {side:'long'|'short', entry:number, size:number}
+  pnl: 0,
+  totalPnl: 0,
+  wins: 0,
+  losses: 0
+};
 
-// === MARKET SIM ===
-class MarketSim{
-constructor(){this.price=4500000;this.vol=5000;this.tick=0;this.candles=[];this.seed=Date.now()%100000}
-rng(){this.seed=(this.seed*16807+0)%2147483647;return(this.seed&0x7fffffff)/2147483647}
-step(){
-this.tick++;
-const o=this.price;
-const spike=this.rng()<.02?(this.rng()<.5?-1:1)*(20000+this.rng()*80000):0;
-const body=(this.rng()-.5)*this.vol*.6+spike;
-const wu=this.rng()*this.vol*.3,wd=this.rng()*this.vol*.3;
-const c=Math.max(100000,o+body);
-const h=Math.max(o,c)+wu,l=Math.max(1000,Math.min(o,c)-wd);
-this.vol=Math.max(2000,Math.abs(body)*.3+this.vol*.92);
-this.price=c;
-const candle={o,h,l,c,v:Math.abs(body)*(50+this.rng()*200)};
-this.candles.push(candle);
-if(this.candles.length>80)this.candles.shift();
-return candle;
-}
-getATR(){
-if(this.candles.length<2)return this.vol;
-const r=this.candles.slice(-14);let a=0;
-for(let i=1;i<r.length;i++){a+=Math.max(r[i].h-r[i].l,Math.abs(r[i].h-r[i-1].c),Math.abs(r[i].l-r[i-1].c))}
-return a/Math.max(1,r.length-1);
-}
-getStage(){return Math.max(1,Math.min(8,Math.floor(this.getATR()/8000)+1))}
-}
-
-// === STRATEGIES ===
-function runStrategy(style,candles){
-if(candles.length<5)return"flat";
-if(style==="momentum"){
-let bull=0;for(const c of candles.slice(-5))if(c.c>c.o)bull++;
-return bull>=3?"long":bull<=2?"short":"flat";
-}
-if(style==="mean_reversion"){
-const r=candles.slice(-10);const avg=r.reduce((s,c)=>s+c.c,0)/r.length;
-const dev=(candles[candles.length-1].c-avg)/avg;
-return dev>.005?"short":dev<-.005?"long":"flat";
-}
-if(style==="high_frequency"){
-const last=candles[candles.length-1],prev=candles[candles.length-2];
-const mv=(last.c-prev.c)/prev.c;
-return mv>.0005?"long":mv<-.0005?"short":"long";
-}
-return"flat";
-}
-
-// === BATTLE STATE ===
-let battle=null,market=null,animId=null,tickTimer=null;
-function newBattle(){
-if(tickTimer)clearInterval(tickTimer);
-market=new MarketSim();
-for(let i=0;i<20;i++)market.step();
-let l=CHARS[Math.floor(Math.random()*3)],r=CHARS[Math.floor(Math.random()*3)];
-while(r.id===l.id)r=CHARS[Math.floor(Math.random()*3)];
-battle={tick:0,stage:1,isActive:true,winner:null,
-left:{char:l,pnl:0,power:50,trades:0,pos:null,peak:0,dd:0},
-right:{char:r,pnl:0,power:50,trades:0,pos:null,peak:0,dd:0},
-candles:[...market.candles],price:market.price,vol:market.vol};
-tickTimer=setInterval(stepBattle,1000);
-renderHUD();
-}
-function stepBattle(){
-if(!battle||!battle.isActive)return;
-const candle=market.step();
-battle.tick++;battle.candles=[...market.candles];
-battle.price=market.price;battle.vol=market.vol;
-battle.stage=market.getStage();
-const ls=runStrategy(battle.left.char.style,battle.candles);
-const rs=runStrategy(battle.right.char.style,battle.candles);
-updateBot(battle.left,ls,candle);updateBot(battle.right,rs,candle);
-const total=Math.abs(battle.left.pnl)+Math.abs(battle.right.pnl)+1;
-battle.left.power=50+((battle.left.pnl-battle.right.pnl)/total)*40;
-battle.right.power=100-battle.left.power;
-if(battle.tick>=30){
-battle.isActive=false;
-battle.winner=battle.left.pnl>=battle.right.pnl?"left":"right";
-clearInterval(tickTimer);
-}
-renderHUD();
-}
-function updateBot(bot,dir,candle){
-if(bot.pos){
-const mv=candle.c-candle.o;
-bot.pnl+=(bot.pos==="long"?mv:-mv)*.01;
-bot.peak=Math.max(bot.peak,bot.pnl);
-bot.dd=Math.max(bot.dd,bot.peak-bot.pnl);
-}
-if(dir!=="flat"&&bot.pos!==dir){bot.pos=dir;bot.trades++}
-else if(dir==="flat")bot.pos=null;
+// === MARKET SIMULATION ===
+class Market {
+  constructor() {
+    this.price = 70000 + Math.random() * 2000;
+    this.basePrice = this.price;
+    this.vol = 50;
+    this.trend = 0;
+    this.candles = [];
+    this.tick = 0;
+    this.ema9 = this.price;
+    this.ema21 = this.price;
+    this.ema55 = this.price;
+    this.rsi = 50;
+    this.macdLine = 0;
+    this.macdSignal = 0;
+    this.volumes = [];
+    this.seed = Date.now() % 99999;
+  }
+  rng() {
+    this.seed = (this.seed * 16807 + 0) % 2147483647;
+    return (this.seed & 0x7fffffff) / 2147483647;
+  }
+  gaussian() {
+    let u = 0, v = 0;
+    while (u === 0) u = this.rng();
+    while (v === 0) v = this.rng();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+  step() {
+    this.tick++;
+    // Trend drift (mean reverting)
+    this.trend += (this.rng() - 0.5) * 0.3;
+    this.trend *= 0.98;
+    // Volatility clustering
+    this.vol = Math.max(20, this.vol * 0.95 + Math.abs(this.gaussian()) * 15);
+    // Spike chance
+    const spike = this.rng() < 0.03 ? this.gaussian() * this.vol * 3 : 0;
+    const o = this.price;
+    const body = this.gaussian() * this.vol * 0.4 + this.trend + spike;
+    const c = Math.max(1000, o + body);
+    const wu = Math.abs(this.gaussian()) * this.vol * 0.3;
+    const wd = Math.abs(this.gaussian()) * this.vol * 0.3;
+    const h = Math.max(o, c) + wu;
+    const l = Math.max(500, Math.min(o, c) - wd);
+    const v = (Math.abs(body) + this.vol) * (30 + this.rng() * 100);
+    this.price = c;
+    // EMAs
+    this.ema9 = this.ema9 + (c - this.ema9) * (2 / 10);
+    this.ema21 = this.ema21 + (c - this.ema21) * (2 / 22);
+    this.ema55 = this.ema55 + (c - this.ema55) * (2 / 56);
+    // RSI
+    const change = c - o;
+    const gain = change > 0 ? change : 0;
+    const loss = change < 0 ? -change : 0;
+    this._avgGain = (this._avgGain || 20) * 13 / 14 + gain / 14;
+    this._avgLoss = (this._avgLoss || 20) * 13 / 14 + loss / 14;
+    const rs = this._avgGain / Math.max(0.01, this._avgLoss);
+    this.rsi = 100 - 100 / (1 + rs);
+    // MACD
+    this.macdLine = this.ema9 - this.ema21;
+    this.macdSignal = this.macdSignal + (this.macdLine - this.macdSignal) * (2 / 10);
+    const candle = { o, h, l, c, v, ema9: this.ema9, ema21: this.ema21, ema55: this.ema55 };
+    this.candles.push(candle);
+    this.volumes.push(v);
+    if (this.candles.length > 80) { this.candles.shift(); this.volumes.shift(); }
+    return candle;
+  }
+  getSignals() {
+    const sigs = {};
+    sigs.buy = this.price > this.ema9 && this.ema9 > this.ema21;
+    sigs.rsi = this.rsi > 50 && this.rsi < 75;
+    sigs.macd = this.macdLine > this.macdSignal;
+    sigs.bullish = this.candles.length > 3 && this.candles[this.candles.length - 1].c > this.candles[this.candles.length - 1].o && this.candles[this.candles.length - 2].c > this.candles[this.candles.length - 2].o;
+    sigs.vol = this.volumes.length > 5 && this.volumes[this.volumes.length - 1] > this.volumes[this.volumes.length - 2] * 1.2;
+    sigs.ema = Math.abs(this.ema9 - this.ema21) < this.vol * 0.3 && this.ema9 > this.ema21;
+    // Invert for sell
+    sigs.sell = this.price < this.ema9 && this.ema9 < this.ema21;
+    sigs.rsiDown = this.rsi < 40;
+    sigs.macdDown = this.macdLine < this.macdSignal;
+    return sigs;
+  }
 }
 
-// === WebGL RENDERER ===
-const canvas=document.getElementById("c");
-const gl=canvas.getContext("webgl2")||canvas.getContext("webgl")||canvas.getContext("experimental-webgl");
-let W,H,time=0;
+const market = new Market();
+// Pre-generate some candles
+for (let i = 0; i < 60; i++) market.step();
 
-function resize(){
-W=window.innerWidth;H=window.innerHeight;
-canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
-canvas.style.width=W+"px";canvas.style.height=H+"px";
-if(gl)gl.viewport(0,0,canvas.width,canvas.height);
-}
-window.addEventListener("resize",resize);resize();
+// === CHART RENDERING ===
+const chartCanvas = document.getElementById('chartCanvas');
+const chartCtx = chartCanvas.getContext('2d');
+const chartWrap = document.getElementById('chartWrap');
 
-// Simple 2D WebGL renderer (fallback-friendly)
-// Draws candlestick chart + character silhouettes + particles
-
-// Compile shader helper
-function createShader(type,src){
-const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);
-if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(s));return null}
-return s;
-}
-function createProgram(vs,fs){
-const p=gl.createProgram();gl.attachShader(p,vs);gl.attachShader(p,fs);gl.linkProgram(p);
-if(!gl.getProgramParameter(p,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(p));return null}
-return p;
+function resizeChart() {
+  const w = chartWrap.clientWidth;
+  const h = Math.min(220, window.innerHeight * 0.28);
+  chartWrap.style.height = h + 'px';
+  chartCanvas.width = w * devicePixelRatio;
+  chartCanvas.height = h * devicePixelRatio;
+  chartCanvas.style.width = w + 'px';
+  chartCanvas.style.height = h + 'px';
+  chartCtx.scale(devicePixelRatio, devicePixelRatio);
 }
 
-// Shaders
-const VS=`attribute vec2 a_pos;attribute vec4 a_col;varying vec4 v_col;uniform vec2 u_res;
-void main(){vec2 p=a_pos/u_res*2.0-1.0;p.y=-p.y;gl_Position=vec4(p,0,1);gl_PointSize=4.0;v_col=a_col;}`;
-const FS=`precision mediump float;varying vec4 v_col;void main(){gl_FragColor=v_col;}`;
+function drawChart() {
+  const w = chartCanvas.width / devicePixelRatio;
+  const h = chartCanvas.height / devicePixelRatio;
+  const ctx = chartCtx;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctx.clearRect(0, 0, w, h);
 
-const vs=createShader(gl.VERTEX_SHADER,VS);
-const fs=createShader(gl.FRAGMENT_SHADER,FS);
-const prog=createProgram(vs,fs);
-const aPos=gl.getAttribLocation(prog,"a_pos");
-const aCol=gl.getAttribLocation(prog,"a_col");
-const uRes=gl.getUniformLocation(prog,"u_res");
+  const candles = market.candles;
+  if (candles.length < 2) return;
 
-// Buffers
-const MAX_VERTS=50000;
-let verts=new Float32Array(MAX_VERTS*6);// x,y,r,g,b,a per vert
-let vertCount=0;
-const vbo=gl.createBuffer();
+  const volH = h * 0.18;
+  const chartH = h - volH - 8;
+  const chartY = 4;
 
-function pushQuad(x,y,w,h,r,g,b,a){
-const x1=x,y1=y,x2=x+w,y2=y+h;
-const d=[x1,y1,r,g,b,a, x2,y1,r,g,b,a, x1,y2,r,g,b,a, x1,y2,r,g,b,a, x2,y1,r,g,b,a, x2,y2,r,g,b,a];
-for(let i=0;i<d.length;i++)verts[vertCount*6+i]=d[i];
-vertCount+=6;
+  // Price range
+  let minP = Infinity, maxP = -Infinity;
+  for (const c of candles) { minP = Math.min(minP, c.l); maxP = Math.max(maxP, c.h); }
+  const range = maxP - minP || 1;
+  const pad = range * 0.05;
+  const pMin = minP - pad, pMax = maxP + pad, pRange = pMax - pMin;
+
+  const cw = w / candles.length;
+  const toY = p => chartY + chartH * (1 - (p - pMin) / pRange);
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,.04)';
+  ctx.lineWidth = 0.5;
+  const gridSteps = 5;
+  for (let i = 0; i <= gridSteps; i++) {
+    const y = chartY + chartH * i / gridSteps;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    // Price label
+    const p = pMax - pRange * i / gridSteps;
+    ctx.fillStyle = 'rgba(255,255,255,.2)';
+    ctx.font = '9px Rajdhani';
+    ctx.textAlign = 'right';
+    ctx.fillText(p.toLocaleString('en', { maximumFractionDigits: 0 }), w - 4, y - 2);
+  }
+
+  // Dashed current price line
+  const curY = toY(market.price);
+  ctx.strokeStyle = 'rgba(255,255,255,.15)';
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(0, curY); ctx.lineTo(w, curY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Current price label
+  ctx.fillStyle = '#2196f3';
+  const plw = 72, plh = 16;
+  ctx.fillRect(w - plw - 2, curY - plh / 2, plw, plh);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 10px Orbitron';
+  ctx.textAlign = 'right';
+  ctx.fillText(market.price.toLocaleString('en', { maximumFractionDigits: 2 }), w - 6, curY + 4);
+
+  // Entry line
+  if (state.position) {
+    const ey = toY(state.position.entry);
+    ctx.strokeStyle = state.position.side === 'long' ? 'rgba(0,229,204,.5)' : 'rgba(255,34,85,.5)';
+    ctx.setLineDash([6, 3]);
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, ey); ctx.lineTo(w, ey); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // EMA lines
+  function drawEMA(key, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i < candles.length; i++) {
+      const x = i * cw + cw / 2;
+      const y = toY(candles[i][key]);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  drawEMA('ema9', 'rgba(0,200,255,.6)');
+  drawEMA('ema21', 'rgba(255,200,0,.5)');
+  drawEMA('ema55', 'rgba(255,100,200,.4)');
+
+  // Candlesticks
+  for (let i = 0; i < candles.length; i++) {
+    const c = candles[i];
+    const bull = c.c >= c.o;
+    const x = i * cw;
+    const bodyTop = toY(Math.max(c.o, c.c));
+    const bodyBot = toY(Math.min(c.o, c.c));
+    const wickTop = toY(c.h);
+    const wickBot = toY(c.l);
+
+    // Wick
+    ctx.strokeStyle = bull ? '#00e676' : '#ff1744';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x + cw / 2, wickTop);
+    ctx.lineTo(x + cw / 2, wickBot);
+    ctx.stroke();
+
+    // Body
+    const bh = Math.max(1, bodyBot - bodyTop);
+    if (bull) {
+      ctx.fillStyle = '#00e676';
+    } else {
+      ctx.fillStyle = '#ff1744';
+    }
+    ctx.fillRect(x + cw * 0.15, bodyTop, cw * 0.7, bh);
+  }
+
+  // Volume bars
+  const maxVol = Math.max(...market.volumes);
+  for (let i = 0; i < candles.length; i++) {
+    const c = candles[i];
+    const bull = c.c >= c.o;
+    const vRatio = market.volumes[i] / maxVol;
+    const barH = volH * vRatio;
+    const x = i * cw;
+    const y = h - barH;
+    ctx.fillStyle = bull ? 'rgba(0,230,118,.25)' : 'rgba(255,23,68,.25)';
+    ctx.fillRect(x + cw * 0.1, y, cw * 0.8, barH);
+  }
 }
 
-function pushPoint(x,y,r,g,b,a){
-verts[vertCount*6]=x;verts[vertCount*6+1]=y;
-verts[vertCount*6+2]=r;verts[vertCount*6+3]=g;verts[vertCount*6+4]=b;verts[vertCount*6+5]=a;
-vertCount++;
+// === CHARACTER CANVAS (particles + energy) ===
+const charCanvas = document.getElementById('charCanvas');
+const charCtx = charCanvas.getContext('2d');
+let particles = [];
+let coins = [];
+let charTime = 0;
+
+function resizeChar() {
+  const area = document.getElementById('charArea');
+  const w = area.clientWidth;
+  const h = area.clientHeight;
+  charCanvas.width = w * devicePixelRatio;
+  charCanvas.height = h * devicePixelRatio;
+  charCanvas.style.width = w + 'px';
+  charCanvas.style.height = h + 'px';
 }
 
-// Particles
-let particles=[];
-function initParticles(count){
-particles=[];
-for(let i=0;i<count;i++){
-particles.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.5,vy:-Math.random()*1.5-.5,life:Math.random()});
-}
-}
-initParticles(200);
-
-// === RENDER LOOP ===
-function render(){
-if(!gl||!battle)return;
-time+=0.016;
-vertCount=0;
-const w=canvas.width/devicePixelRatio,h=canvas.height/devicePixelRatio;
-const stg=STAGES[battle.stage-1];
-
-gl.clearColor(0.02,0.05,0.1,1);gl.clear(gl.COLOR_BUFFER_BIT);
-
-// Draw candlestick chart (background, large)
-if(battle.candles.length>1){
-const candles=battle.candles;
-const prices=candles.flatMap(c=>[c.h,c.l]);
-const minP=Math.min(...prices),maxP=Math.max(...prices),range=maxP-minP||1;
-const cw=w/candles.length;
-const chartH=h*.6,chartY=h*.2;
-for(let i=0;i<candles.length;i++){
-const c=candles[i];
-const bull=c.c>=c.o;
-const r=bull?0:0.8,g=bull?0.5:0.1,b=bull?0.3:0.15;
-const bodyBot=(Math.min(c.o,c.c)-minP)/range;
-const bodyTop=(Math.max(c.o,c.c)-minP)/range;
-const wickBot=(c.l-minP)/range;
-const wickTop=(c.h-minP)/range;
-const x=i*cw;
-// Wick
-pushQuad(x+cw*.45,chartY+chartH*(1-wickTop),cw*.1,chartH*(wickTop-wickBot),r*.5,g*.5,b*.5,.3);
-// Body
-const bh=Math.max(1,chartH*(bodyTop-bodyBot));
-pushQuad(x+cw*.15,chartY+chartH*(1-bodyTop),cw*.7,bh,r,g,b,.5);
-}
+function spawnParticles(count, color, cx, cy) {
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1 + Math.random() * 3;
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 1,
+      life: 1,
+      decay: 0.01 + Math.random() * 0.02,
+      size: 1 + Math.random() * 3,
+      color
+    });
+  }
 }
 
-// Draw hero silhouettes (large geometric robots)
-function drawRobot(cx,cy,scale,col,power,side){
-const [cr,cg,cb]=col;
-const s=scale;
-const glow=.3+Math.sin(time*2)*.15;
-// Body
-pushQuad(cx-s*.3,cy-s*.45,s*.6,s*.9,cr*.3,cg*.3,cb*.3,.8);
-// Head
-pushQuad(cx-s*.18,cy-s*.7,s*.36,s*.25,cr*.15,cg*.15,cb*.15,.9);
-// Eyes
-const eyeGlow=.5+Math.sin(time*3)*.5;
-pushQuad(cx-s*.12,cy-s*.6,s*.08,s*.03,cr*eyeGlow,cg*eyeGlow,cb*eyeGlow,1);
-pushQuad(cx+s*.04,cy-s*.6,s*.08,s*.03,cr*eyeGlow,cg*eyeGlow,cb*eyeGlow,1);
-// Shoulders
-pushQuad(cx-s*.45,cy-s*.42,s*.15,s*.15,cr*.25,cg*.25,cb*.25,.7);
-pushQuad(cx+s*.3,cy-s*.42,s*.15,s*.15,cr*.25,cg*.25,cb*.25,.7);
-// Arms
-pushQuad(cx-s*.5,cy-s*.3,s*.12,s*.5,cr*.12,cg*.12,cb*.12,.6);
-pushQuad(cx+s*.38,cy-s*.3,s*.12,s*.5,cr*.12,cg*.12,cb*.12,.6);
-// Legs
-pushQuad(cx-s*.22,cy+s*.45,s*.18,s*.4,cr*.1,cg*.1,cb*.1,.6);
-pushQuad(cx+s*.04,cy+s*.45,s*.18,s*.4,cr*.1,cg*.1,cb*.1,.6);
-// Core glow
-pushQuad(cx-s*.06,cy-s*.1,s*.12,s*.12,cr*glow,cg*glow,cb*glow,.8);
-// Power aura (bottom ring)
-const pw=power/100;
-pushQuad(cx-s*.5,cy+s*.85,s*pw,s*.03,cr*.4,cg*.4,cb*.4,.4);
+function spawnCoins(count) {
+  const w = charCanvas.width / devicePixelRatio;
+  const h = charCanvas.height / devicePixelRatio;
+  for (let i = 0; i < count; i++) {
+    coins.push({
+      x: Math.random() * w,
+      y: h + 20 + Math.random() * 40,
+      vy: -1.5 - Math.random() * 2,
+      vx: (Math.random() - 0.5) * 1.5,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.1,
+      size: 8 + Math.random() * 10,
+      life: 1,
+      decay: 0.005 + Math.random() * 0.005
+    });
+  }
 }
 
-const robotScale=Math.min(w,h)*.45;
-drawRobot(w*.25,h*.55,robotScale,battle.left.char.color,battle.left.power,"left");
-drawRobot(w*.75,h*.55,robotScale,battle.right.char.color,battle.right.power,"right");
+function drawCharArea() {
+  const w = charCanvas.width / devicePixelRatio;
+  const h = charCanvas.height / devicePixelRatio;
+  const ctx = charCtx;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  charTime += 0.016;
 
-// Particles
-const stageColor=hexToRGB(stg.color);
-const pCount=Math.max(50,STAGES[battle.stage-1].particles*3);
-while(particles.length<pCount)particles.push({x:Math.random()*w,y:h+10,vx:(Math.random()-.5)*.5,vy:-Math.random()*1.5-.5,life:Math.random()});
-for(let i=0;i<particles.length;i++){
-const p=particles[i];
-const spd=battle.isActive?1+battle.stage*.2:.3;
-p.x+=p.vx*spd;p.y+=p.vy*spd;p.life-=.003;
-if(p.y<-10||p.life<=0){p.x=Math.random()*w;p.y=h+10;p.vy=-Math.random()*1.5-.5;p.life=1}
-pushPoint(p.x,p.y,stageColor[0],stageColor[1],stageColor[2],p.life*.4);
+  // Background energy effect
+  const intensity = state.position ? 0.4 : 0.1;
+  const energyColor = !state.position ? [100, 80, 160] :
+    state.position.side === 'long' ? [0, 200, 180] : [255, 50, 100];
+
+  // Radial glow from center
+  const cx = w / 2, cy = h * 0.45;
+  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.6);
+  grad.addColorStop(0, `rgba(${energyColor[0]},${energyColor[1]},${energyColor[2]},${intensity * 0.3})`);
+  grad.addColorStop(0.5, `rgba(${energyColor[0]},${energyColor[1]},${energyColor[2]},${intensity * 0.1})`);
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Animated energy lines
+  if (state.position) {
+    ctx.strokeStyle = `rgba(${energyColor[0]},${energyColor[1]},${energyColor[2]},${0.15 + Math.sin(charTime * 3) * 0.1})`;
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < 8; i++) {
+      const angle = charTime * 0.5 + i * Math.PI / 4;
+      const r1 = 30 + Math.sin(charTime * 2 + i) * 20;
+      const r2 = 100 + Math.sin(charTime * 1.5 + i) * 40;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle) * r1, cy + Math.sin(angle) * r1);
+      ctx.lineTo(cx + Math.cos(angle) * r2, cy + Math.sin(angle) * r2);
+      ctx.stroke();
+    }
+  }
+
+  // Draw Saki character (stylized silhouette)
+  drawSakiCharacter(ctx, cx, cy, w, h);
+
+  // Particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.02;
+    p.life -= p.decay;
+    if (p.life <= 0) { particles.splice(i, 1); continue; }
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // Coins
+  for (let i = coins.length - 1; i >= 0; i--) {
+    const c = coins[i];
+    c.x += c.vx;
+    c.y += c.vy;
+    c.vy += 0.01;
+    c.rot += c.rotSpeed;
+    c.life -= c.decay;
+    if (c.life <= 0) { coins.splice(i, 1); continue; }
+    ctx.save();
+    ctx.globalAlpha = c.life * 0.8;
+    ctx.translate(c.x, c.y);
+    ctx.rotate(c.rot);
+    // Bitcoin coin
+    const s = c.size * Math.abs(Math.cos(charTime * 2 + i));
+    ctx.fillStyle = '#f7931a';
+    ctx.beginPath();
+    ctx.ellipse(0, 0, s, c.size, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold ${c.size * 0.8}px Orbitron`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('B', 0, 0);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  // Ambient floating particles
+  if (Math.random() < 0.3) {
+    particles.push({
+      x: Math.random() * w, y: h + 5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -0.5 - Math.random() * 1,
+      life: 1, decay: 0.005 + Math.random() * 0.005,
+      size: 1 + Math.random() * 2,
+      color: `hsl(${200 + Math.random() * 60}, 80%, 70%)`
+    });
+  }
 }
 
-// Camera shake
-if(battle.isActive&&stg.shake>0){
-const s=stg.shake;
-const ox=(Math.random()-.5)*s*2,oy=(Math.random()-.5)*s*2;
-for(let i=0;i<vertCount;i++){verts[i*6]+=ox;verts[i*6+1]+=oy}
+function drawSakiCharacter(ctx, cx, cy, w, h) {
+  // Stylized anime girl silhouette with glow
+  const scale = Math.min(w, h) * 0.003;
+  const s = scale;
+  ctx.save();
+  ctx.translate(cx, cy + 10);
+
+  // Hair glow
+  const hairGrad = ctx.createRadialGradient(0, -30 * s, 0, 0, -30 * s, 70 * s);
+  hairGrad.addColorStop(0, 'rgba(255,180,220,0.12)');
+  hairGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = hairGrad;
+  ctx.fillRect(-80 * s, -90 * s, 160 * s, 180 * s);
+
+  // Head
+  ctx.fillStyle = 'rgba(255,220,230,0.08)';
+  ctx.beginPath();
+  ctx.ellipse(0, -45 * s, 22 * s, 26 * s, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Hair flowing (long, pink-ish)
+  ctx.fillStyle = 'rgba(255,150,200,0.06)';
+  ctx.beginPath();
+  ctx.moveTo(-25 * s, -65 * s);
+  ctx.quadraticCurveTo(-50 * s, -20 * s, -60 * s + Math.sin(charTime * 1.5) * 5, 60 * s);
+  ctx.lineTo(-10 * s, 40 * s);
+  ctx.lineTo(-20 * s, -40 * s);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(25 * s, -65 * s);
+  ctx.quadraticCurveTo(55 * s, -10 * s, 65 * s + Math.sin(charTime * 1.5 + 1) * 5, 55 * s);
+  ctx.lineTo(15 * s, 35 * s);
+  ctx.lineTo(20 * s, -40 * s);
+  ctx.closePath();
+  ctx.fill();
+
+  // Body (jacket)
+  ctx.fillStyle = 'rgba(200,210,255,0.05)';
+  ctx.beginPath();
+  ctx.moveTo(-18 * s, -20 * s);
+  ctx.lineTo(-28 * s, 50 * s);
+  ctx.lineTo(28 * s, 50 * s);
+  ctx.lineTo(18 * s, -20 * s);
+  ctx.closePath();
+  ctx.fill();
+
+  // Headphones
+  ctx.strokeStyle = 'rgba(0,200,255,0.12)';
+  ctx.lineWidth = 3 * s;
+  ctx.beginPath();
+  ctx.arc(0, -50 * s, 25 * s, Math.PI * 1.1, Math.PI * 1.9);
+  ctx.stroke();
+
+  // Eyes (glowing)
+  const eyeGlow = 0.15 + Math.sin(charTime * 2) * 0.05;
+  ctx.fillStyle = `rgba(100,220,255,${eyeGlow})`;
+  ctx.beginPath();
+  ctx.ellipse(-8 * s, -45 * s, 3 * s, 4 * s, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(8 * s, -45 * s, 3 * s, 4 * s, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Glowing accents on outfit
+  const accentAlpha = 0.1 + Math.sin(charTime * 3) * 0.05;
+  ctx.fillStyle = `rgba(0,200,255,${accentAlpha})`;
+  ctx.fillRect(-4 * s, 0, 8 * s, 3 * s);
+  ctx.fillRect(-15 * s, 10 * s, 5 * s, 2 * s);
+  ctx.fillRect(10 * s, 10 * s, 5 * s, 2 * s);
+
+  ctx.restore();
 }
 
-// Flush draw
-gl.useProgram(prog);
-gl.uniform2f(uRes,w,h);
-gl.bindBuffer(gl.ARRAY_BUFFER,vbo);
-gl.bufferData(gl.ARRAY_BUFFER,verts.subarray(0,vertCount*6),gl.DYNAMIC_DRAW);
-gl.enableVertexAttribArray(aPos);gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,24,0);
-gl.enableVertexAttribArray(aCol);gl.vertexAttribPointer(aCol,4,gl.FLOAT,false,24,8);
-gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
-gl.drawArrays(gl.TRIANGLES,0,vertCount);
-// Draw particles as points
-// (already included as TRIANGLES via pushPoint — small quads)
+// === SIGNALS UPDATE ===
+function updateSignals() {
+  const sigs = market.getSignals();
+  const chips = {
+    buy: document.getElementById('sig-buy'),
+    rsi: document.getElementById('sig-rsi'),
+    macd: document.getElementById('sig-macd'),
+    bull: document.getElementById('sig-bull'),
+    vol: document.getElementById('sig-vol'),
+    ema: document.getElementById('sig-ema')
+  };
 
-animId=requestAnimationFrame(render);
+  function setActive(el, active) {
+    el.style.opacity = active ? '1' : '0.3';
+    el.style.borderColor = active ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.04)';
+  }
+
+  setActive(chips.buy, sigs.buy);
+  setActive(chips.rsi, sigs.rsi);
+  setActive(chips.macd, sigs.macd);
+  setActive(chips.bull, sigs.bullish);
+  setActive(chips.vol, sigs.vol);
+  setActive(chips.ema, sigs.ema);
+
+  // Update buy/sell text
+  if (sigs.sell) {
+    chips.buy.querySelector('.signal-text').textContent = 'SELL';
+    chips.buy.querySelector('.signal-icon').textContent = '\u25BC';
+    chips.buy.className = 'signal-chip signal-buy';
+    chips.buy.querySelector('.signal-icon').style.color = '#ff2255';
+    chips.buy.querySelector('.signal-text').style.color = '#ff2255';
+  } else {
+    chips.buy.querySelector('.signal-text').textContent = 'BUY';
+    chips.buy.querySelector('.signal-icon').textContent = '\u25B2';
+    chips.buy.querySelector('.signal-icon').style.color = '';
+    chips.buy.querySelector('.signal-text').style.color = '';
+  }
+
+  if (sigs.rsiDown) {
+    chips.rsi.querySelector('.signal-text').textContent = 'RSI \u2193';
+  } else {
+    chips.rsi.querySelector('.signal-text').textContent = 'RSI \u2191';
+  }
+
+  if (sigs.macdDown) {
+    chips.macd.querySelector('.signal-text').textContent = 'MACD \u2193';
+  } else {
+    chips.macd.querySelector('.signal-text').textContent = 'MACD \u2191';
+  }
 }
 
-function hexToRGB(hex){
-const r=parseInt(hex.slice(1,3),16)/255;
-const g=parseInt(hex.slice(3,5),16)/255;
-const b=parseInt(hex.slice(5,7),16)/255;
-return[r,g,b];
+// === PRICE DISPLAY ===
+function updatePriceDisplay() {
+  const priceEl = document.getElementById('priceVal');
+  const changeEl = document.getElementById('priceChange');
+
+  priceEl.textContent = market.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const change = ((market.price - market.basePrice) / market.basePrice) * 100;
+  const up = change >= 0;
+  changeEl.className = 'price-change ' + (up ? 'price-up' : 'price-down');
+  changeEl.innerHTML = `${up ? '+' : ''}${change.toFixed(2)}%<span style="margin-left:2px">${up ? '\u25B2' : '\u25BC'}</span>`;
 }
 
-// === HUD ===
-function renderHUD(){
-if(!battle)return;
-const b=battle,l=b.left,r=b.right,stg=STAGES[b.stage-1];
-const lp=Math.max(0,Math.min(100,l.power)),rp=100-lp;
-let html=`
-<div class="hud-top">
-<div class="logo">CoinBattle Saki</div>
-<div class="badges">
-<span class="badge badge-vol">VOL:${b.vol.toFixed(0)}</span>
-<span class="badge badge-stage" style="color:${stg.color}">${stg.name}</span>
-<span class="badge badge-price">BTC/JPY:${b.price.toLocaleString("ja-JP",{maximumFractionDigits:0})}</span>
-</div>
-<button class="btn-encounter" id="enc-btn" style="background:${b.isActive?"#333":"linear-gradient(135deg,#00d4ff,#0090cc)"};pointer-events:auto" ${b.isActive?"disabled":""}>
-${b.isActive?`Battle ${b.tick}/30`:"Push Encounter"}
-</button>
-</div>
-<div class="char-left">
-<div class="char-name" style="color:${l.char.hex}">${l.char.ja}</div>
-<div class="char-sub">${l.char.name} / ${l.char.style}</div>
-<div class="char-pnl ${l.pnl>=0?"pnl-pos":"pnl-neg"}">P&L: ${l.pnl>=0?"+":""}${l.pnl.toFixed(0)} JPY</div>
-<div class="char-sub">Trades: ${l.trades}</div>
-</div>
-<div class="char-right">
-<div class="char-name" style="color:${r.char.hex}">${r.char.ja}</div>
-<div class="char-sub">${r.char.name} / ${r.char.style}</div>
-<div class="char-pnl ${r.pnl>=0?"pnl-pos":"pnl-neg"}">P&L: ${r.pnl>=0?"+":""}${r.pnl.toFixed(0)} JPY</div>
-<div class="char-sub">Trades: ${r.trades}</div>
-</div>`;
-if(b.isActive){
-html+=`<div class="stage-label" style="text-shadow:0 0 40px ${stg.color}80,0 10px 40px rgba(0,0,0,.8)">${stg.name}</div>`;
+// === P&L ===
+function updatePnL() {
+  const pnlEl = document.getElementById('pnlValue');
+  const pnlSubEl = document.getElementById('pnlSub');
+  const posBadge = document.getElementById('posBadge');
+
+  if (!state.position) {
+    pnlEl.textContent = '$0.00';
+    pnlEl.className = 'pnl-value neutral';
+    pnlSubEl.textContent = `Balance: $${state.balance.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    posBadge.textContent = 'NO POS';
+    posBadge.className = 'pos-badge pos-none';
+    return;
+  }
+
+  const pos = state.position;
+  const diff = market.price - pos.entry;
+  const pnlPct = (diff / pos.entry) * (pos.side === 'long' ? 1 : -1);
+  state.pnl = pos.size * pnlPct * leverage;
+
+  const up = state.pnl >= 0;
+  pnlEl.textContent = `${up ? '+' : ''}$${state.pnl.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  pnlEl.className = 'pnl-value ' + (up ? 'profit' : 'loss');
+
+  const pct = (pnlPct * leverage * 100);
+  pnlSubEl.textContent = `${up ? '+' : ''}${pct.toFixed(1)}% | Margin: $${pos.size.toFixed(0)}`;
+
+  posBadge.textContent = pos.side.toUpperCase();
+  posBadge.className = 'pos-badge pos-' + pos.side;
+
+  // Liquidation check (simplified: if loss > margin)
+  if (state.pnl < -pos.size * 0.95) {
+    liquidate();
+  }
 }
-html+=`
-<div class="dom-bar-wrap">
-<div class="dom-labels"><span>${l.char.name}</span><span>Dominance</span><span>${r.char.name}</span></div>
-<div class="dom-track">
-<div class="dom-fill" style="width:${lp}%;background:linear-gradient(90deg,${l.char.hex},${l.char.hex}66)"></div>
-<div class="dom-fill" style="width:${rp}%;background:linear-gradient(270deg,${r.char.hex},${r.char.hex}66)"></div>
-</div>
-</div>
-<div class="philosophy philosophy-l">"${l.char.philosophy}"</div>
-<div class="philosophy philosophy-r">"${r.char.philosophy}"</div>`;
-if(b.winner){
-const w=b.winner==="left"?l:r;
-html+=`
-<div class="winner-overlay" id="winner-click">
-<div class="winner-box">
-<div class="winner-title" style="color:${w.char.hex};text-shadow:0 0 30px ${w.char.hex}80">利確 TAKE PROFIT</div>
-<div class="winner-sub">Winner: ${w.char.ja} (${w.char.name})</div>
-<div class="winner-stats">P&L: ${w.pnl.toFixed(0)} JPY | Max DD: ${w.dd.toFixed(0)} | Trades: ${w.trades}</div>
-<div class="winner-hint">タップで次のバトル</div>
-</div>
-</div>`;
+
+// === ACTIONS ===
+function openPosition(side) {
+  if (state.position) return; // Already has position
+  if (state.balance < 10) return;
+
+  const size = Math.min(state.balance, state.balance * 0.5); // Use 50% of balance
+  state.position = {
+    side,
+    entry: market.price,
+    size
+  };
+
+  showToast(side === 'long' ? 'LONG OPENED' : 'SHORT OPENED', side === 'long' ? 'toast-long' : 'toast-short');
+  spawnParticles(30, side === 'long' ? '#00e5cc' : '#ff2255', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.4);
+
+  // Haptic feedback
+  if (navigator.vibrate) navigator.vibrate(30);
 }
-document.getElementById("hud").innerHTML=html;
-// Bind button
-const btn=document.getElementById("enc-btn");
-if(btn)btn.addEventListener("click",()=>{if(!battle.isActive)newBattle()});
-const wc=document.getElementById("winner-click");
-if(wc)wc.addEventListener("click",newBattle);
+
+function closePosition() {
+  if (!state.position) return;
+
+  const pnl = state.pnl;
+  state.balance += pnl;
+  state.totalPnl += pnl;
+  if (pnl >= 0) state.wins++; else state.losses++;
+
+  const profit = pnl >= 0;
+  showToast(`${profit ? '+' : ''}$${pnl.toFixed(2)}`, profit ? 'toast-profit' : 'toast-loss');
+
+  if (profit) {
+    spawnCoins(8);
+    spawnParticles(50, '#ffd700', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.3);
+  } else {
+    spawnParticles(30, '#ff2255', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.5);
+  }
+
+  state.position = null;
+  state.pnl = 0;
+
+  if (navigator.vibrate) navigator.vibrate(profit ? [30, 50, 30] : [100]);
+
+  if (state.balance < 1) {
+    state.balance = 10000;
+    showToast('Balance Reset!', 'toast-long');
+  }
+}
+
+function liquidate() {
+  state.balance = Math.max(0, state.balance + state.pnl);
+  state.totalPnl += state.pnl;
+  state.losses++;
+  state.position = null;
+  state.pnl = 0;
+
+  // Red flash
+  document.getElementById('charArea').style.background = 'rgba(255,0,0,.15)';
+  setTimeout(() => document.getElementById('charArea').style.background = '', 500);
+
+  // Shake
+  document.getElementById('app').style.animation = 'liqShake .3s ease';
+  setTimeout(() => document.getElementById('app').style.animation = '', 400);
+
+  spawnParticles(60, '#ff0044', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.4);
+
+  if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 100]);
+
+  const overlay = document.getElementById('liqdOverlay');
+  document.getElementById('liqdSub').textContent = `Lost $${Math.abs(state.pnl || 0).toFixed(2)} at ${leverage}x leverage`;
+  overlay.classList.add('show');
+
+  if (state.balance < 1) state.balance = 10000;
+}
+
+function cycleLeverage() {
+  leverageIdx = (leverageIdx + 1) % LEVERAGE_OPTIONS.length;
+  leverage = LEVERAGE_OPTIONS[leverageIdx];
+  document.querySelector('.btn-lev .btn-val').textContent = leverage + 'x';
+  document.querySelector('.btn-lev .btn-sub').textContent = 'LEVERAGE';
+  document.querySelector('.lev-val').textContent = leverage + 'x';
+  showToast(`${leverage}x LEVERAGE`, 'toast-long');
+  if (navigator.vibrate) navigator.vibrate(15);
+}
+
+function showToast(text, cls) {
+  const t = document.createElement('div');
+  t.className = 'toast ' + cls;
+  t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 700);
+}
+
+// === EVENT LISTENERS ===
+document.getElementById('btnLong').addEventListener('click', () => openPosition('long'));
+document.getElementById('btnShort').addEventListener('click', () => openPosition('short'));
+document.getElementById('btnClose').addEventListener('click', closePosition);
+document.getElementById('btnLev').addEventListener('click', cycleLeverage);
+document.getElementById('liqdBtn').addEventListener('click', () => {
+  document.getElementById('liqdOverlay').classList.remove('show');
+});
+
+// Timeframe tabs (visual only for now)
+document.querySelectorAll('.tf-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// === MAIN LOOP ===
+let tickCount = 0;
+function gameLoop() {
+  // Market step every 1 second
+  tickCount++;
+  if (tickCount % 60 === 0) {
+    market.step();
+    updateSignals();
+  }
+
+  updatePriceDisplay();
+  updatePnL();
+  drawChart();
+  drawCharArea();
+
+  requestAnimationFrame(gameLoop);
 }
 
 // === INIT ===
-if(!gl){
-document.getElementById("hud").innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;padding:20px"><div><h2 style="color:#ff2d55">WebGL非対応</h2><p style="opacity:.5;margin-top:10px">このブラウザはWebGLに対応していません。<br>Chrome / Safari / Firefoxをお使いください。</p></div></div>';
-}else{
-newBattle();
-render();
+function init() {
+  resizeChart();
+  resizeChar();
+  updateSignals();
+  gameLoop();
 }
+
+window.addEventListener('resize', () => { resizeChart(); resizeChar(); });
+window.addEventListener('orientationchange', () => setTimeout(() => { resizeChart(); resizeChar(); }, 200));
+
+init();
 </script>
 </body>
 </html>
