@@ -8,7 +8,8 @@
     "move": "schemas/move.schema.json",
     "item": "schemas/item.schema.json",
     "stage": "schemas/stage.schema.json",
-    "event": "schemas/event.schema.json"
+    "event": "schemas/event.schema.json",
+    "title": "schemas/title.schema.json"
   },
   "data": {
     "bots": "data/bots.json",
@@ -16,7 +17,8 @@
     "moves": "data/moves.json",
     "items": "data/items.json",
     "stages": "data/stages.json",
-    "events": "data/events.json"
+    "events": "data/events.json",
+    "titles": "data/titles.json"
   },
   "stats": {
     "bots": 14,
@@ -24,6 +26,7 @@
     "moves": 34,
     "items": 15,
     "stages": 12,
-    "events": 28
+    "events": 28,
+    "titles": 63
   }
 }

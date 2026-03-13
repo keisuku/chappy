@@ -358,3 +358,129 @@ export interface GameState {
   arenas: Arena[];
   botImages: Record<string, string>; // botId/characterId -> dataURL
 }
+
+// ============================================
+// Trader Title System — Types
+// ============================================
+
+export type TitleCategory = "daily" | "lifetime" | "style";
+export type TitleRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+
+export interface TraderTitle {
+  id: string;
+  name: string;
+  nameJa: string;
+  category: TitleCategory;
+  rarity: TitleRarity;
+  description: string;
+  condition: TitleCondition;
+  reward_ac: number;
+}
+
+export type TitleCondition =
+  | { type: "daily_profit"; min: number }
+  | { type: "daily_profit_negative"; max: number }
+  | { type: "daily_trades"; min: number }
+  | { type: "daily_win_rate"; min: number; min_trades: number }
+  | { type: "daily_max_drawdown"; max: number; min_trades: number }
+  | { type: "daily_perfect_trades"; min: number }
+  | { type: "daily_stage_reached"; stage: number }
+  | { type: "daily_jackpots"; min: number }
+  | { type: "daily_comebacks"; min: number }
+  | { type: "daily_battles"; min: number }
+  | { type: "total_profit"; min: number }
+  | { type: "total_trades"; min: number }
+  | { type: "total_wins"; min: number }
+  | { type: "total_battles"; min: number }
+  | { type: "total_jackpots"; min: number }
+  | { type: "total_perfect_trades"; min: number }
+  | { type: "total_max_streak"; min: number }
+  | { type: "total_unique_bots"; min: number }
+  | { type: "total_s8_battles"; min: number }
+  | { type: "total_comebacks"; min: number }
+  | { type: "style_pattern"; pattern: StylePattern };
+
+export type StylePattern =
+  | "momentum_dominant"     // >70% of trades follow trend
+  | "contrarian"            // >70% of trades counter trend
+  | "scalper"               // avg hold time < 3 ticks
+  | "swing_trader"          // avg hold time > 10 ticks
+  | "long_biased"           // >80% long positions
+  | "short_biased"          // >80% short positions
+  | "high_frequency"        // >20 trades per battle avg
+  | "sniper"                // <5 trades per battle, >70% win rate
+  | "dip_buyer"             // enters long after drawdowns
+  | "top_seller"            // enters short after surges
+  | "volatility_hunter"     // higher trade frequency in S5+ stages
+  | "calm_trader"           // consistent PnL, low drawdown ratio
+  | "comeback_king"         // >3 comebacks from negative PnL
+  | "iron_hands"            // holds through >50% drawdown without exiting
+  | "first_mover"           // enters within first 3 ticks consistently
+  | "closer"                // wins in final 5 ticks consistently
+  | "multi_strategy"        // uses 3+ different bots
+  | "one_trick"             // uses same bot >80% of battles
+  | "risk_taker"            // avg leverage > 5x
+  | "conservative"          // avg leverage < 2x
+  | "perfectionist"         // >3 perfect trades lifetime
+  | "survivor";             // wins with <10% PnL margin
+
+export interface TraderProfile {
+  playerId: string;
+  dailyStats: DailyStats;
+  lifetimeStats: LifetimeStats;
+  patternHistory: PatternHistory;
+  activeTitles: string[];      // title IDs
+  equippedTitle: string | null; // displayed title
+}
+
+export interface DailyStats {
+  date: string;              // ISO date
+  profit: number;
+  trades: number;
+  wins: number;
+  losses: number;
+  battles: number;
+  maxDrawdown: number;
+  perfectTrades: number;
+  jackpots: number;
+  comebacks: number;
+  highestStage: number;
+}
+
+export interface LifetimeStats {
+  totalProfit: number;
+  totalTrades: number;
+  totalWins: number;
+  totalBattles: number;
+  totalJackpots: number;
+  totalPerfectTrades: number;
+  maxWinStreak: number;
+  currentWinStreak: number;
+  uniqueBotsUsed: string[];
+  totalS8Battles: number;
+  totalComebacks: number;
+}
+
+export interface PatternHistory {
+  recentTrades: TradeRecord[];  // last 100 trades
+  avgHoldTime: number;          // ticks
+  avgTradesPerBattle: number;
+  longRatio: number;            // 0-1
+  shortRatio: number;           // 0-1
+  trendFollowRatio: number;     // 0-1
+  avgEntryTick: number;
+  avgExitTick: number;
+  highVolTradeRatio: number;    // % of trades in S5+ stages
+  drawdownRecoveryRate: number; // % of drawdowns recovered from
+  avgPnlMargin: number;        // avg win margin
+}
+
+export interface TradeRecord {
+  direction: TradeDirection;
+  entryTick: number;
+  exitTick: number;
+  pnl: number;
+  stage: number;
+  botId: string;
+  followedTrend: boolean;
+}
