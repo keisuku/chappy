@@ -71,6 +71,21 @@ export default function HomePage() {
         style={{ background: "radial-gradient(circle, #00d4ff, transparent 70%)" }}
       />
 
+        // Log battle summary
+        if (!next.isActive && next.winner) {
+          const summary = getBattleSummary(next);
+          if (summary) {
+            console.log("[Cryptarena Battle Summary]", JSON.stringify({
+              winner: summary.winner.name,
+              loser: summary.loser.name,
+              winnerPnl: summary.winnerPnl.toFixed(0),
+              loserPnl: summary.loserPnl.toFixed(0),
+              maxStage: summary.maxStage,
+              totalTicks: summary.totalTicks,
+              criticalMoments: summary.criticalMoments.length,
+              marketEvents: summary.marketEvents.length,
+              signals: summary.signalStats,
+            }, null, 2));
         // Process visual events
         const events = processEvents(prev, next);
         if (events.length > 0) {

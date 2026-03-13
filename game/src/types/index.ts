@@ -3,6 +3,14 @@
 // ============================================
 
 export type TradingStyle =
+  | "scalper"
+  | "momentum"
+  | "mean_reversion"
+  | "breakout"
+  | "market_maker"
+  | "news_hunter"
+  | "whale_tracker"
+  | "hybrid_ai";
   | "momentum"
   | "mean_reversion"
   | "high_frequency"
@@ -126,6 +134,7 @@ export interface BattleState {
   winner: "left" | "right" | null;
   events: BattleEvent[];
   marketEvents: MarketEvent[];
+  signals: SignalEngineState;
 }
 
 export interface StageConfig {
@@ -212,6 +221,76 @@ export interface MatchupModifier {
   advantage: number; // multiplier: >1 = advantage, <1 = disadvantage
 }
 
+// ── Signal Engine Types ──
+
+export type SignalType =
+  | "trend_break"         // Price breaks key trendline
+  | "volume_spike"        // Abnormal volume surge
+  | "pattern_formation"   // Chart pattern detected (triangle, head-shoulders, etc.)
+  | "divergence"          // Price/momentum divergence
+  | "support_test"        // Price tests support level
+  | "resistance_test"     // Price tests resistance level
+  | "whale_alert"         // Large order detected
+  | "liquidation_zone"    // Mass liquidation price level nearby
+  | "golden_cross"        // Short MA crosses above long MA
+  | "death_cross"         // Short MA crosses below long MA
+  | "fakeout"             // False breakout trap
+  | "squeeze_alert";      // Volatility squeeze about to break
+
+export type SignalStrength = "noise" | "weak" | "moderate" | "strong" | "legendary";
+
+export type BotReaction = "ignore" | "scan" | "hesitate" | "engage" | "dodge" | "all_in";
+
+export interface Signal {
+  id: string;
+  type: SignalType;
+  tick: number;
+  // Core attributes
+  confidence: number;        // 0-1 — how likely the signal is real (most are <0.3)
+  strength: SignalStrength;
+  direction: TradeDirection;  // suggested direction
+  // Outcome
+  isTrap: boolean;           // true = signal will fail (fakeout)
+  trapSeverity: number;      // 0-1 — how badly the trap punishes
+  // Visual output for UI
+  visual: SignalVisual;
+  // Lifecycle
+  decayRate: number;         // confidence drops per tick (0.05-0.5)
+  ttl: number;               // ticks remaining before signal expires
+  expired: boolean;
+  // Context
+  priceLevel: number;        // price at which signal appeared
+  reason: string;            // human-readable explanation
+}
+
+export interface SignalVisual {
+  intensity: number;         // 0-1 — controls particle count, glow, screen effects
+  color: string;             // hex color for the signal flash
+  icon: string;              // emoji or icon name for UI
+  screenEffect: "none" | "flash" | "pulse" | "ripple" | "shake" | "glitch";
+  particleBurst: number;     // number of particles to spawn (0-50)
+  soundCue: "none" | "blip" | "chime" | "alarm" | "thunder" | "shatter";
+}
+
+export interface BotSignalReaction {
+  botSide: "left" | "right";
+  signal: Signal;
+  reaction: BotReaction;
+  reactionReason: string;
+  confidenceAfterFilter: number;  // bot's filtered confidence (precision stat)
+  acted: boolean;                 // did the bot take a position from this signal?
+  profited: boolean | null;       // null = pending, true/false after resolution
+}
+
+export interface SignalEngineState {
+  activeSignals: Signal[];          // currently live signals on the battlefield
+  resolvedSignals: Signal[];        // signals that have expired or been acted on
+  reactions: BotSignalReaction[];   // how each bot reacted to each signal
+  signalsGenerated: number;         // total count
+  trapsTriggered: number;           // how many bots fell for traps
+  legendaryCount: number;           // rare strong signals seen
+}
+
 export interface BattleSummary {
   winner: Character;
   loser: Character;
@@ -221,6 +300,11 @@ export interface BattleSummary {
   maxStage: number;
   criticalMoments: BattleEvent[];
   marketEvents: MarketEvent[];
+  signalStats: {
+    total: number;
+    trapsTriggered: number;
+    legendary: number;
+  };
 }
 
 // ============================================
@@ -483,4 +567,114 @@ export interface TradeRecord {
   stage: number;
   botId: string;
   followedTrend: boolean;
+// Trading Engine — DNA, Leverage, Liquidation
+// ============================================
+
+/** Bot DNA: 8 genes that define trading behavior (0-100 each) */
+export interface BotDNA {
+  aggression: number;      // position size tendency (high = bigger bets)
+  conviction: number;      // hold duration (high = diamond hands, low = paper hands)
+  fearIndex: number;       // stop-loss tightness (high = scared, cuts fast)
+  greedIndex: number;      // take-profit greed (high = holds for bigger wins)
+  leverageBias: number;    // preferred leverage level (maps to 1x-1000x)
+  adaptSpeed: number;      // how fast bot changes strategy in regime shifts
+  contrarian: number;      // tendency to fade the crowd (high = counter-trend)
+  clutchFactor: number;    // performance under pressure (high = better at high stages)
+}
+
+/** Leverage tier with risk/reward characteristics */
+export interface LeverageTier {
+  label: string;
+  labelJa: string;
+  multiplier: number;       // 1-1000
+  liquidationDistance: number; // % price move to get liquidated
+  feeRate: number;           // funding rate per tick
+  color: string;
+}
+
+/** A leveraged position in the trading engine */
+export interface LeveragedPosition {
+  direction: TradeDirection;
+  entryPrice: number;
+  size: number;              // base position size in BTC
+  leverage: number;          // effective leverage multiplier
+  liquidationPrice: number;  // price at which position is force-closed
+  margin: number;            // collateral locked
+  unrealizedPnl: number;    // current floating PnL
+  maxUnrealizedPnl: number; // peak floating PnL (for trailing)
+  ticksHeld: number;        // how long position has been open
+  fundingPaid: number;      // cumulative funding fees
+}
+
+/** Per-bot state in the trading engine */
+export interface TradingBotState {
+  botId: string;
+  dna: BotDNA;
+  balance: number;          // current account balance (starts at margin)
+  startBalance: number;     // initial balance for ROI calc
+  position: LeveragedPosition | null;
+  isLiquidated: boolean;
+  liquidationTick: number | null;
+  trades: TradeLog[];
+  roi: number;              // running return on investment (%)
+  maxRoi: number;           // peak ROI
+  maxDrawdownPct: number;   // worst drawdown as %
+  totalFeesPaid: number;
+}
+
+export interface TradeLog {
+  tick: number;
+  action: "open_long" | "open_short" | "close" | "liquidated" | "stop_loss" | "take_profit" | "flip";
+  price: number;
+  leverage: number;
+  size: number;
+  pnl: number;
+  roi: number;              // ROI of this individual trade
+  reason: string;
+}
+
+/** Full trading session state */
+export interface TradingSession {
+  tick: number;
+  maxTicks: number;          // short sessions: 15-30 ticks
+  leftTrader: TradingBotState;
+  rightTrader: TradingBotState;
+  candles: Candlestick[];
+  currentPrice: number;
+  volatility: number;
+  regime: MarketRegime;
+  stage: number;
+  isActive: boolean;
+  winner: "left" | "right" | null;
+  events: TradingEvent[];
+}
+
+export interface TradingEvent {
+  tick: number;
+  actor: "left" | "right" | "market";
+  type: "leverage_up" | "leverage_down" | "liquidation" | "margin_call" | "take_profit" | "stop_loss" | "flip" | "open" | "close" | "funding";
+  description: string;
+  magnitude: number;         // for visual intensity scaling
+}
+
+/** Result of fusing two bots */
+export interface FusionResult {
+  dna: BotDNA;
+  mutationName: string;
+  mutationNameJa: string;
+  rarity: "common" | "rare" | "epic" | "legendary";
+  bonusGene: keyof BotDNA | null;   // which gene got a random boost
+  description: string;
+}
+
+export interface TradingSessionSummary {
+  winner: TradingBotState;
+  loser: TradingBotState;
+  winnerRoi: number;
+  loserRoi: number;
+  liquidationOccurred: boolean;
+  maxLeverage: number;
+  totalTrades: number;
+  maxStage: number;
+  events: TradingEvent[];
 }
