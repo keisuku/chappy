@@ -9,272 +9,302 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;overflow:hidden;background:#050510;color:#fff;font-family:'Rajdhani','Inter',system-ui,sans-serif;touch-action:none;user-select:none}
 
-/* === MAIN FRAME === */
 #app{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden}
 
-/* Cyberpunk border frame */
+/* Cyberpunk frame */
 .cyber-frame{position:fixed;inset:0;pointer-events:none;z-index:100}
 .cyber-frame::before{content:'';position:absolute;inset:3px;border:1px solid rgba(0,200,255,.15);border-radius:8px}
-.cyber-frame .corner{position:absolute;width:20px;height:20px}
+.corner{position:absolute;width:20px;height:20px}
 .corner-tl{top:0;left:0;border-top:2px solid #00d4ff;border-left:2px solid #00d4ff}
 .corner-tr{top:0;right:0;border-top:2px solid #00d4ff;border-right:2px solid #00d4ff}
 .corner-bl{bottom:0;left:0;border-bottom:2px solid #ff00ff;border-left:2px solid #ff00ff}
 .corner-br{bottom:0;right:0;border-bottom:2px solid #ff00ff;border-right:2px solid #ff00ff}
 
-/* === HEADER === */
-.header{display:flex;align-items:center;justify-content:center;padding:8px 12px;background:linear-gradient(180deg,rgba(10,5,30,.98) 0%,rgba(10,5,30,.85) 100%);position:relative;z-index:10;gap:6px;border-bottom:1px solid rgba(0,200,255,.1)}
-.header-wifi{font-size:14px;opacity:.4;position:absolute;left:12px}
-.header-gear{font-size:18px;opacity:.4;position:absolute;right:12px;cursor:pointer}
+/* Header */
+.header{display:flex;align-items:center;justify-content:center;padding:8px 12px;background:linear-gradient(180deg,rgba(10,5,30,.98),rgba(10,5,30,.85));position:relative;z-index:10;gap:6px;border-bottom:1px solid rgba(0,200,255,.1);flex-shrink:0}
 .header-logo{display:flex;align-items:center;gap:6px}
 .btc-icon{width:22px;height:22px;background:linear-gradient(135deg,#f7931a,#ff6600);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff;font-family:'Orbitron'}
-.logo-text{font-family:'Orbitron';font-weight:900;font-size:16px;letter-spacing:3px;background:linear-gradient(90deg,#fff,#cce8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.logo-saki{font-family:'Orbitron';font-size:18px;font-weight:400;font-style:italic;background:linear-gradient(90deg,#ff69b4,#ff1493,#ff69b4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 20px rgba(255,105,180,.3);margin-left:2px}
+.logo-text{font-family:'Orbitron';font-weight:900;font-size:15px;letter-spacing:3px;background:linear-gradient(90deg,#fff,#cce8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-saki{font-family:'Orbitron';font-size:17px;font-weight:400;font-style:italic;background:linear-gradient(90deg,#ff69b4,#ff1493,#ff69b4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-/* === PRICE BAR === */
-.price-bar{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:rgba(8,4,25,.9);border-bottom:1px solid rgba(0,200,255,.08)}
-.pair-selector{display:flex;align-items:center;gap:6px;padding:4px 12px;border:1px solid rgba(255,165,0,.4);border-radius:20px;background:rgba(255,165,0,.05);font-size:13px;font-weight:700}
-.pair-selector .btc-sm{width:16px;height:16px;background:linear-gradient(135deg,#f7931a,#ff6600);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900}
-.pair-arrows{color:#ff8800;font-size:11px;margin-left:4px}
-.price-val{font-family:'Orbitron';font-size:20px;font-weight:900;letter-spacing:1px}
-.price-change{font-family:'Orbitron';font-size:14px;font-weight:700;display:flex;align-items:center;gap:2px}
+/* Price bar */
+.price-bar{display:flex;align-items:center;justify-content:space-between;padding:5px 12px;background:rgba(8,4,25,.9);border-bottom:1px solid rgba(0,200,255,.08);flex-shrink:0}
+.pair-selector{display:flex;align-items:center;gap:5px;padding:3px 10px;border:1px solid rgba(255,165,0,.4);border-radius:20px;background:rgba(255,165,0,.05);font-size:12px;font-weight:700}
+.btc-sm{width:14px;height:14px;background:linear-gradient(135deg,#f7931a,#ff6600);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900}
+.price-val{font-family:'Orbitron';font-size:18px;font-weight:900}
+.price-change{font-family:'Orbitron';font-size:13px;font-weight:700}
 .price-up{color:#00e676}
 .price-down{color:#ff1744}
 
-/* === CHART AREA === */
-.chart-wrapper{flex:0 0 auto;position:relative;background:rgba(5,3,18,.95);border-bottom:1px solid rgba(0,200,255,.08)}
-.chart-canvas{width:100%;display:block}
+/* Content area - holds chart + char with transitions */
+.content-area{flex:1;display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden}
 
-/* === TIMEFRAME TABS === */
-.tf-bar{display:flex;align-items:center;padding:4px 10px;gap:4px;background:rgba(8,4,25,.9);border-bottom:1px solid rgba(0,200,255,.08)}
-.tf-btn{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:700;font-family:'Rajdhani';border:1px solid transparent;background:transparent;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
+/* Chart section - transitions between normal and mini */
+.chart-section{position:relative;transition:all .6s cubic-bezier(.4,0,.2,1);z-index:5;background:rgba(5,3,18,.95);overflow:hidden;flex-shrink:0}
+.chart-section.normal{flex:0 0 auto}
+.chart-section.mini{position:absolute;top:8px;left:8px;width:140px;height:90px;border-radius:8px;border:1px solid rgba(0,200,255,.2);box-shadow:0 0 20px rgba(0,0,0,.5);z-index:20}
+.chart-canvas{width:100%;height:100%;display:block}
+
+/* Timeframe + Signals bar */
+.controls-bar{display:flex;flex-direction:column;flex-shrink:0;transition:all .6s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.controls-bar.hidden{max-height:0;opacity:0;padding:0;margin:0}
+.controls-bar.visible{max-height:120px;opacity:1}
+.tf-bar{display:flex;align-items:center;padding:3px 10px;gap:4px;background:rgba(8,4,25,.9);border-bottom:1px solid rgba(0,200,255,.08)}
+.tf-btn{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:'Rajdhani';border:1px solid transparent;background:transparent;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
 .tf-btn.active{background:rgba(255,165,0,.15);border-color:rgba(255,165,0,.5);color:#ffaa00}
+.signals-bar{display:flex;align-items:center;padding:5px 8px;gap:4px;background:linear-gradient(90deg,rgba(8,4,25,.95),rgba(15,5,30,.95));border-bottom:1px solid rgba(150,0,255,.15);overflow-x:auto}
+.signals-label{font-family:'Orbitron';font-size:8px;font-weight:700;color:#ff00ff;letter-spacing:2px;margin-right:3px;white-space:nowrap;padding:2px 6px;border:1px solid rgba(255,0,255,.3);border-radius:4px;background:rgba(255,0,255,.05)}
+.signal-chip{display:flex;flex-direction:column;align-items:center;gap:0;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);min-width:44px;flex-shrink:0;transition:all .3s}
+.signal-icon{font-size:14px;line-height:1}
+.signal-text{font-size:8px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.signal-chip.active{border-color:rgba(255,255,255,.2);transform:scale(1.05)}
+.signal-chip.inactive{opacity:.25}
+.sig-buy .signal-icon,.sig-buy .signal-text{color:#00e5cc}
+.sig-rsi .signal-icon,.sig-rsi .signal-text{color:#ff69b4}
+.sig-macd .signal-icon,.sig-macd .signal-text{color:#ff69b4}
+.sig-bull .signal-icon,.sig-bull .signal-text{color:#aa66ff}
+.sig-vol .signal-icon,.sig-vol .signal-text{color:#4488ff}
+.sig-ema .signal-icon,.sig-ema .signal-text{color:#ffaa00}
 
-/* === SIGNALS === */
-.signals-bar{display:flex;align-items:center;padding:6px 8px;gap:5px;background:linear-gradient(90deg,rgba(8,4,25,.95),rgba(15,5,30,.95));border-bottom:1px solid rgba(150,0,255,.15);overflow-x:auto;flex-shrink:0}
-.signals-label{font-family:'Orbitron';font-size:9px;font-weight:700;color:#ff00ff;letter-spacing:2px;margin-right:4px;white-space:nowrap;padding:3px 8px;border:1px solid rgba(255,0,255,.3);border-radius:4px;background:rgba(255,0,255,.05)}
-.signal-chip{display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);min-width:52px;flex-shrink:0}
-.signal-icon{font-size:16px;line-height:1}
-.signal-text{font-size:9px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
-.signal-buy .signal-icon{color:#00e5cc}
-.signal-buy .signal-text{color:#00e5cc}
-.signal-rsi .signal-icon{color:#ff69b4}
-.signal-rsi .signal-text{color:#ff69b4}
-.signal-macd .signal-icon{color:#ff69b4}
-.signal-macd .signal-text{color:#ff69b4}
-.signal-bull .signal-icon{color:#aa66ff}
-.signal-bull .signal-text{color:#aa66ff}
-.signal-vol .signal-icon{color:#4488ff}
-.signal-vol .signal-text{color:#4488ff}
-.signal-ema .signal-icon{color:#ffaa00}
-.signal-ema .signal-text{color:#ffaa00}
-
-/* === CHARACTER AREA === */
-.char-area{flex:1;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(10,5,25,.9) 0%,rgba(20,10,40,.6) 40%,rgba(40,20,60,.4) 100%);min-height:0}
+/* Character area - transitions between 30% and 70% */
+.char-area{position:relative;overflow:hidden;transition:all .6s cubic-bezier(.4,0,.2,1);min-height:0}
+.char-area.normal{flex:3}
+.char-area.awaken{flex:7}
 .char-canvas{position:absolute;inset:0;width:100%;height:100%}
-/* P&L overlay */
-.pnl-overlay{position:absolute;top:10px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;pointer-events:none}
-.pnl-label{font-size:10px;opacity:.5;letter-spacing:1px}
-.pnl-value{font-family:'Orbitron';font-size:28px;font-weight:900;text-shadow:0 0 20px currentColor}
+
+/* Overlays on char area */
+.pnl-overlay{position:absolute;top:8px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;pointer-events:none;transition:all .4s}
+.pnl-label{font-size:9px;opacity:.5;letter-spacing:1px}
+.pnl-value{font-family:'Orbitron';font-size:26px;font-weight:900;text-shadow:0 0 20px currentColor;transition:all .3s}
 .pnl-value.profit{color:#00ff88}
 .pnl-value.loss{color:#ff2255}
-.pnl-value.neutral{color:#aabbcc}
-.pnl-sub{font-size:11px;opacity:.6;margin-top:2px}
-/* Position indicator */
-.pos-indicator{position:absolute;top:10px;right:12px;z-index:5;pointer-events:none}
-.pos-badge{padding:4px 10px;border-radius:6px;font-family:'Orbitron';font-size:11px;font-weight:900}
+.pnl-value.neutral{color:#667}
+.pnl-sub{font-size:10px;opacity:.5;margin-top:1px}
+
+.pos-badge{position:absolute;top:8px;right:10px;padding:3px 8px;border-radius:5px;font-family:'Orbitron';font-size:10px;font-weight:900;z-index:5;pointer-events:none}
 .pos-long{background:rgba(0,229,204,.15);border:1px solid rgba(0,229,204,.4);color:#00e5cc}
 .pos-short{background:rgba(255,34,85,.15);border:1px solid rgba(255,34,85,.4);color:#ff2255}
-.pos-none{background:rgba(100,100,120,.15);border:1px solid rgba(100,100,120,.3);color:#667}
-/* Lev indicator */
-.lev-circle{position:absolute;top:8px;left:12px;width:48px;height:48px;border-radius:50%;border:2px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;pointer-events:none;background:rgba(0,0,0,.5)}
-.lev-circle.active{border-color:#ff00ff;box-shadow:0 0 15px rgba(255,0,255,.3)}
-.lev-circle.inactive{border-color:rgba(100,100,120,.3)}
-.lev-label{font-size:7px;opacity:.5;line-height:1}
-.lev-val{font-family:'Orbitron';font-size:14px;font-weight:900;line-height:1;color:#ff00ff}
+.pos-none{background:rgba(100,100,120,.1);border:1px solid rgba(100,100,120,.2);color:#556}
 
-/* === ACTION BUTTONS === */
-.action-bar{display:flex;align-items:center;justify-content:center;padding:8px 10px 12px;gap:6px;background:linear-gradient(0deg,rgba(5,2,15,.98) 0%,rgba(10,5,25,.95) 100%);position:relative;z-index:10;flex-shrink:0}
-.action-btn{position:relative;flex:1;height:56px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;clip-path:polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);font-family:'Orbitron';transition:transform .1s,filter .1s}
-.action-btn:active{transform:scale(.95);filter:brightness(1.3)}
+.lev-circle{position:absolute;top:6px;left:10px;width:44px;height:44px;border-radius:50%;border:2px solid #ff00ff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;pointer-events:none;background:rgba(0,0,0,.5);box-shadow:0 0 12px rgba(255,0,255,.2)}
+.lev-label{font-size:6px;opacity:.5;line-height:1}
+.lev-val{font-family:'Orbitron';font-size:13px;font-weight:900;line-height:1;color:#ff00ff}
+
+/* AWAKEN MODE overlay */
+.awaken-overlay{position:absolute;inset:0;z-index:15;pointer-events:none;display:flex;align-items:flex-start;justify-content:center;padding-top:60px;opacity:0;transition:opacity .6s}
+.awaken-overlay.show{opacity:1}
+.awaken-text{font-family:'Orbitron';font-size:28px;font-weight:900;color:#ffd700;text-shadow:0 0 40px rgba(255,215,0,.6),0 0 80px rgba(255,215,0,.3);letter-spacing:6px;animation:awakenPulse 1.5s ease-in-out infinite}
+@keyframes awakenPulse{0%,100%{transform:scale(1);text-shadow:0 0 40px rgba(255,215,0,.6),0 0 80px rgba(255,215,0,.3)}50%{transform:scale(1.08);text-shadow:0 0 60px rgba(255,215,0,.8),0 0 120px rgba(255,215,0,.5)}}
+
+/* Character state flash overlays */
+.char-flash{position:absolute;inset:0;pointer-events:none;z-index:12;opacity:0;transition:opacity .15s}
+.char-flash.attack{background:radial-gradient(circle at 50% 50%,rgba(0,200,255,.25),transparent 70%)}
+.char-flash.damage{background:radial-gradient(circle at 50% 50%,rgba(255,0,50,.3),transparent 70%)}
+.char-flash.awaken-flash{background:radial-gradient(circle at 50% 50%,rgba(255,215,0,.3),transparent 70%)}
+
+/* TP/SL indicators on char area */
+.tp-sl-info{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:16px;z-index:5;pointer-events:none;font-family:'Orbitron';font-size:10px;font-weight:700;opacity:0;transition:opacity .3s}
+.tp-sl-info.show{opacity:1}
+.tp-val{color:#00ff88}
+.sl-val{color:#ff2255}
+.tp-sl-label{font-size:7px;opacity:.5;display:block}
+
+/* Action buttons */
+.action-bar{display:flex;align-items:center;justify-content:center;padding:6px 8px 10px;gap:5px;background:linear-gradient(0deg,rgba(5,2,15,.98),rgba(10,5,25,.95));position:relative;z-index:10;flex-shrink:0}
+.action-btn{position:relative;flex:1;height:52px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;clip-path:polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);font-family:'Orbitron';transition:transform .1s,filter .1s}
+.action-btn:active{transform:scale(.93);filter:brightness(1.4)}
 .btn-long{background:linear-gradient(135deg,#004d44,#00e5cc,#004d44);color:#fff}
-.btn-long .btn-icon{font-size:14px}
-.btn-long .btn-label{font-size:16px;font-weight:900;letter-spacing:2px}
-.btn-lev{background:linear-gradient(135deg,#4a3000,#ffaa00,#4a3000);color:#fff}
-.btn-lev .btn-val{font-size:20px;font-weight:900}
-.btn-lev .btn-sub{font-size:8px;letter-spacing:2px;opacity:.8}
 .btn-short{background:linear-gradient(135deg,#4a0020,#ff2255,#4a0020);color:#fff}
-.btn-short .btn-icon{font-size:14px}
-.btn-short .btn-label{font-size:16px;font-weight:900;letter-spacing:2px}
-.btn-close{background:linear-gradient(135deg,#1a1a2e,#445566,#1a1a2e);color:#aabbcc}
-.btn-close .btn-icon{font-size:14px}
-.btn-close .btn-label{font-size:14px;font-weight:900;letter-spacing:2px}
-/* Neon glow on buttons */
-.btn-glow{position:absolute;inset:-2px;clip-path:polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);z-index:-1;opacity:.6;filter:blur(4px);animation:pulseGlow 2s ease-in-out infinite}
+.btn-lev{background:linear-gradient(135deg,#4a3000,#ffaa00,#4a3000);color:#fff}
+.btn-close{background:linear-gradient(135deg,#1a1a2e,#445566,#1a1a2e);color:#aab}
+.btn-icon{font-size:12px}
+.btn-label{font-size:14px;font-weight:900;letter-spacing:2px}
+.btn-val{font-size:18px;font-weight:900}
+.btn-sub{font-size:7px;letter-spacing:2px;opacity:.8}
+.btn-glow{position:absolute;inset:-2px;clip-path:polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);z-index:-1;opacity:.4;filter:blur(4px);animation:pulseGlow 2s ease-in-out infinite}
 .btn-long .btn-glow{background:#00e5cc}
-.btn-lev .btn-glow{background:#ffaa00}
 .btn-short .btn-glow{background:#ff2255}
+.btn-lev .btn-glow{background:#ffaa00}
 .btn-close .btn-glow{background:#445566}
-@keyframes pulseGlow{0%,100%{opacity:.3}50%{opacity:.7}}
+@keyframes pulseGlow{0%,100%{opacity:.2}50%{opacity:.6}}
 
-/* === NEON LINE DECORATIONS === */
-.neon-line{height:1px;background:linear-gradient(90deg,transparent,#00d4ff,#ff00ff,transparent);opacity:.3}
-.neon-line-bottom{height:1px;background:linear-gradient(90deg,transparent,#ff00ff,#00d4ff,transparent);opacity:.3}
+.neon-line{height:1px;background:linear-gradient(90deg,transparent,#00d4ff,#ff00ff,transparent);opacity:.3;flex-shrink:0}
 
-/* === FLOATING COINS === */
-.coin-particle{position:absolute;pointer-events:none;z-index:4;font-size:20px;opacity:0;animation:floatCoin 3s ease-out forwards}
-@keyframes floatCoin{0%{opacity:0;transform:translateY(0) scale(.5) rotate(0deg)}10%{opacity:.8}80%{opacity:.6}100%{opacity:0;transform:translateY(-200px) scale(1) rotate(360deg)}}
-
-/* === TOAST === */
-.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:200;padding:16px 32px;border-radius:12px;font-family:'Orbitron';font-size:24px;font-weight:900;text-align:center;pointer-events:none;animation:toastPop .6s ease forwards}
+/* Toast */
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:200;padding:14px 28px;border-radius:12px;font-family:'Orbitron';font-size:22px;font-weight:900;text-align:center;pointer-events:none;animation:toastPop .6s ease forwards}
 .toast-profit{background:rgba(0,40,20,.9);border:2px solid #00ff88;color:#00ff88;box-shadow:0 0 40px rgba(0,255,136,.3)}
 .toast-loss{background:rgba(40,0,10,.9);border:2px solid #ff2255;color:#ff2255;box-shadow:0 0 40px rgba(255,34,85,.3)}
 .toast-long{background:rgba(0,30,30,.9);border:2px solid #00e5cc;color:#00e5cc;box-shadow:0 0 40px rgba(0,229,204,.3)}
 .toast-short{background:rgba(40,0,20,.9);border:2px solid #ff2255;color:#ff2255;box-shadow:0 0 40px rgba(255,34,85,.3)}
-@keyframes toastPop{0%{transform:translate(-50%,-50%) scale(0)}20%{transform:translate(-50%,-50%) scale(1.1)}40%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
+.toast-awaken{background:rgba(40,30,0,.9);border:2px solid #ffd700;color:#ffd700;box-shadow:0 0 60px rgba(255,215,0,.4)}
+@keyframes toastPop{0%{transform:translate(-50%,-50%) scale(0)}20%{transform:translate(-50%,-50%) scale(1.15)}40%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
 
-/* === LIQD SCREEN === */
+/* Liquidation overlay */
 .liqd-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
 .liqd-overlay.show{display:flex}
 .liqd-box{text-align:center;padding:30px;animation:liqShake .5s ease}
-.liqd-title{font-family:'Orbitron';font-size:36px;font-weight:900;color:#ff0044;text-shadow:0 0 40px rgba(255,0,68,.5);margin-bottom:10px}
-.liqd-sub{font-size:16px;opacity:.6;margin-bottom:20px}
-.liqd-btn{padding:12px 40px;border:2px solid #00d4ff;border-radius:8px;background:transparent;color:#00d4ff;font-family:'Orbitron';font-size:14px;font-weight:700;cursor:pointer}
+.liqd-title{font-family:'Orbitron';font-size:32px;font-weight:900;color:#ff0044;text-shadow:0 0 40px rgba(255,0,68,.5);margin-bottom:10px}
+.liqd-sub{font-size:14px;opacity:.6;margin-bottom:20px}
+.liqd-btn{padding:12px 36px;border:2px solid #00d4ff;border-radius:8px;background:transparent;color:#00d4ff;font-family:'Orbitron';font-size:14px;font-weight:700;cursor:pointer}
 @keyframes liqShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5px)}20%,40%,60%,80%{transform:translateX(5px)}}
 
-/* Scrollbar hide */
+/* Screen shake */
+@keyframes screenShake{0%,100%{transform:translate(0)}10%{transform:translate(-3px,2px)}20%{transform:translate(4px,-2px)}30%{transform:translate(-4px,3px)}40%{transform:translate(3px,-3px)}50%{transform:translate(-2px,4px)}60%{transform:translate(4px,-1px)}70%{transform:translate(-3px,2px)}80%{transform:translate(2px,-3px)}90%{transform:translate(-1px,1px)}}
+
 ::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
 <div id="app">
-  <!-- Cyberpunk Frame -->
-  <div class="cyber-frame">
-    <div class="corner corner-tl"></div>
-    <div class="corner corner-tr"></div>
-    <div class="corner corner-bl"></div>
-    <div class="corner corner-br"></div>
-  </div>
+  <div class="cyber-frame"><div class="corner corner-tl"></div><div class="corner corner-tr"></div><div class="corner corner-bl"></div><div class="corner corner-br"></div></div>
 
-  <!-- Header -->
   <div class="header">
-    <span class="header-wifi">&#x1F4F6;</span>
     <div class="header-logo">
       <div class="btc-icon">B</div>
       <span class="logo-text">COIN BATTLE</span>
       <span class="logo-saki">Saki</span>
     </div>
-    <span class="header-gear" id="gearBtn">&#x2699;</span>
   </div>
-
   <div class="neon-line"></div>
 
-  <!-- Price Bar -->
   <div class="price-bar">
-    <div class="pair-selector">
-      <div class="btc-sm">B</div>
-      <span>BTC/USDT</span>
-      <span class="pair-arrows">&raquo;</span>
-    </div>
+    <div class="pair-selector"><div class="btc-sm">B</div><span>BTC/USDT</span><span style="color:#ff8800;font-size:10px;margin-left:3px">&raquo;</span></div>
     <div class="price-val" id="priceVal">70,662.45</div>
-    <div class="price-change price-up" id="priceChange">+2.45%<span style="margin-left:2px">&#9650;</span></div>
+    <div class="price-change price-up" id="priceChange">+2.45%</div>
   </div>
 
-  <!-- Chart -->
-  <div class="chart-wrapper" id="chartWrap">
-    <canvas class="chart-canvas" id="chartCanvas"></canvas>
-  </div>
-
-  <!-- Timeframe -->
-  <div class="tf-bar">
-    <button class="tf-btn active" data-tf="5">5m</button>
-    <button class="tf-btn" data-tf="15">15m</button>
-    <button class="tf-btn" data-tf="60">1h</button>
-    <button class="tf-btn" data-tf="240">4h</button>
-    <button class="tf-btn" data-tf="1440">1D</button>
-  </div>
-
-  <!-- Signals -->
-  <div class="signals-bar">
-    <div class="signals-label">SIGNALS</div>
-    <div class="signal-chip signal-buy" id="sig-buy"><span class="signal-icon">&#9650;</span><span class="signal-text">BUY</span></div>
-    <div class="signal-chip signal-rsi" id="sig-rsi"><span class="signal-icon">&#8599;</span><span class="signal-text">RSI &#8593;</span></div>
-    <div class="signal-chip signal-macd" id="sig-macd"><span class="signal-icon">&#8635;</span><span class="signal-text">MACD &#8593;</span></div>
-    <div class="signal-chip signal-bull" id="sig-bull"><span class="signal-icon">&#9681;</span><span class="signal-text">BULLISH</span></div>
-    <div class="signal-chip signal-vol" id="sig-vol"><span class="signal-icon">&#9646;&#9646;&#9646;</span><span class="signal-text">VOL &#9650;</span></div>
-    <div class="signal-chip signal-ema" id="sig-ema"><span class="signal-icon">&#8734;</span><span class="signal-text">EMA CROSS</span></div>
-  </div>
-
-  <div class="neon-line-bottom"></div>
-
-  <!-- Character Area -->
-  <div class="char-area" id="charArea">
-    <canvas class="char-canvas" id="charCanvas"></canvas>
-    <div class="pnl-overlay" id="pnlOverlay">
-      <div class="pnl-label">UNREALIZED P&L</div>
-      <div class="pnl-value neutral" id="pnlValue">$0.00</div>
-      <div class="pnl-sub" id="pnlSub">Balance: $10,000.00</div>
+  <div class="content-area" id="contentArea">
+    <!-- Chart -->
+    <div class="chart-section normal" id="chartSection">
+      <canvas class="chart-canvas" id="chartCanvas"></canvas>
     </div>
-    <div class="lev-circle active" id="levCircle">
-      <div class="lev-label">LEV</div>
-      <div class="lev-val">100x</div>
+
+    <!-- Controls (TF + Signals) -->
+    <div class="controls-bar visible" id="controlsBar">
+      <div class="tf-bar">
+        <button class="tf-btn active">5m</button><button class="tf-btn">15m</button><button class="tf-btn">1h</button><button class="tf-btn">4h</button><button class="tf-btn">1D</button>
+      </div>
+      <div class="signals-bar">
+        <div class="signals-label">SIGNALS</div>
+        <div class="signal-chip sig-rsi inactive" id="sig-rsi"><span class="signal-icon">&#8599;</span><span class="signal-text">RSI &#8593;</span></div>
+        <div class="signal-chip sig-macd inactive" id="sig-macd"><span class="signal-icon">&#8635;</span><span class="signal-text">MACD &#8593;</span></div>
+        <div class="signal-chip sig-buy inactive" id="sig-buy"><span class="signal-icon">&#9650;</span><span class="signal-text">BUY</span></div>
+        <div class="signal-chip sig-bull inactive" id="sig-bull"><span class="signal-icon">&#9681;</span><span class="signal-text">BULLISH</span></div>
+        <div class="signal-chip sig-vol inactive" id="sig-vol"><span class="signal-icon">&#9646;&#9646;</span><span class="signal-text">VOL &#9650;</span></div>
+        <div class="signal-chip sig-ema inactive" id="sig-ema"><span class="signal-icon">&#8734;</span><span class="signal-text">EMA CROSS</span></div>
+      </div>
     </div>
-    <div class="pos-indicator" id="posIndicator">
+
+    <!-- Character area -->
+    <div class="char-area normal" id="charArea">
+      <canvas class="char-canvas" id="charCanvas"></canvas>
+      <div class="char-flash" id="charFlash"></div>
+      <div class="awaken-overlay" id="awakenOverlay"><div class="awaken-text">AWAKEN MODE</div></div>
+      <div class="pnl-overlay" id="pnlOverlay">
+        <div class="pnl-label">UNREALIZED P&L</div>
+        <div class="pnl-value neutral" id="pnlValue">$0.00</div>
+        <div class="pnl-sub" id="pnlSub">Balance: $10,000.00</div>
+      </div>
+      <div class="lev-circle"><div class="lev-label">LEV</div><div class="lev-val" id="levVal">100x</div></div>
       <div class="pos-badge pos-none" id="posBadge">NO POS</div>
+      <div class="tp-sl-info" id="tpSlInfo">
+        <div><span class="tp-sl-label">TAKE PROFIT</span><span class="tp-val" id="tpVal">---</span></div>
+        <div><span class="tp-sl-label">STOP LOSS</span><span class="sl-val" id="slVal">---</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- Action Buttons -->
   <div class="action-bar">
-    <button class="action-btn btn-long" id="btnLong">
-      <div class="btn-glow"></div>
-      <span class="btn-icon">&#9650;</span>
-      <span class="btn-label">LONG</span>
-    </button>
-    <button class="action-btn btn-lev" id="btnLev">
-      <div class="btn-glow"></div>
-      <span class="btn-val">100x</span>
-      <span class="btn-sub">LEVERAGE</span>
-    </button>
-    <button class="action-btn btn-short" id="btnShort">
-      <div class="btn-glow"></div>
-      <span class="btn-icon">&#9660;</span>
-      <span class="btn-label">SHORT</span>
-    </button>
-    <button class="action-btn btn-close" id="btnClose">
-      <div class="btn-glow"></div>
-      <span class="btn-icon">&#10005;</span>
-      <span class="btn-label">CLOSE</span>
-    </button>
+    <button class="action-btn btn-long" id="btnLong"><div class="btn-glow"></div><span class="btn-icon">&#9650;</span><span class="btn-label">LONG</span></button>
+    <button class="action-btn btn-lev" id="btnLev"><div class="btn-glow"></div><span class="btn-val" id="levBtnVal">100x</span><span class="btn-sub">LEVERAGE</span></button>
+    <button class="action-btn btn-short" id="btnShort"><div class="btn-glow"></div><span class="btn-icon">&#9660;</span><span class="btn-label">SHORT</span></button>
+    <button class="action-btn btn-close" id="btnClose"><div class="btn-glow"></div><span class="btn-icon">&#10005;</span><span class="btn-label">CLOSE</span></button>
   </div>
 </div>
 
-<!-- Liquidation overlay -->
 <div class="liqd-overlay" id="liqdOverlay">
   <div class="liqd-box">
     <div class="liqd-title">LIQUIDATED</div>
-    <div class="liqd-sub" id="liqdSub">Position wiped at 100x leverage</div>
+    <div class="liqd-sub" id="liqdSub">Position wiped</div>
     <button class="liqd-btn" id="liqdBtn">RETRY</button>
   </div>
 </div>
 
 <script>
-// ================================================
-// COIN BATTLE SAKI — Full Trading Game
-// ================================================
+// ============================================================
+// COIN BATTLE SAKI — Complete Game with Character System
+// Features: Character States, TP/SL, Awakening, Signal Attacks
+// ============================================================
 
 // === CONFIG ===
 const LEVERAGE_OPTIONS = [10, 25, 50, 100];
-let leverageIdx = 3; // start at 100x
-let leverage = LEVERAGE_OPTIONS[leverageIdx];
+let leverageIdx = 3;
+let leverage = 100;
+const TP_PERCENT = 0.015; // 1.5% take profit
+const SL_PERCENT = 0.008; // 0.8% stop loss
+const AWAKEN_THRESHOLD = 0.02; // 2% profit triggers awakening
+const AWAKEN_EXIT = 0.015; // Exit below 1.5%
+
+// === CHARACTER STATE MACHINE ===
+const CharState = { IDLE: 'IDLE', ATTACK: 'ATTACK', DAMAGE: 'DAMAGE', AWAKEN: 'AWAKEN' };
+const charFSM = {
+  state: CharState.IDLE,
+  prevState: CharState.IDLE,
+  stateTime: 0,
+  attackTimer: 0,
+  damageTimer: 0,
+  isAwakened: false,
+  awakenTransition: 0, // 0=normal, 1=fully awaken
+  scale: 1,
+  offsetY: 0,
+  flashAlpha: 0,
+  flashColor: [0,0,0],
+  shakeIntensity: 0,
+};
+
+function setCharState(newState) {
+  if (charFSM.state === newState && newState !== CharState.ATTACK) return;
+  charFSM.prevState = charFSM.state;
+  charFSM.state = newState;
+  charFSM.stateTime = 0;
+
+  if (newState === CharState.ATTACK) {
+    charFSM.attackTimer = 0.5;
+    charFSM.flashAlpha = 0.8;
+    charFSM.flashColor = [0, 200, 255];
+    triggerFlash('attack');
+  } else if (newState === CharState.DAMAGE) {
+    charFSM.damageTimer = 0.4;
+    charFSM.flashAlpha = 0.9;
+    charFSM.flashColor = [255, 0, 50];
+    charFSM.shakeIntensity = 0.5;
+    triggerFlash('damage');
+  } else if (newState === CharState.AWAKEN) {
+    charFSM.flashAlpha = 1;
+    charFSM.flashColor = [255, 215, 0];
+    charFSM.shakeIntensity = 1;
+    triggerFlash('awaken-flash');
+    showToast('AWAKEN', 'toast-awaken');
+    if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 100]);
+  }
+}
+
+function triggerFlash(cls) {
+  const el = document.getElementById('charFlash');
+  el.className = 'char-flash ' + cls;
+  el.style.opacity = '1';
+  setTimeout(() => { el.style.opacity = '0'; }, 200);
+}
 
 // === GAME STATE ===
 const state = {
   balance: 10000,
-  position: null, // {side:'long'|'short', entry:number, size:number}
+  position: null, // {side, entry, size, tp, sl}
   pnl: 0,
+  pnlPercent: 0,
   totalPnl: 0,
   wins: 0,
-  losses: 0
+  losses: 0,
 };
 
 // === MARKET SIMULATION ===
@@ -290,29 +320,23 @@ class Market {
     this.ema21 = this.price;
     this.ema55 = this.price;
     this.rsi = 50;
+    this.prevRsi = 50;
     this.macdLine = 0;
     this.macdSignal = 0;
+    this.prevMacdLine = 0;
+    this.prevMacdSignal = 0;
     this.volumes = [];
     this.seed = Date.now() % 99999;
+    this._avgGain = 20;
+    this._avgLoss = 20;
   }
-  rng() {
-    this.seed = (this.seed * 16807 + 0) % 2147483647;
-    return (this.seed & 0x7fffffff) / 2147483647;
-  }
-  gaussian() {
-    let u = 0, v = 0;
-    while (u === 0) u = this.rng();
-    while (v === 0) v = this.rng();
-    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-  }
+  rng() { this.seed = (this.seed * 16807) % 2147483647; return (this.seed & 0x7fffffff) / 2147483647; }
+  gaussian() { let u=0,v=0; while(!u) u=this.rng(); while(!v) v=this.rng(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
   step() {
     this.tick++;
-    // Trend drift (mean reverting)
     this.trend += (this.rng() - 0.5) * 0.3;
     this.trend *= 0.98;
-    // Volatility clustering
     this.vol = Math.max(20, this.vol * 0.95 + Math.abs(this.gaussian()) * 15);
-    // Spike chance
     const spike = this.rng() < 0.03 ? this.gaussian() * this.vol * 3 : 0;
     const o = this.price;
     const body = this.gaussian() * this.vol * 0.4 + this.trend + spike;
@@ -323,61 +347,67 @@ class Market {
     const l = Math.max(500, Math.min(o, c) - wd);
     const v = (Math.abs(body) + this.vol) * (30 + this.rng() * 100);
     this.price = c;
-    // EMAs
-    this.ema9 = this.ema9 + (c - this.ema9) * (2 / 10);
-    this.ema21 = this.ema21 + (c - this.ema21) * (2 / 22);
-    this.ema55 = this.ema55 + (c - this.ema55) * (2 / 56);
+    this.ema9 += (c - this.ema9) * (2/10);
+    this.ema21 += (c - this.ema21) * (2/22);
+    this.ema55 += (c - this.ema55) * (2/56);
     // RSI
     const change = c - o;
-    const gain = change > 0 ? change : 0;
-    const loss = change < 0 ? -change : 0;
-    this._avgGain = (this._avgGain || 20) * 13 / 14 + gain / 14;
-    this._avgLoss = (this._avgLoss || 20) * 13 / 14 + loss / 14;
-    const rs = this._avgGain / Math.max(0.01, this._avgLoss);
-    this.rsi = 100 - 100 / (1 + rs);
+    this._avgGain = this._avgGain * 13/14 + Math.max(0, change)/14;
+    this._avgLoss = this._avgLoss * 13/14 + Math.max(0, -change)/14;
+    this.prevRsi = this.rsi;
+    this.rsi = 100 - 100/(1 + this._avgGain/Math.max(0.01, this._avgLoss));
     // MACD
+    this.prevMacdLine = this.macdLine;
+    this.prevMacdSignal = this.macdSignal;
     this.macdLine = this.ema9 - this.ema21;
-    this.macdSignal = this.macdSignal + (this.macdLine - this.macdSignal) * (2 / 10);
-    const candle = { o, h, l, c, v, ema9: this.ema9, ema21: this.ema21, ema55: this.ema55 };
+    this.macdSignal += (this.macdLine - this.macdSignal) * (2/10);
+    const candle = {o,h,l,c,v,ema9:this.ema9,ema21:this.ema21,ema55:this.ema55};
     this.candles.push(candle);
     this.volumes.push(v);
     if (this.candles.length > 80) { this.candles.shift(); this.volumes.shift(); }
     return candle;
   }
+  // Signal crossovers for attack triggers
+  rsiCrossed50() {
+    return (this.prevRsi < 50 && this.rsi >= 50) || (this.prevRsi > 50 && this.rsi <= 50);
+  }
+  macdCrossed() {
+    const prevDiff = this.prevMacdLine - this.prevMacdSignal;
+    const currDiff = this.macdLine - this.macdSignal;
+    return (prevDiff < 0 && currDiff >= 0) || (prevDiff > 0 && currDiff <= 0);
+  }
   getSignals() {
-    const sigs = {};
-    sigs.buy = this.price > this.ema9 && this.ema9 > this.ema21;
-    sigs.rsi = this.rsi > 50 && this.rsi < 75;
-    sigs.macd = this.macdLine > this.macdSignal;
-    sigs.bullish = this.candles.length > 3 && this.candles[this.candles.length - 1].c > this.candles[this.candles.length - 1].o && this.candles[this.candles.length - 2].c > this.candles[this.candles.length - 2].o;
-    sigs.vol = this.volumes.length > 5 && this.volumes[this.volumes.length - 1] > this.volumes[this.volumes.length - 2] * 1.2;
-    sigs.ema = Math.abs(this.ema9 - this.ema21) < this.vol * 0.3 && this.ema9 > this.ema21;
-    // Invert for sell
-    sigs.sell = this.price < this.ema9 && this.ema9 < this.ema21;
-    sigs.rsiDown = this.rsi < 40;
-    sigs.macdDown = this.macdLine < this.macdSignal;
-    return sigs;
+    return {
+      buy: this.price > this.ema9 && this.ema9 > this.ema21,
+      sell: this.price < this.ema9 && this.ema9 < this.ema21,
+      rsi: this.rsi > 50 && this.rsi < 75,
+      rsiDown: this.rsi < 40,
+      macd: this.macdLine > this.macdSignal,
+      macdDown: this.macdLine < this.macdSignal,
+      bullish: this.candles.length > 3 && this.candles.at(-1).c > this.candles.at(-1).o && this.candles.at(-2).c > this.candles.at(-2).o,
+      vol: this.volumes.length > 5 && this.volumes.at(-1) > this.volumes.at(-2) * 1.2,
+      ema: Math.abs(this.ema9 - this.ema21) < this.vol * 0.3 && this.ema9 > this.ema21,
+    };
   }
 }
 
 const market = new Market();
-// Pre-generate some candles
 for (let i = 0; i < 60; i++) market.step();
 
 // === CHART RENDERING ===
 const chartCanvas = document.getElementById('chartCanvas');
 const chartCtx = chartCanvas.getContext('2d');
-const chartWrap = document.getElementById('chartWrap');
+const chartSection = document.getElementById('chartSection');
 
 function resizeChart() {
-  const w = chartWrap.clientWidth;
-  const h = Math.min(220, window.innerHeight * 0.28);
-  chartWrap.style.height = h + 'px';
+  const isMini = chartSection.classList.contains('mini');
+  const w = isMini ? 140 : chartSection.clientWidth || window.innerWidth;
+  const h = isMini ? 90 : Math.min(200, window.innerHeight * 0.25);
+  if (!isMini) chartSection.style.height = h + 'px';
   chartCanvas.width = w * devicePixelRatio;
   chartCanvas.height = h * devicePixelRatio;
   chartCanvas.style.width = w + 'px';
   chartCanvas.style.height = h + 'px';
-  chartCtx.scale(devicePixelRatio, devicePixelRatio);
 }
 
 function drawChart() {
@@ -386,80 +416,123 @@ function drawChart() {
   const ctx = chartCtx;
   ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
   ctx.clearRect(0, 0, w, h);
-
   const candles = market.candles;
   if (candles.length < 2) return;
+  const isMini = chartSection.classList.contains('mini');
 
-  const volH = h * 0.18;
-  const chartH = h - volH - 8;
-  const chartY = 4;
+  const volH = isMini ? 0 : h * 0.16;
+  const chartH = h - volH - 4;
+  const chartY = 2;
 
-  // Price range
   let minP = Infinity, maxP = -Infinity;
+  // Include TP/SL in price range
   for (const c of candles) { minP = Math.min(minP, c.l); maxP = Math.max(maxP, c.h); }
+  if (state.position) {
+    minP = Math.min(minP, state.position.sl); maxP = Math.max(maxP, state.position.tp);
+  }
   const range = maxP - minP || 1;
-  const pad = range * 0.05;
+  const pad = range * 0.06;
   const pMin = minP - pad, pMax = maxP + pad, pRange = pMax - pMin;
-
   const cw = w / candles.length;
   const toY = p => chartY + chartH * (1 - (p - pMin) / pRange);
 
-  // Grid lines
-  ctx.strokeStyle = 'rgba(255,255,255,.04)';
-  ctx.lineWidth = 0.5;
-  const gridSteps = 5;
-  for (let i = 0; i <= gridSteps; i++) {
-    const y = chartY + chartH * i / gridSteps;
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-    // Price label
-    const p = pMax - pRange * i / gridSteps;
-    ctx.fillStyle = 'rgba(255,255,255,.2)';
-    ctx.font = '9px Rajdhani';
-    ctx.textAlign = 'right';
-    ctx.fillText(p.toLocaleString('en', { maximumFractionDigits: 0 }), w - 4, y - 2);
+  // Grid
+  if (!isMini) {
+    ctx.strokeStyle = 'rgba(255,255,255,.03)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= 4; i++) {
+      const y = chartY + chartH * i / 4;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      const p = pMax - pRange * i / 4;
+      ctx.fillStyle = 'rgba(255,255,255,.15)';
+      ctx.font = '8px Rajdhani';
+      ctx.textAlign = 'right';
+      ctx.fillText(p.toFixed(0), w - 3, y - 1);
+    }
   }
 
-  // Dashed current price line
+  // TP/SL lines
+  if (state.position) {
+    const pos = state.position;
+    // Take Profit line
+    const tpY = toY(pos.tp);
+    ctx.strokeStyle = 'rgba(0,255,136,.6)';
+    ctx.setLineDash([6, 3]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(0, tpY); ctx.lineTo(w, tpY); ctx.stroke();
+    if (!isMini) {
+      ctx.fillStyle = 'rgba(0,255,136,.9)';
+      ctx.font = 'bold 9px Orbitron';
+      ctx.textAlign = 'left';
+      ctx.fillText('TP ' + pos.tp.toFixed(0), 4, tpY - 3);
+    }
+
+    // Stop Loss line
+    const slY = toY(pos.sl);
+    ctx.strokeStyle = 'rgba(255,34,85,.6)';
+    ctx.beginPath(); ctx.moveTo(0, slY); ctx.lineTo(w, slY); ctx.stroke();
+    if (!isMini) {
+      ctx.fillStyle = 'rgba(255,34,85,.9)';
+      ctx.fillText('SL ' + pos.sl.toFixed(0), 4, slY - 3);
+    }
+
+    // Entry line
+    const ey = toY(pos.entry);
+    ctx.strokeStyle = pos.side === 'long' ? 'rgba(0,229,204,.4)' : 'rgba(255,34,85,.4)';
+    ctx.beginPath(); ctx.moveTo(0, ey); ctx.lineTo(w, ey); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Proximity glow (approaching TP or SL)
+    const priceRange = Math.abs(pos.tp - pos.sl);
+    const distToTP = pos.side === 'long' ? (market.price - pos.entry) / (pos.tp - pos.entry) : (pos.entry - market.price) / (pos.entry - pos.tp);
+    const distToSL = pos.side === 'long' ? (pos.entry - market.price) / (pos.entry - pos.sl) : (market.price - pos.entry) / (pos.sl - pos.entry);
+
+    if (distToTP > 0.6) {
+      // Victory glow near TP
+      const alpha = (distToTP - 0.6) / 0.4 * 0.3;
+      ctx.fillStyle = `rgba(0,255,136,${alpha})`;
+      ctx.fillRect(0, Math.min(tpY, toY(market.price)), w, Math.abs(tpY - toY(market.price)));
+    }
+    if (distToSL > 0.6) {
+      // Danger glow near SL
+      const alpha = (distToSL - 0.6) / 0.4 * 0.3;
+      ctx.fillStyle = `rgba(255,34,85,${alpha})`;
+      ctx.fillRect(0, Math.min(slY, toY(market.price)), w, Math.abs(slY - toY(market.price)));
+    }
+  } else {
+    ctx.setLineDash([]);
+  }
+
+  // Current price dashed
   const curY = toY(market.price);
-  ctx.strokeStyle = 'rgba(255,255,255,.15)';
-  ctx.setLineDash([4, 3]);
+  ctx.strokeStyle = 'rgba(255,255,255,.12)';
+  ctx.setLineDash([3, 2]);
+  ctx.lineWidth = 0.5;
   ctx.beginPath(); ctx.moveTo(0, curY); ctx.lineTo(w, curY); ctx.stroke();
   ctx.setLineDash([]);
 
-  // Current price label
-  ctx.fillStyle = '#2196f3';
-  const plw = 72, plh = 16;
-  ctx.fillRect(w - plw - 2, curY - plh / 2, plw, plh);
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 10px Orbitron';
-  ctx.textAlign = 'right';
-  ctx.fillText(market.price.toLocaleString('en', { maximumFractionDigits: 2 }), w - 6, curY + 4);
-
-  // Entry line
-  if (state.position) {
-    const ey = toY(state.position.entry);
-    ctx.strokeStyle = state.position.side === 'long' ? 'rgba(0,229,204,.5)' : 'rgba(255,34,85,.5)';
-    ctx.setLineDash([6, 3]);
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, ey); ctx.lineTo(w, ey); ctx.stroke();
-    ctx.setLineDash([]);
+  // Price label
+  if (!isMini) {
+    ctx.fillStyle = '#2196f3';
+    ctx.fillRect(w - 68, curY - 7, 66, 14);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 9px Orbitron';
+    ctx.textAlign = 'right';
+    ctx.fillText(market.price.toFixed(2), w - 5, curY + 3);
   }
 
   // EMA lines
   function drawEMA(key, color) {
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
+    ctx.strokeStyle = color; ctx.lineWidth = isMini ? 0.5 : 1; ctx.beginPath();
     for (let i = 0; i < candles.length; i++) {
-      const x = i * cw + cw / 2;
-      const y = toY(candles[i][key]);
+      const x = i * cw + cw / 2, y = toY(candles[i][key]);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
     ctx.stroke();
   }
-  drawEMA('ema9', 'rgba(0,200,255,.6)');
-  drawEMA('ema21', 'rgba(255,200,0,.5)');
-  drawEMA('ema55', 'rgba(255,100,200,.4)');
+  drawEMA('ema9', 'rgba(0,200,255,.5)');
+  drawEMA('ema21', 'rgba(255,200,0,.4)');
+  if (!isMini) drawEMA('ema55', 'rgba(255,100,200,.3)');
 
   // Candlesticks
   for (let i = 0; i < candles.length; i++) {
@@ -468,52 +541,36 @@ function drawChart() {
     const x = i * cw;
     const bodyTop = toY(Math.max(c.o, c.c));
     const bodyBot = toY(Math.min(c.o, c.c));
-    const wickTop = toY(c.h);
-    const wickBot = toY(c.l);
-
-    // Wick
     ctx.strokeStyle = bull ? '#00e676' : '#ff1744';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(x + cw / 2, wickTop);
-    ctx.lineTo(x + cw / 2, wickBot);
-    ctx.stroke();
-
-    // Body
-    const bh = Math.max(1, bodyBot - bodyTop);
-    if (bull) {
-      ctx.fillStyle = '#00e676';
-    } else {
-      ctx.fillStyle = '#ff1744';
-    }
-    ctx.fillRect(x + cw * 0.15, bodyTop, cw * 0.7, bh);
+    ctx.lineWidth = isMini ? 0.5 : 1;
+    ctx.beginPath(); ctx.moveTo(x + cw/2, toY(c.h)); ctx.lineTo(x + cw/2, toY(c.l)); ctx.stroke();
+    ctx.fillStyle = bull ? '#00e676' : '#ff1744';
+    ctx.fillRect(x + cw * 0.15, bodyTop, cw * 0.7, Math.max(isMini ? 0.5 : 1, bodyBot - bodyTop));
   }
 
   // Volume bars
-  const maxVol = Math.max(...market.volumes);
-  for (let i = 0; i < candles.length; i++) {
-    const c = candles[i];
-    const bull = c.c >= c.o;
-    const vRatio = market.volumes[i] / maxVol;
-    const barH = volH * vRatio;
-    const x = i * cw;
-    const y = h - barH;
-    ctx.fillStyle = bull ? 'rgba(0,230,118,.25)' : 'rgba(255,23,68,.25)';
-    ctx.fillRect(x + cw * 0.1, y, cw * 0.8, barH);
+  if (!isMini && market.volumes.length > 0) {
+    const maxVol = Math.max(...market.volumes);
+    for (let i = 0; i < candles.length; i++) {
+      const bull = candles[i].c >= candles[i].o;
+      const vr = market.volumes[i] / maxVol;
+      const barH = volH * vr;
+      ctx.fillStyle = bull ? 'rgba(0,230,118,.2)' : 'rgba(255,23,68,.2)';
+      ctx.fillRect(i * cw + cw * 0.1, h - barH, cw * 0.8, barH);
+    }
   }
 }
 
-// === CHARACTER CANVAS (particles + energy) ===
+// === CHARACTER CANVAS ===
 const charCanvas = document.getElementById('charCanvas');
 const charCtx = charCanvas.getContext('2d');
-let particles = [];
-let coins = [];
-let charTime = 0;
+let particles = [], coins = [], charTime = 0;
+let awakenAuraParticles = [];
 
 function resizeChar() {
   const area = document.getElementById('charArea');
-  const w = area.clientWidth;
-  const h = area.clientHeight;
+  const w = area.clientWidth, h = area.clientHeight;
+  if (w <= 0 || h <= 0) return;
   charCanvas.width = w * devicePixelRatio;
   charCanvas.height = h * devicePixelRatio;
   charCanvas.style.width = w + 'px';
@@ -524,66 +581,122 @@ function spawnParticles(count, color, cx, cy) {
   for (let i = 0; i < count; i++) {
     const angle = Math.random() * Math.PI * 2;
     const speed = 1 + Math.random() * 3;
-    particles.push({
-      x: cx, y: cy,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 1,
-      life: 1,
-      decay: 0.01 + Math.random() * 0.02,
-      size: 1 + Math.random() * 3,
-      color
-    });
+    particles.push({ x: cx, y: cy, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 1, life: 1, decay: 0.01 + Math.random() * 0.02, size: 1 + Math.random() * 3, color });
   }
 }
 
 function spawnCoins(count) {
-  const w = charCanvas.width / devicePixelRatio;
-  const h = charCanvas.height / devicePixelRatio;
+  const w = charCanvas.width / devicePixelRatio, h = charCanvas.height / devicePixelRatio;
   for (let i = 0; i < count; i++) {
-    coins.push({
-      x: Math.random() * w,
-      y: h + 20 + Math.random() * 40,
-      vy: -1.5 - Math.random() * 2,
-      vx: (Math.random() - 0.5) * 1.5,
-      rot: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.1,
-      size: 8 + Math.random() * 10,
-      life: 1,
-      decay: 0.005 + Math.random() * 0.005
-    });
+    coins.push({ x: Math.random() * w, y: h + 20, vy: -2 - Math.random() * 2, vx: (Math.random() - 0.5) * 2, rot: Math.random() * Math.PI * 2, rotSpeed: (Math.random() - 0.5) * 0.12, size: 10 + Math.random() * 12, life: 1, decay: 0.004 + Math.random() * 0.004 });
   }
 }
 
 function drawCharArea() {
-  const w = charCanvas.width / devicePixelRatio;
-  const h = charCanvas.height / devicePixelRatio;
+  const w = charCanvas.width / devicePixelRatio, h = charCanvas.height / devicePixelRatio;
+  if (w <= 0 || h <= 0) return;
   const ctx = charCtx;
   ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
   ctx.clearRect(0, 0, w, h);
   charTime += 0.016;
 
-  // Background energy effect
-  const intensity = state.position ? 0.4 : 0.1;
-  const energyColor = !state.position ? [100, 80, 160] :
-    state.position.side === 'long' ? [0, 200, 180] : [255, 50, 100];
+  const fsm = charFSM;
+  fsm.stateTime += 0.016;
 
-  // Radial glow from center
+  // Auto-return from ATTACK/DAMAGE
+  if (fsm.state === CharState.ATTACK) {
+    fsm.attackTimer -= 0.016;
+    if (fsm.attackTimer <= 0 && !fsm.isAwakened) setCharState(CharState.IDLE);
+    else if (fsm.attackTimer <= 0 && fsm.isAwakened) { fsm.state = CharState.AWAKEN; fsm.stateTime = 0; }
+  }
+  if (fsm.state === CharState.DAMAGE) {
+    fsm.damageTimer -= 0.016;
+    if (fsm.damageTimer <= 0 && !fsm.isAwakened) setCharState(CharState.IDLE);
+    else if (fsm.damageTimer <= 0 && fsm.isAwakened) { fsm.state = CharState.AWAKEN; fsm.stateTime = 0; }
+  }
+
+  // Awaken transition
+  const awakenTarget = fsm.isAwakened ? 1 : 0;
+  fsm.awakenTransition += (awakenTarget - fsm.awakenTransition) * 0.05;
+
+  // Flash decay
+  fsm.flashAlpha *= 0.92;
+  fsm.shakeIntensity *= 0.9;
+
+  // Background
+  const isAwaken = fsm.awakenTransition > 0.3;
+  let bgR, bgG, bgB, bgIntensity;
+  if (isAwaken) {
+    bgR = 255; bgG = 200; bgB = 50;
+    bgIntensity = 0.15 + fsm.awakenTransition * 0.15;
+  } else if (state.position) {
+    if (state.position.side === 'long') { bgR = 0; bgG = 200; bgB = 180; }
+    else { bgR = 255; bgG = 50; bgB = 100; }
+    bgIntensity = 0.1;
+  } else {
+    bgR = 80; bgG = 60; bgB = 140; bgIntensity = 0.06;
+  }
+
   const cx = w / 2, cy = h * 0.45;
-  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.6);
-  grad.addColorStop(0, `rgba(${energyColor[0]},${energyColor[1]},${energyColor[2]},${intensity * 0.3})`);
-  grad.addColorStop(0.5, `rgba(${energyColor[0]},${energyColor[1]},${energyColor[2]},${intensity * 0.1})`);
+  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.7);
+  grad.addColorStop(0, `rgba(${bgR},${bgG},${bgB},${bgIntensity})`);
+  grad.addColorStop(0.6, `rgba(${bgR},${bgG},${bgB},${bgIntensity * 0.3})`);
   grad.addColorStop(1, 'transparent');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
 
-  // Animated energy lines
-  if (state.position) {
-    ctx.strokeStyle = `rgba(${energyColor[0]},${energyColor[1]},${energyColor[2]},${0.15 + Math.sin(charTime * 3) * 0.1})`;
-    ctx.lineWidth = 1.5;
-    for (let i = 0; i < 8; i++) {
-      const angle = charTime * 0.5 + i * Math.PI / 4;
-      const r1 = 30 + Math.sin(charTime * 2 + i) * 20;
-      const r2 = 100 + Math.sin(charTime * 1.5 + i) * 40;
+  // Golden aura rings for AWAKEN
+  if (fsm.awakenTransition > 0.2) {
+    const aAlpha = fsm.awakenTransition * 0.4;
+    for (let ring = 0; ring < 3; ring++) {
+      const r = 40 + ring * 35 + Math.sin(charTime * 1.5 + ring) * 15;
+      ctx.strokeStyle = `rgba(255,215,0,${aAlpha * (0.5 - ring * 0.12)})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * (1 + fsm.awakenTransition * 0.5), 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    // Radial golden rays
+    for (let i = 0; i < 12; i++) {
+      const angle = charTime * 0.3 + i * Math.PI / 6;
+      const r1 = 30 + Math.sin(charTime * 2 + i) * 10;
+      const r2 = 80 + Math.sin(charTime * 1.3 + i) * 30;
+      ctx.strokeStyle = `rgba(255,215,0,${aAlpha * 0.3})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle) * r1, cy + Math.sin(angle) * r1);
+      ctx.lineTo(cx + Math.cos(angle) * r2, cy + Math.sin(angle) * r2);
+      ctx.stroke();
+    }
+    // Continuous golden particles rising
+    if (Math.random() < 0.5) {
+      awakenAuraParticles.push({
+        x: cx + (Math.random() - 0.5) * 100, y: cy + 60 + Math.random() * 40,
+        vy: -1 - Math.random() * 1.5, vx: (Math.random() - 0.5) * 0.5,
+        life: 1, decay: 0.01 + Math.random() * 0.01, size: 2 + Math.random() * 3
+      });
+    }
+  }
+  // Draw awaken aura particles
+  for (let i = awakenAuraParticles.length - 1; i >= 0; i--) {
+    const p = awakenAuraParticles[i];
+    p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+    if (p.life <= 0) { awakenAuraParticles.splice(i, 1); continue; }
+    ctx.globalAlpha = p.life * 0.7 * fsm.awakenTransition;
+    ctx.fillStyle = `hsl(${45 + Math.random() * 15}, 100%, ${60 + Math.random() * 20}%)`;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Energy lines (position active)
+  if (state.position && !isAwaken) {
+    const ec = state.position.side === 'long' ? [0,200,180] : [255,50,100];
+    ctx.strokeStyle = `rgba(${ec[0]},${ec[1]},${ec[2]},${0.1 + Math.sin(charTime * 3) * 0.06})`;
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const angle = charTime * 0.5 + i * Math.PI / 3;
+      const r1 = 20 + Math.sin(charTime * 2 + i) * 10;
+      const r2 = 70 + Math.sin(charTime * 1.5 + i) * 25;
       ctx.beginPath();
       ctx.moveTo(cx + Math.cos(angle) * r1, cy + Math.sin(angle) * r1);
       ctx.lineTo(cx + Math.cos(angle) * r2, cy + Math.sin(angle) * r2);
@@ -591,322 +704,381 @@ function drawCharArea() {
     }
   }
 
-  // Draw Saki character (stylized silhouette)
-  drawSakiCharacter(ctx, cx, cy, w, h);
+  // Draw character
+  drawSaki(ctx, cx, cy, w, h, fsm);
 
   // Particles
   for (let i = particles.length - 1; i >= 0; i--) {
     const p = particles[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += 0.02;
-    p.life -= p.decay;
+    p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.life -= p.decay;
     if (p.life <= 0) { particles.splice(i, 1); continue; }
     ctx.globalAlpha = p.life;
     ctx.fillStyle = p.color;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
   }
+  ctx.globalAlpha = 1;
 
   // Coins
   for (let i = coins.length - 1; i >= 0; i--) {
     const c = coins[i];
-    c.x += c.vx;
-    c.y += c.vy;
-    c.vy += 0.01;
-    c.rot += c.rotSpeed;
-    c.life -= c.decay;
+    c.x += c.vx; c.y += c.vy; c.vy += 0.01; c.rot += c.rotSpeed; c.life -= c.decay;
     if (c.life <= 0) { coins.splice(i, 1); continue; }
     ctx.save();
     ctx.globalAlpha = c.life * 0.8;
-    ctx.translate(c.x, c.y);
-    ctx.rotate(c.rot);
-    // Bitcoin coin
+    ctx.translate(c.x, c.y); ctx.rotate(c.rot);
     const s = c.size * Math.abs(Math.cos(charTime * 2 + i));
     ctx.fillStyle = '#f7931a';
-    ctx.beginPath();
-    ctx.ellipse(0, 0, s, c.size, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.font = `bold ${c.size * 0.8}px Orbitron`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('B', 0, 0);
+    ctx.beginPath(); ctx.ellipse(0, 0, s, c.size, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = `bold ${c.size * 0.7}px Orbitron`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('B', 0, 1);
     ctx.restore();
     ctx.globalAlpha = 1;
   }
 
-  // Ambient floating particles
-  if (Math.random() < 0.3) {
-    particles.push({
-      x: Math.random() * w, y: h + 5,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -0.5 - Math.random() * 1,
-      life: 1, decay: 0.005 + Math.random() * 0.005,
-      size: 1 + Math.random() * 2,
-      color: `hsl(${200 + Math.random() * 60}, 80%, 70%)`
-    });
+  // Ambient particles
+  if (Math.random() < 0.2) {
+    const col = isAwaken ? `hsl(${40 + Math.random() * 20},100%,70%)` : `hsl(${200 + Math.random() * 60},80%,70%)`;
+    particles.push({ x: Math.random() * w, y: h + 5, vx: (Math.random() - 0.5) * 0.3, vy: -0.4 - Math.random() * 0.8, life: 1, decay: 0.004 + Math.random() * 0.004, size: 1 + Math.random() * 2, color: col });
   }
 }
 
-function drawSakiCharacter(ctx, cx, cy, w, h) {
-  // Stylized anime girl silhouette with glow
-  const scale = Math.min(w, h) * 0.003;
-  const s = scale;
-  ctx.save();
-  ctx.translate(cx, cy + 10);
+function drawSaki(ctx, cx, cy, w, h, fsm) {
+  const awakenScale = 1 + fsm.awakenTransition * 0.6;
+  const baseScale = Math.min(w, h) * 0.0035;
+  const s = baseScale * awakenScale;
 
-  // Hair glow
-  const hairGrad = ctx.createRadialGradient(0, -30 * s, 0, 0, -30 * s, 70 * s);
-  hairGrad.addColorStop(0, 'rgba(255,180,220,0.12)');
-  hairGrad.addColorStop(1, 'transparent');
-  ctx.fillStyle = hairGrad;
-  ctx.fillRect(-80 * s, -90 * s, 160 * s, 180 * s);
+  // Attack lunge offset
+  let ox = 0, oy = 0;
+  if (fsm.state === CharState.ATTACK) {
+    const t = fsm.attackTimer / 0.5;
+    ox = Math.sin(t * Math.PI) * 8;
+    oy = -Math.sin(t * Math.PI) * 5;
+  }
+  // Damage shake
+  if (fsm.state === CharState.DAMAGE) {
+    ox += (Math.random() - 0.5) * 6 * fsm.damageTimer * 5;
+    oy += (Math.random() - 0.5) * 4 * fsm.damageTimer * 5;
+  }
+
+  ctx.save();
+  ctx.translate(cx + ox, cy + 10 + oy);
+
+  // Outer glow
+  const glowR = 60 * s;
+  const glowGrad = ctx.createRadialGradient(0, -20 * s, 0, 0, -20 * s, glowR);
+  if (fsm.isAwakened) {
+    glowGrad.addColorStop(0, 'rgba(255,215,0,0.15)');
+    glowGrad.addColorStop(1, 'transparent');
+  } else {
+    glowGrad.addColorStop(0, 'rgba(0,200,255,0.08)');
+    glowGrad.addColorStop(1, 'transparent');
+  }
+  ctx.fillStyle = glowGrad;
+  ctx.fillRect(-glowR, -glowR - 20 * s, glowR * 2, glowR * 2);
+
+  const hairSway = Math.sin(charTime * 1.5) * 5 * (fsm.isAwakened ? 2 : 1);
 
   // Head
-  ctx.fillStyle = 'rgba(255,220,230,0.08)';
-  ctx.beginPath();
-  ctx.ellipse(0, -45 * s, 22 * s, 26 * s, 0, 0, Math.PI * 2);
-  ctx.fill();
+  const headAlpha = fsm.isAwakened ? 0.15 : 0.1;
+  ctx.fillStyle = `rgba(255,220,230,${headAlpha})`;
+  ctx.beginPath(); ctx.ellipse(0, -45 * s, 22 * s, 26 * s, 0, 0, Math.PI * 2); ctx.fill();
 
-  // Hair flowing (long, pink-ish)
-  ctx.fillStyle = 'rgba(255,150,200,0.06)';
+  // Hair
+  const hairAlpha = fsm.isAwakened ? 0.12 : 0.07;
+  ctx.fillStyle = `rgba(255,150,200,${hairAlpha})`;
   ctx.beginPath();
   ctx.moveTo(-25 * s, -65 * s);
-  ctx.quadraticCurveTo(-50 * s, -20 * s, -60 * s + Math.sin(charTime * 1.5) * 5, 60 * s);
-  ctx.lineTo(-10 * s, 40 * s);
+  ctx.quadraticCurveTo(-50 * s, -15 * s, -65 * s + hairSway, 65 * s);
+  ctx.lineTo(-10 * s, 45 * s);
   ctx.lineTo(-20 * s, -40 * s);
-  ctx.closePath();
-  ctx.fill();
-
+  ctx.closePath(); ctx.fill();
   ctx.beginPath();
   ctx.moveTo(25 * s, -65 * s);
-  ctx.quadraticCurveTo(55 * s, -10 * s, 65 * s + Math.sin(charTime * 1.5 + 1) * 5, 55 * s);
-  ctx.lineTo(15 * s, 35 * s);
+  ctx.quadraticCurveTo(55 * s, -10 * s, 70 * s + hairSway * 0.7, 60 * s);
+  ctx.lineTo(15 * s, 40 * s);
   ctx.lineTo(20 * s, -40 * s);
-  ctx.closePath();
-  ctx.fill();
+  ctx.closePath(); ctx.fill();
 
-  // Body (jacket)
-  ctx.fillStyle = 'rgba(200,210,255,0.05)';
+  // Body
+  const bodyAlpha = fsm.isAwakened ? 0.1 : 0.06;
+  ctx.fillStyle = `rgba(200,210,255,${bodyAlpha})`;
   ctx.beginPath();
   ctx.moveTo(-18 * s, -20 * s);
-  ctx.lineTo(-28 * s, 50 * s);
-  ctx.lineTo(28 * s, 50 * s);
+  ctx.lineTo(-30 * s, 55 * s);
+  ctx.lineTo(30 * s, 55 * s);
   ctx.lineTo(18 * s, -20 * s);
-  ctx.closePath();
-  ctx.fill();
+  ctx.closePath(); ctx.fill();
 
   // Headphones
-  ctx.strokeStyle = 'rgba(0,200,255,0.12)';
+  const hpColor = fsm.isAwakened ? 'rgba(255,215,0,0.2)' : 'rgba(0,200,255,0.15)';
+  ctx.strokeStyle = hpColor;
   ctx.lineWidth = 3 * s;
-  ctx.beginPath();
-  ctx.arc(0, -50 * s, 25 * s, Math.PI * 1.1, Math.PI * 1.9);
-  ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, -50 * s, 25 * s, Math.PI * 1.1, Math.PI * 1.9); ctx.stroke();
 
-  // Eyes (glowing)
-  const eyeGlow = 0.15 + Math.sin(charTime * 2) * 0.05;
-  ctx.fillStyle = `rgba(100,220,255,${eyeGlow})`;
-  ctx.beginPath();
-  ctx.ellipse(-8 * s, -45 * s, 3 * s, 4 * s, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.ellipse(8 * s, -45 * s, 3 * s, 4 * s, 0, 0, Math.PI * 2);
-  ctx.fill();
+  // Eyes
+  const eyeBright = fsm.isAwakened ? 0.3 + Math.sin(charTime * 3) * 0.1 : 0.15 + Math.sin(charTime * 2) * 0.05;
+  const eyeColor = fsm.isAwakened ? `rgba(255,215,100,${eyeBright})` : `rgba(100,220,255,${eyeBright})`;
+  ctx.fillStyle = eyeColor;
+  ctx.beginPath(); ctx.ellipse(-8 * s, -45 * s, 3.5 * s, 4.5 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(8 * s, -45 * s, 3.5 * s, 4.5 * s, 0, 0, Math.PI * 2); ctx.fill();
 
-  // Glowing accents on outfit
-  const accentAlpha = 0.1 + Math.sin(charTime * 3) * 0.05;
-  ctx.fillStyle = `rgba(0,200,255,${accentAlpha})`;
+  // Outfit accents
+  const accentColor = fsm.isAwakened ? 'rgba(255,215,0,' : 'rgba(0,200,255,';
+  const accentA = 0.1 + Math.sin(charTime * 3) * 0.05;
+  ctx.fillStyle = accentColor + accentA + ')';
   ctx.fillRect(-4 * s, 0, 8 * s, 3 * s);
-  ctx.fillRect(-15 * s, 10 * s, 5 * s, 2 * s);
-  ctx.fillRect(10 * s, 10 * s, 5 * s, 2 * s);
+  ctx.fillRect(-16 * s, 10 * s, 5 * s, 2 * s);
+  ctx.fillRect(11 * s, 10 * s, 5 * s, 2 * s);
+
+  // Legs
+  ctx.fillStyle = `rgba(40,40,60,${bodyAlpha})`;
+  ctx.fillRect(-14 * s, 55 * s, 10 * s, 25 * s);
+  ctx.fillRect(4 * s, 55 * s, 10 * s, 25 * s);
+
+  // ATTACK flash: weapon swing
+  if (fsm.state === CharState.ATTACK && fsm.attackTimer > 0.2) {
+    ctx.strokeStyle = fsm.isAwakened ? 'rgba(255,215,0,0.5)' : 'rgba(0,200,255,0.5)';
+    ctx.lineWidth = 2;
+    const swingAngle = (0.5 - fsm.attackTimer) / 0.5 * Math.PI;
+    ctx.beginPath();
+    ctx.moveTo(15 * s, -10 * s);
+    ctx.lineTo(15 * s + Math.cos(swingAngle) * 40 * s, -10 * s + Math.sin(swingAngle) * 40 * s);
+    ctx.stroke();
+  }
 
   ctx.restore();
 }
 
-// === SIGNALS UPDATE ===
+// === LAYOUT TRANSITIONS ===
+function enterAwakenLayout() {
+  chartSection.classList.remove('normal');
+  chartSection.classList.add('mini');
+  document.getElementById('controlsBar').classList.remove('visible');
+  document.getElementById('controlsBar').classList.add('hidden');
+  document.getElementById('charArea').classList.remove('normal');
+  document.getElementById('charArea').classList.add('awaken');
+  document.getElementById('awakenOverlay').classList.add('show');
+  // Screen shake
+  document.getElementById('app').style.animation = 'screenShake 0.4s ease';
+  setTimeout(() => { document.getElementById('app').style.animation = ''; }, 500);
+  setTimeout(() => { resizeChart(); resizeChar(); }, 50);
+  setTimeout(() => { resizeChart(); resizeChar(); }, 300);
+  setTimeout(() => { resizeChart(); resizeChar(); }, 700);
+}
+
+function exitAwakenLayout() {
+  chartSection.classList.remove('mini');
+  chartSection.classList.add('normal');
+  document.getElementById('controlsBar').classList.remove('hidden');
+  document.getElementById('controlsBar').classList.add('visible');
+  document.getElementById('charArea').classList.remove('awaken');
+  document.getElementById('charArea').classList.add('normal');
+  document.getElementById('awakenOverlay').classList.remove('show');
+  setTimeout(() => { resizeChart(); resizeChar(); }, 50);
+  setTimeout(() => { resizeChart(); resizeChar(); }, 300);
+  setTimeout(() => { resizeChart(); resizeChar(); }, 700);
+}
+
+// === SIGNALS ===
 function updateSignals() {
   const sigs = market.getSignals();
-  const chips = {
-    buy: document.getElementById('sig-buy'),
-    rsi: document.getElementById('sig-rsi'),
-    macd: document.getElementById('sig-macd'),
-    bull: document.getElementById('sig-bull'),
-    vol: document.getElementById('sig-vol'),
-    ema: document.getElementById('sig-ema')
-  };
+  const chips = { rsi: 'sig-rsi', macd: 'sig-macd', buy: 'sig-buy', bull: 'sig-bull', vol: 'sig-vol', ema: 'sig-ema' };
 
-  function setActive(el, active) {
-    el.style.opacity = active ? '1' : '0.3';
-    el.style.borderColor = active ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.04)';
+  function setChip(id, active) {
+    const el = document.getElementById(id);
+    el.classList.toggle('active', active);
+    el.classList.toggle('inactive', !active);
   }
 
-  setActive(chips.buy, sigs.buy);
-  setActive(chips.rsi, sigs.rsi);
-  setActive(chips.macd, sigs.macd);
-  setActive(chips.bull, sigs.bullish);
-  setActive(chips.vol, sigs.vol);
-  setActive(chips.ema, sigs.ema);
+  setChip('sig-rsi', sigs.rsi || sigs.rsiDown);
+  setChip('sig-macd', sigs.macd || sigs.macdDown);
+  setChip('sig-buy', sigs.buy || sigs.sell);
+  setChip('sig-bull', sigs.bullish);
+  setChip('sig-vol', sigs.vol);
+  setChip('sig-ema', sigs.ema);
 
-  // Update buy/sell text
+  // Update text
+  const rsiEl = document.getElementById('sig-rsi');
+  rsiEl.querySelector('.signal-text').textContent = sigs.rsiDown ? 'RSI \u2193' : 'RSI \u2191';
+  const macdEl = document.getElementById('sig-macd');
+  macdEl.querySelector('.signal-text').textContent = sigs.macdDown ? 'MACD \u2193' : 'MACD \u2191';
+  const buyEl = document.getElementById('sig-buy');
   if (sigs.sell) {
-    chips.buy.querySelector('.signal-text').textContent = 'SELL';
-    chips.buy.querySelector('.signal-icon').textContent = '\u25BC';
-    chips.buy.className = 'signal-chip signal-buy';
-    chips.buy.querySelector('.signal-icon').style.color = '#ff2255';
-    chips.buy.querySelector('.signal-text').style.color = '#ff2255';
+    buyEl.querySelector('.signal-text').textContent = 'SELL';
+    buyEl.querySelector('.signal-icon').textContent = '\u25BC';
   } else {
-    chips.buy.querySelector('.signal-text').textContent = 'BUY';
-    chips.buy.querySelector('.signal-icon').textContent = '\u25B2';
-    chips.buy.querySelector('.signal-icon').style.color = '';
-    chips.buy.querySelector('.signal-text').style.color = '';
+    buyEl.querySelector('.signal-text').textContent = 'BUY';
+    buyEl.querySelector('.signal-icon').textContent = '\u25B2';
   }
 
-  if (sigs.rsiDown) {
-    chips.rsi.querySelector('.signal-text').textContent = 'RSI \u2193';
-  } else {
-    chips.rsi.querySelector('.signal-text').textContent = 'RSI \u2191';
-  }
-
-  if (sigs.macdDown) {
-    chips.macd.querySelector('.signal-text').textContent = 'MACD \u2193';
-  } else {
-    chips.macd.querySelector('.signal-text').textContent = 'MACD \u2191';
+  // RSI/MACD crossover → ATTACK animation
+  if (market.rsiCrossed50() || market.macdCrossed()) {
+    if (charFSM.state !== CharState.AWAKEN || charFSM.state === CharState.AWAKEN) {
+      setCharState(CharState.ATTACK);
+      const cw = charCanvas.width / devicePixelRatio, ch = charCanvas.height / devicePixelRatio;
+      spawnParticles(15, charFSM.isAwakened ? '#ffd700' : '#00d4ff', cw / 2, ch * 0.4);
+    }
   }
 }
 
 // === PRICE DISPLAY ===
-function updatePriceDisplay() {
-  const priceEl = document.getElementById('priceVal');
-  const changeEl = document.getElementById('priceChange');
-
-  priceEl.textContent = market.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-  const change = ((market.price - market.basePrice) / market.basePrice) * 100;
-  const up = change >= 0;
-  changeEl.className = 'price-change ' + (up ? 'price-up' : 'price-down');
-  changeEl.innerHTML = `${up ? '+' : ''}${change.toFixed(2)}%<span style="margin-left:2px">${up ? '\u25B2' : '\u25BC'}</span>`;
+function updatePrice() {
+  document.getElementById('priceVal').textContent = market.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const chg = ((market.price - market.basePrice) / market.basePrice) * 100;
+  const up = chg >= 0;
+  const el = document.getElementById('priceChange');
+  el.className = 'price-change ' + (up ? 'price-up' : 'price-down');
+  el.textContent = `${up ? '+' : ''}${chg.toFixed(2)}%${up ? '\u25B2' : '\u25BC'}`;
 }
 
-// === P&L ===
+// === P&L + TP/SL CHECK ===
 function updatePnL() {
   const pnlEl = document.getElementById('pnlValue');
-  const pnlSubEl = document.getElementById('pnlSub');
+  const pnlSub = document.getElementById('pnlSub');
   const posBadge = document.getElementById('posBadge');
+  const tpSlInfo = document.getElementById('tpSlInfo');
 
   if (!state.position) {
     pnlEl.textContent = '$0.00';
     pnlEl.className = 'pnl-value neutral';
-    pnlSubEl.textContent = `Balance: $${state.balance.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    posBadge.textContent = 'NO POS';
-    posBadge.className = 'pos-badge pos-none';
+    pnlSub.textContent = `Balance: $${state.balance.toFixed(2)}`;
+    posBadge.textContent = 'NO POS'; posBadge.className = 'pos-badge pos-none';
+    tpSlInfo.classList.remove('show');
+    state.pnl = 0; state.pnlPercent = 0;
     return;
   }
 
   const pos = state.position;
   const diff = market.price - pos.entry;
-  const pnlPct = (diff / pos.entry) * (pos.side === 'long' ? 1 : -1);
-  state.pnl = pos.size * pnlPct * leverage;
+  const rawPct = (diff / pos.entry) * (pos.side === 'long' ? 1 : -1);
+  state.pnl = pos.size * rawPct * leverage;
+  state.pnlPercent = rawPct * leverage;
 
   const up = state.pnl >= 0;
-  pnlEl.textContent = `${up ? '+' : ''}$${state.pnl.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  pnlEl.textContent = `${up ? '+' : ''}$${state.pnl.toFixed(2)}`;
   pnlEl.className = 'pnl-value ' + (up ? 'profit' : 'loss');
-
-  const pct = (pnlPct * leverage * 100);
-  pnlSubEl.textContent = `${up ? '+' : ''}${pct.toFixed(1)}% | Margin: $${pos.size.toFixed(0)}`;
-
+  pnlSub.textContent = `${(state.pnlPercent * 100).toFixed(1)}% | Margin: $${pos.size.toFixed(0)}`;
   posBadge.textContent = pos.side.toUpperCase();
   posBadge.className = 'pos-badge pos-' + pos.side;
 
-  // Liquidation check (simplified: if loss > margin)
+  // TP/SL display
+  tpSlInfo.classList.add('show');
+  document.getElementById('tpVal').textContent = pos.tp.toFixed(2);
+  document.getElementById('slVal').textContent = pos.sl.toFixed(2);
+
+  // Check TP hit
+  const hitTP = pos.side === 'long' ? market.price >= pos.tp : market.price <= pos.tp;
+  if (hitTP) {
+    closePosition(true);
+    return;
+  }
+
+  // Check SL hit
+  const hitSL = pos.side === 'long' ? market.price <= pos.sl : market.price >= pos.sl;
+  if (hitSL) {
+    closePosition(false);
+    return;
+  }
+
+  // Proximity animations
+  const distToTP = pos.side === 'long' ? (market.price - pos.entry) / (pos.tp - pos.entry) : (pos.entry - market.price) / (pos.entry - pos.tp);
+  const distToSL = pos.side === 'long' ? (pos.entry - market.price) / (pos.entry - pos.sl) : (market.price - pos.entry) / (pos.sl - pos.entry);
+
+  if (distToSL > 0.7 && charFSM.state !== CharState.DAMAGE && charFSM.state !== CharState.ATTACK) {
+    setCharState(CharState.DAMAGE);
+  }
+
+  // Liquidation
   if (state.pnl < -pos.size * 0.95) {
     liquidate();
+    return;
+  }
+
+  // AWAKENING CHECK
+  if (state.pnlPercent > AWAKEN_THRESHOLD && !charFSM.isAwakened) {
+    charFSM.isAwakened = true;
+    setCharState(CharState.AWAKEN);
+    enterAwakenLayout();
+  } else if (state.pnlPercent < AWAKEN_EXIT && charFSM.isAwakened) {
+    charFSM.isAwakened = false;
+    setCharState(CharState.IDLE);
+    exitAwakenLayout();
   }
 }
 
 // === ACTIONS ===
 function openPosition(side) {
-  if (state.position) return; // Already has position
+  if (state.position) return;
   if (state.balance < 10) return;
-
-  const size = Math.min(state.balance, state.balance * 0.5); // Use 50% of balance
-  state.position = {
-    side,
-    entry: market.price,
-    size
-  };
-
-  showToast(side === 'long' ? 'LONG OPENED' : 'SHORT OPENED', side === 'long' ? 'toast-long' : 'toast-short');
-  spawnParticles(30, side === 'long' ? '#00e5cc' : '#ff2255', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.4);
-
-  // Haptic feedback
+  const size = state.balance * 0.5;
+  const entry = market.price;
+  let tp, sl;
+  if (side === 'long') {
+    tp = entry * (1 + TP_PERCENT);
+    sl = entry * (1 - SL_PERCENT);
+  } else {
+    tp = entry * (1 - TP_PERCENT);
+    sl = entry * (1 + SL_PERCENT);
+  }
+  state.position = { side, entry, size, tp, sl };
+  showToast(side === 'long' ? 'LONG' : 'SHORT', side === 'long' ? 'toast-long' : 'toast-short');
+  const cw = charCanvas.width / devicePixelRatio, ch = charCanvas.height / devicePixelRatio;
+  spawnParticles(25, side === 'long' ? '#00e5cc' : '#ff2255', cw / 2, ch * 0.4);
+  setCharState(CharState.ATTACK);
   if (navigator.vibrate) navigator.vibrate(30);
 }
 
-function closePosition() {
+function closePosition(isTP) {
   if (!state.position) return;
-
   const pnl = state.pnl;
   state.balance += pnl;
   state.totalPnl += pnl;
-  if (pnl >= 0) state.wins++; else state.losses++;
-
   const profit = pnl >= 0;
-  showToast(`${profit ? '+' : ''}$${pnl.toFixed(2)}`, profit ? 'toast-profit' : 'toast-loss');
+  if (profit) state.wins++; else state.losses++;
 
-  if (profit) {
-    spawnCoins(8);
-    spawnParticles(50, '#ffd700', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.3);
-  } else {
-    spawnParticles(30, '#ff2255', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.5);
+  if (isTP === true) showToast('TAKE PROFIT!', 'toast-profit');
+  else if (isTP === false) showToast('STOP LOSS', 'toast-loss');
+  else showToast(`${profit ? '+' : ''}$${pnl.toFixed(2)}`, profit ? 'toast-profit' : 'toast-loss');
+
+  const cw = charCanvas.width / devicePixelRatio, ch = charCanvas.height / devicePixelRatio;
+  if (profit) { spawnCoins(10); spawnParticles(40, '#ffd700', cw / 2, ch * 0.3); }
+  else { spawnParticles(30, '#ff2255', cw / 2, ch * 0.4); }
+
+  // Exit awaken if active
+  if (charFSM.isAwakened) {
+    charFSM.isAwakened = false;
+    exitAwakenLayout();
   }
-
   state.position = null;
   state.pnl = 0;
-
+  state.pnlPercent = 0;
+  setCharState(CharState.IDLE);
   if (navigator.vibrate) navigator.vibrate(profit ? [30, 50, 30] : [100]);
-
-  if (state.balance < 1) {
-    state.balance = 10000;
-    showToast('Balance Reset!', 'toast-long');
-  }
+  if (state.balance < 1) { state.balance = 10000; showToast('Reset!', 'toast-long'); }
 }
 
 function liquidate() {
   state.balance = Math.max(0, state.balance + state.pnl);
-  state.totalPnl += state.pnl;
   state.losses++;
-  state.position = null;
-  state.pnl = 0;
-
-  // Red flash
-  document.getElementById('charArea').style.background = 'rgba(255,0,0,.15)';
-  setTimeout(() => document.getElementById('charArea').style.background = '', 500);
-
-  // Shake
-  document.getElementById('app').style.animation = 'liqShake .3s ease';
-  setTimeout(() => document.getElementById('app').style.animation = '', 400);
-
-  spawnParticles(60, '#ff0044', charCanvas.width / devicePixelRatio / 2, charCanvas.height / devicePixelRatio * 0.4);
-
+  if (charFSM.isAwakened) { charFSM.isAwakened = false; exitAwakenLayout(); }
+  state.position = null; state.pnl = 0; state.pnlPercent = 0;
+  setCharState(CharState.DAMAGE);
+  document.getElementById('app').style.animation = 'screenShake 0.4s ease';
+  setTimeout(() => { document.getElementById('app').style.animation = ''; }, 500);
+  const cw = charCanvas.width / devicePixelRatio, ch = charCanvas.height / devicePixelRatio;
+  spawnParticles(60, '#ff0044', cw / 2, ch * 0.4);
   if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 100]);
-
-  const overlay = document.getElementById('liqdOverlay');
-  document.getElementById('liqdSub').textContent = `Lost $${Math.abs(state.pnl || 0).toFixed(2)} at ${leverage}x leverage`;
-  overlay.classList.add('show');
-
+  document.getElementById('liqdSub').textContent = `Wiped at ${leverage}x leverage`;
+  document.getElementById('liqdOverlay').classList.add('show');
   if (state.balance < 1) state.balance = 10000;
 }
 
 function cycleLeverage() {
   leverageIdx = (leverageIdx + 1) % LEVERAGE_OPTIONS.length;
   leverage = LEVERAGE_OPTIONS[leverageIdx];
-  document.querySelector('.btn-lev .btn-val').textContent = leverage + 'x';
-  document.querySelector('.btn-lev .btn-sub').textContent = 'LEVERAGE';
-  document.querySelector('.lev-val').textContent = leverage + 'x';
-  showToast(`${leverage}x LEVERAGE`, 'toast-long');
+  document.getElementById('levBtnVal').textContent = leverage + 'x';
+  document.getElementById('levVal').textContent = leverage + 'x';
+  showToast(leverage + 'x', 'toast-long');
   if (navigator.vibrate) navigator.vibrate(15);
 }
 
@@ -921,49 +1093,37 @@ function showToast(text, cls) {
 // === EVENT LISTENERS ===
 document.getElementById('btnLong').addEventListener('click', () => openPosition('long'));
 document.getElementById('btnShort').addEventListener('click', () => openPosition('short'));
-document.getElementById('btnClose').addEventListener('click', closePosition);
+document.getElementById('btnClose').addEventListener('click', () => closePosition());
 document.getElementById('btnLev').addEventListener('click', cycleLeverage);
-document.getElementById('liqdBtn').addEventListener('click', () => {
-  document.getElementById('liqdOverlay').classList.remove('show');
-});
-
-// Timeframe tabs (visual only for now)
-document.querySelectorAll('.tf-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
+document.getElementById('liqdBtn').addEventListener('click', () => document.getElementById('liqdOverlay').classList.remove('show'));
+document.querySelectorAll('.tf-btn').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}));
 
 // === MAIN LOOP ===
 let tickCount = 0;
 function gameLoop() {
-  // Market step every 1 second
   tickCount++;
   if (tickCount % 60 === 0) {
     market.step();
     updateSignals();
   }
-
-  updatePriceDisplay();
+  updatePrice();
   updatePnL();
   drawChart();
   drawCharArea();
-
   requestAnimationFrame(gameLoop);
 }
 
-// === INIT ===
 function init() {
   resizeChart();
   resizeChar();
   updateSignals();
   gameLoop();
 }
-
 window.addEventListener('resize', () => { resizeChart(); resizeChar(); });
 window.addEventListener('orientationchange', () => setTimeout(() => { resizeChart(); resizeChar(); }, 200));
-
 init();
 </script>
 </body>
