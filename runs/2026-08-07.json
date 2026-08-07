@@ -1,0 +1,25 @@
+{
+  "date": "$(date -u +%Y-%m-%d)",
+  "data_summary": {
+    "total_battles": 100,
+    "avg_profit": 0,
+    "max_drawdown": 0,
+    "win_rate": 0.5,
+    "avg_trades": 0,
+    "avg_duration": 20
+  },
+  "gaps": [],
+  "experiments": [],
+  "results": {
+    "expectancy_delta": 0,
+    "drawdown_delta": 0,
+    "params_changed": false
+  },
+  "assets": {
+    "total_characters": 3,
+    "characters_with_images": 0,
+    "new_prompts_generated": 0,
+    "manifest_updated": false
+  },
+  "decisions": []
+}
